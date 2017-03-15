@@ -1,0 +1,1177 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Servlet什么是servlet？先要知道先有jsp还是先有servlet？
+没错，先有servlet，因为jsp的前身就是servelt.
+servlet是在服务器上运行的小程序。
+一个servlet就是一个java类，并且通过”请求-响应”编程模型来访问的这个
+驻留在服务器内存里的servlet程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识Servlet">
+<meta property="og:url" content="https://scnuyz.github.io/2017/03/15/初识Servlet/index.html">
+<meta property="og:site_name" content="泳智的博客">
+<meta property="og:description" content="Servlet什么是servlet？先要知道先有jsp还是先有servlet？
+没错，先有servlet，因为jsp的前身就是servelt.
+servlet是在服务器上运行的小程序。
+一个servlet就是一个java类，并且通过”请求-响应”编程模型来访问的这个
+驻留在服务器内存里的servlet程序">
+<meta property="og:image" content="https://scnuyz.github.io/img\Servlet\1.png">
+<meta property="og:image" content="https://scnuyz.github.io/img\Servlet\2.png">
+<meta property="og:image" content="https://scnuyz.github.io/img\Servlet\3.png">
+<meta property="og:updated_time" content="2017-03-15T04:32:31.384Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初识Servlet">
+<meta name="twitter:description" content="Servlet什么是servlet？先要知道先有jsp还是先有servlet？
+没错，先有servlet，因为jsp的前身就是servelt.
+servlet是在服务器上运行的小程序。
+一个servlet就是一个java类，并且通过”请求-响应”编程模型来访问的这个
+驻留在服务器内存里的servlet程序">
+<meta name="twitter:image" content="https://scnuyz.github.io/img\Servlet\1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://scnuyz.github.io/2017/03/15/初识Servlet/"/>
+
+
+
+
+
+  <title> 初识Servlet | 泳智的博客 </title>
+</head>
+  
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("xTUrAIUh7isMpPUhVDHA60te-gzGzoHsz", "fduOR9IR2OS1WAqNbrHWBh8w");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+  
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">泳智的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一天进步一点</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+		<li> <a title="" href='javascript:(function() {
+    function c() {
+        var e = document.createElement("link");
+        e.setAttribute("type", "text/css");
+        e.setAttribute("rel", "stylesheet");
+        e.setAttribute("href", f);
+        e.setAttribute("class", l);
+        document.body.appendChild(e)
+    }
+
+    function h() {
+        var e = document.getElementsByClassName(l);
+        for (var t = 0; t < e.length; t++) {
+            document.body.removeChild(e[t])
+        }
+    }
+
+    function p() {
+        var e = document.createElement("div");
+        e.setAttribute("class", a);
+        document.body.appendChild(e);
+        setTimeout(function() {
+            document.body.removeChild(e)
+        }, 100)
+    }
+
+    function d(e) {
+        return {
+            height : e.offsetHeight,
+            width : e.offsetWidth
+        }
+    }
+
+    function v(i) {
+        var s = d(i);
+        return s.height > e && s.height < n && s.width > t && s.width < r
+    }
+
+    function m(e) {
+        var t = e;
+        var n = 0;
+        while (!!t) {
+            n += t.offsetTop;
+            t = t.offsetParent
+        }
+        return n
+    }
+
+    function g() {
+        var e = document.documentElement;
+        if (!!window.innerWidth) {
+            return window.innerHeight
+        } else if (e && !isNaN(e.clientHeight)) {
+            return e.clientHeight
+        }
+        return 0
+    }
+
+    function y() {
+        if (window.pageYOffset) {
+            return window.pageYOffset
+        }
+        return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+    }
+
+    function E(e) {
+        var t = m(e);
+        return t >= w && t <= b + w
+    }
+
+    function S() {
+        var e = document.createElement("audio");
+        e.setAttribute("class", l);
+        e.src = i;
+        e.loop = false;
+        e.addEventListener("canplay", function() {
+            setTimeout(function() {
+                x(k)
+            }, 500);
+            setTimeout(function() {
+                N();
+                p();
+                for (var e = 0; e < O.length; e++) {
+                    T(O[e])
+                }
+            }, 15500)
+        }, true);
+        e.addEventListener("ended", function() {
+            N();
+            h()
+        }, true);
+        e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+        document.body.appendChild(e);
+        e.play()
+    }
+
+    function x(e) {
+        e.className += " " + s + " " + o
+    }
+
+    function T(e) {
+        e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+    }
+
+    function N() {
+        var e = document.getElementsByClassName(s);
+        var t = new RegExp("\\b" + s + "\\b");
+        for (var n = 0; n < e.length; ) {
+            e[n].className = e[n].className.replace(t, "")
+        }
+    }
+
+    var e = 30;
+    var t = 30;
+    var n = 350;
+    var r = 350;
+    var i = "http://music-1253359776.cosgz.myqcloud.com/Audio%20Machine%20-%20Breath%20and%20Life.mp3";
+    var s = "mw-harlem_shake_me";
+    var o = "im_first";
+    var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+    var a = "mw-strobe_light";
+    var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+    var l = "mw_added_css";
+    var b = g();
+    var w = y();
+    var C = document.getElementsByTagName("*");
+    var k = null;
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            if (E(A)) {
+                k = A;
+                break
+            }
+        }
+    }
+    if (A === null) {
+        console.warn("Could not find a node of the right size. Please try a different page.");
+        return
+    }
+    c();
+    S();
+    var O = [];
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            O.push(A)
+        }
+    }
+    })()    '>点击一下试试看</a> </li>
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/03/15/初识Servlet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://img-1253359776.cosgz.myqcloud.com/yz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="泳智的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                初识Servlet
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-15T12:31:19+08:00">
+                2017-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/15/初识Servlet/" class="leancloud_visitors" data-flag-title="初识Servlet">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h1><h2 id="什么是servlet？"><a href="#什么是servlet？" class="headerlink" title="什么是servlet？"></a>什么是servlet？</h2><p>先要知道先有jsp还是先有servlet？</p>
+<p>没错，先有servlet，因为jsp的前身就是servelt.</p>
+<p>servlet是在服务器上运行的小程序。</p>
+<p>一个servlet就是一个java类，并且通过”请求-响应”编程模型来访问的这个</p>
+<p>驻留在服务器内存里的servlet程序</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h2 id="Tomcat容器等级"><a href="#Tomcat容器等级" class="headerlink" title="Tomcat容器等级"></a>Tomcat容器等级</h2><p>tomcat容器分为4个等级，servlet的容器管理Context容器</p>
+<p>一个context对应一个web工程</p>
+<p>tomcat-container-engine-host-servlet-context-(wrapper,wrapper)</p>
+<hr>
+<h2 id="编写servlet"><a href="#编写servlet" class="headerlink" title="编写servlet"></a>编写servlet</h2><ol>
+<li>继承HttpServlet</li>
+<li>重写doGet() 或doPost()方法</li>
+<li>在web.xml中注册Servlet</li>
+</ol>
+<p>servlet-name要一致</p>
+<p>url-pattern要与访问的href相同</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>HelloServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>servlet.HelloServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>HelloServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">  	<span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/servlet/HelloServlet<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"servlet/HelloServlet"</span> <span class="attr">method</span>=<span class="string">"POST"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">value</span>=<span class="string">"hello"</span> /&gt;</span></div><div class="line">  	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"提交"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div></pre></td></tr></table></figure>
+<hr>
+<h2 id="Servlet的执行流程"><a href="#Servlet的执行流程" class="headerlink" title="Servlet的执行流程"></a>Servlet的执行流程</h2><p>Get方式请求HelloServlet </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"servlet/HelloServlet"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>找到</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/servlet/HelloServlet<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>再找到</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>servlet.HelloServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>然后再找到</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> class <span class="title">doGet</span><span class="params">(HttpServletRequest req....</span></span></div></pre></td></tr></table></figure>
+<hr>
+<h2 id="Servlet的生命周期"><a href="#Servlet的生命周期" class="headerlink" title="Servlet的生命周期"></a>Servlet的生命周期</h2><ol>
+<li>初始化阶段，调用<code>init()</code>方法，构造方法是在<code>init()</code>方法调用之前调用</li>
+</ol>
+<ol>
+<li>响应客户请求阶段，调用service()方法，由service()方法根据提交方式选择执行doGet()或者doPost()方法</li>
+<li>终止阶段，调用destroy()方法</li>
+</ol>
+<hr>
+<p><u>编写Servlet的doPost方法时，需要抛出ServletExcpetion和IOException异常，不会抛出HttpServletException异常。</u></p>
+<h2 id="在下列时刻servlet容器装载Servlet"><a href="#在下列时刻servlet容器装载Servlet" class="headerlink" title="在下列时刻servlet容器装载Servlet"></a>在下列时刻servlet容器装载Servlet</h2><p><strong>第一种情况</strong></p>
+<p>Servlet容器启动的是自动装载某些Servlet,实现它只需要在web.xml文件中的</p>
+<p><code>&lt;servlet&gt;&lt;/servlet&gt;</code>之间添加如下代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">loadon-startup</span>&gt;</span>1<span class="tag">&lt;/<span class="name">loadon-startup</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>数字越小，表示优先级别越高</p>
+<p><strong>第二种情况</strong></p>
+<p>在servlet容器启动后，客户首次向Servlet发送请求的时候也会自动装载servlet</p>
+<p><strong>第三种情况</strong></p>
+<p>Servlet修改之后，重新装载servlet，servlet容器创建一个servlet实例并且调用Servlet的init()方法进行初始化</p>
+<p>在整个生命周期内，init()方法只被调用一次</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> st;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.PrintWriter;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.servlet.ServletException;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServlet;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">		 * Constructor of the object.</div><div class="line">		 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">HelloServlet</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">super</span>();</div><div class="line">		System.out.println(<span class="string">"正在创建构造方法..."</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">		 * Destruction of the servlet. &lt;br&gt;</div><div class="line">		 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"正在销毁..."</span>);</div><div class="line">		<span class="keyword">super</span>.destroy(); <span class="comment">// Just puts "destroy" string in log</span></div><div class="line">		<span class="comment">// Put your code here</span></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">		 * The doGet method of the servlet. &lt;br&gt;</div><div class="line">		 *</div><div class="line">		 * This method is called when a form has its tag value method equals to get.</div><div class="line">		 * </div><div class="line">		 * <span class="doctag">@param</span> request the request send by the client to the server</div><div class="line">		 * <span class="doctag">@param</span> response the response send by the server to the client</div><div class="line">		 * <span class="doctag">@throws</span> ServletException if an error occurred</div><div class="line">		 * <span class="doctag">@throws</span> IOException if an error occurred</div><div class="line">		 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</div><div class="line"></div><div class="line">		System.out.println(<span class="string">"执行doget()方法..."</span>);</div><div class="line">		<span class="keyword">this</span>.doPost(request, response);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">		 * The doPost method of the servlet. &lt;br&gt;</div><div class="line">		 *</div><div class="line">		 * This method is called when a form has its tag value method equals to post.</div><div class="line">		 * </div><div class="line">		 * <span class="doctag">@param</span> request the request send by the client to the server</div><div class="line">		 * <span class="doctag">@param</span> response the response send by the server to the client</div><div class="line">		 * <span class="doctag">@throws</span> ServletException if an error occurred</div><div class="line">		 * <span class="doctag">@throws</span> IOException if an error occurred</div><div class="line">		 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</div><div class="line">		System.out.println(<span class="string">"执行doPost()方法..."</span>);</div><div class="line">		response.setContentType(<span class="string">"text/html"</span>);</div><div class="line">		PrintWriter out = response.getWriter();</div><div class="line">		out.println(<span class="string">"&lt;!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"&gt;"</span>);</div><div class="line">		out.println(<span class="string">"&lt;HTML&gt;"</span>);</div><div class="line">		out.println(<span class="string">"  &lt;HEAD&gt;&lt;TITLE&gt;A Servlet&lt;/TITLE&gt;&lt;/HEAD&gt;"</span>);</div><div class="line">		out.println(<span class="string">"  &lt;BODY&gt;"</span>);</div><div class="line">		out.print(<span class="string">"    This is "</span>);</div><div class="line">		out.print(<span class="keyword">this</span>.getClass());</div><div class="line">		out.println(<span class="string">", using the POST method"</span>);</div><div class="line">		out.println(<span class="string">"  &lt;/BODY&gt;"</span>);</div><div class="line">		out.println(<span class="string">"&lt;/HTML&gt;"</span>);</div><div class="line">		out.flush();</div><div class="line">		out.close();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">		 * Initialization of the servlet. &lt;br&gt;</div><div class="line">		 *</div><div class="line">		 * <span class="doctag">@throws</span> ServletException if an error occurs</div><div class="line">		 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> <span class="keyword">throws</span> ServletException </span>&#123;</div><div class="line">		System.out.println(<span class="string">"正在初始化..."</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<p>正在创建构造方法…<br>正在初始化…<br>执行doget()方法…<br>执行doPost()方法…</p>
+<p>关闭tomcat时输出：</p>
+<p>正在销毁</p>
+<hr>
+<h2 id="Servlet与九大内置对象"><a href="#Servlet与九大内置对象" class="headerlink" title="Servlet与九大内置对象"></a>Servlet与九大内置对象</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">JSP对象</th>
+<th style="text-align:center">怎么获得</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">out</td>
+<td style="text-align:center">resp.getWriter</td>
+</tr>
+<tr>
+<td style="text-align:center">request</td>
+<td style="text-align:center">service方法中的req参数</td>
+</tr>
+<tr>
+<td style="text-align:center">response</td>
+<td style="text-align:center">service方法中的resp参数</td>
+</tr>
+<tr>
+<td style="text-align:center">session</td>
+<td style="text-align:center">req.getSession()函数</td>
+</tr>
+<tr>
+<td style="text-align:center">application</td>
+<td style="text-align:center">getServletContext()函数</td>
+</tr>
+<tr>
+<td style="text-align:center">exception</td>
+<td style="text-align:center">Throwable</td>
+</tr>
+<tr>
+<td style="text-align:center">Config</td>
+<td style="text-align:center">getServletConfig函数</td>
+</tr>
+<tr>
+<td style="text-align:center">page</td>
+<td style="text-align:center">this</td>
+</tr>
+<tr>
+<td style="text-align:center">pageContext</td>
+<td style="text-align:center">PageContext</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="Servlet获取表单信息实例"><a href="#Servlet获取表单信息实例" class="headerlink" title="Servlet获取表单信息实例"></a>Servlet获取表单信息实例</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">center</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">jsp:useBean</span>  <span class="attr">id</span>=<span class="string">"regUser"</span> <span class="attr">class</span>=<span class="string">"entity.Users"</span> <span class="attr">scope</span>=<span class="string">"session"</span>/&gt;</span>   </div><div class="line">     <span class="tag">&lt;<span class="name">table</span> <span class="attr">width</span>=<span class="string">"600"</span> <span class="attr">cellpadding</span>=<span class="string">"0"</span> <span class="attr">cellspacing</span>=<span class="string">"0"</span> <span class="attr">border</span>=<span class="string">"1"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span>用户名：<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span>&amp;nbsp;<span class="tag">&lt;<span class="name">jsp:getProperty</span> <span class="attr">name</span>=<span class="string">"regUser"</span> <span class="attr">property</span>=<span class="string">"username"</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span>密码：<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span>&amp;nbsp;<span class="tag">&lt;<span class="name">jsp:getProperty</span> <span class="attr">name</span>=<span class="string">"regUser"</span> <span class="attr">property</span>=<span class="string">"mypassword"</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span>性别：<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span>&amp;nbsp;<span class="tag">&lt;<span class="name">jsp:getProperty</span> <span class="attr">name</span>=<span class="string">"regUser"</span> <span class="attr">property</span>=<span class="string">"gender"</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span>E-mail：<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span>&amp;nbsp;<span class="tag">&lt;<span class="name">jsp:getProperty</span> <span class="attr">name</span>=<span class="string">"regUser"</span> <span class="attr">property</span>=<span class="string">"email"</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span>出生日期：<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span>&amp;nbsp;</div><div class="line">            <span class="tag">&lt;<span class="name">%</span> </span></div><div class="line">               <span class="attr">SimpleDateFormat</span> <span class="attr">sdf</span> = <span class="string">new</span> <span class="attr">SimpleDateFormat</span>("<span class="attr">yyyy</span>年<span class="attr">MM</span>月<span class="attr">dd</span>日");</div><div class="line">               <span class="attr">String</span> <span class="attr">date</span> = <span class="string">sdf.format(regUser.getBirthday());</span></div><div class="line">               </div><div class="line">            %&gt;</div><div class="line">             <span class="tag">&lt;<span class="name">%=date%</span>&gt;</span></div><div class="line">          <span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span>爱好：<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span>&amp;nbsp;</div><div class="line">            <span class="tag">&lt;<span class="name">%</span> </span></div><div class="line">               <span class="attr">String</span>[] <span class="attr">favorites</span> = <span class="string">regUser.getFavorites();</span></div><div class="line">               <span class="attr">for</span>(<span class="attr">String</span> <span class="attr">f:favorites</span>)</div><div class="line">               &#123;</div><div class="line">            %&gt;</div><div class="line">                <span class="tag">&lt;<span class="name">%=f%</span>&gt;</span> &amp;nbsp;&amp;nbsp;</div><div class="line">            <span class="tag">&lt;<span class="name">%</span> </span></div><div class="line">               &#125;</div><div class="line">            %&gt;</div><div class="line">          <span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span>自我介绍：<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span>&amp;nbsp;<span class="tag">&lt;<span class="name">jsp:getProperty</span> <span class="attr">name</span>=<span class="string">"regUser"</span> <span class="attr">property</span>=<span class="string">"introduce"</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span>是否介绍协议：<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span>&amp;nbsp;<span class="tag">&lt;<span class="name">jsp:getProperty</span> <span class="attr">name</span>=<span class="string">"regUser"</span> <span class="attr">property</span>=<span class="string">"flag"</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">     <span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">center</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Servlet</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">request.setCharacterEncoding(<span class="string">"utf-8"</span>);</div><div class="line">		</div><div class="line">		Users u = <span class="keyword">new</span> Users();</div><div class="line">		String username,mypassword,gender,email,introduce,isAccept;</div><div class="line">		Date birthday;</div><div class="line">		String[] favorites;</div><div class="line">		</div><div class="line">		</div><div class="line">		SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd"</span>);</div><div class="line">		<span class="keyword">try</span></div><div class="line">		&#123;</div><div class="line">			username = request.getParameter(<span class="string">"username"</span>);</div><div class="line">			mypassword = request.getParameter(<span class="string">"mypassword"</span>);</div><div class="line">			gender = request.getParameter(<span class="string">"gender"</span>);</div><div class="line">			email = request.getParameter(<span class="string">"email"</span>);</div><div class="line">			introduce = request.getParameter(<span class="string">"introduce"</span>);</div><div class="line">			birthday = sdf.parse(request.getParameter(<span class="string">"birthday"</span>));</div><div class="line">			<span class="keyword">if</span>(request.getParameterValues(<span class="string">"isAccpet"</span>)!=<span class="keyword">null</span>)</div><div class="line">			&#123;</div><div class="line">			  isAccept = request.getParameter(<span class="string">"isAccept"</span>);</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span></div><div class="line">			&#123;</div><div class="line">			  isAccept = <span class="string">"false"</span>;</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">			favorites = request.getParameterValues(<span class="string">"favorite"</span>);</div><div class="line">			u.setUsername(username);</div><div class="line">			u.setMypassword(mypassword);</div><div class="line">			u.setGender(gender);</div><div class="line">			u.setEmail(email);</div><div class="line">			u.setFavorites(favorites);</div><div class="line">			u.setIntroduce(introduce);</div><div class="line">			<span class="keyword">if</span>(isAccept.equals(<span class="string">"true"</span>))</div><div class="line">			&#123;</div><div class="line">				u.setFlag(<span class="keyword">true</span>);</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span></div><div class="line">			&#123;</div><div class="line">				u.setFlag(<span class="keyword">false</span>);</div><div class="line">			&#125;</div><div class="line">			u.setBirthday(birthday);</div><div class="line">			</div><div class="line">			</div><div class="line">			request.getSession().setAttribute(<span class="string">"regUser"</span>, u);</div><div class="line">			</div><div class="line">			request.getRequestDispatcher(<span class="string">"../userinfo.jsp"</span>).forward(request,response);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">catch</span>(Exception ex)</div><div class="line">		&#123;</div><div class="line">			ex.printStackTrace();</div><div class="line">		&#125;</div></pre></td></tr></table></figure>
+<h2 id="Servlet路径跳转"><a href="#Servlet路径跳转" class="headerlink" title="Servlet路径跳转"></a>Servlet路径跳转</h2><p>绝对路径：放之四海而皆准的路径</p>
+<p>相对路径：相对于当前资源的路径</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--使用相对路径访问HelloServlet --&gt;</span></div><div class="line">    <span class="comment">&lt;!-- /servlet/HelloServlet 第一个/表示服务器的根目录 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"servlet/HelloServlet"</span>&gt;</span>访问HelloServlet!<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 使用绝对路径 访问HelloServlet,可以使用path变量:path变量表示项目的根目录--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&lt;%=path%&gt;/servlet/HelloServlet"</span>&gt;</span>访问HelloServlet!<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!--表单中action的URL地址写法，与超链接方式完全相同。 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"servlet/TestServlet"</span>&gt;</span>访问TestServlet,跳转到Test.jsp<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">String path = request.getContextPath();<span class="comment">// 值为/ServletGetFormInfoDemo</span></div><div class="line">String basePath = request.getScheme()+<span class="string">"://"</span>+request.getServerName()+<span class="string">":"</span>+request.getServerPort()+path+<span class="string">"/"</span>;</div><div class="line"><span class="comment">//值为http://localhost:8080/ServletGetFormInfoDemo/</span></div></pre></td></tr></table></figure>
+<h2 id="Servlet获取初始化参数"><a href="#Servlet获取初始化参数" class="headerlink" title="Servlet获取初始化参数"></a>Servlet获取初始化参数</h2><p>在web.xml中配置Servlet时，可以配置一些初始化参数。</p>
+<p>而在Servlet中可以通过ServletConfig接口提供的方法来取得这些参数</p>
+<p>在<code>&lt;servlet&gt;&lt;/servlet&gt;</code>标签里面写</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">init-param</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">param-name</span>&gt;</span>username<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></div><div class="line">  	<span class="tag">&lt;<span class="name">param-value</span>&gt;</span>admin<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">init-param</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">param-name</span>&gt;</span>password<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></div><div class="line">  	<span class="tag">&lt;<span class="name">param-value</span>&gt;</span>123<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>然后可以写在init()里面</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> <span class="keyword">throws</span> ServletException</span>&#123;</div><div class="line"> <span class="keyword">this</span>.setUsername(<span class="keyword">this</span>.getInitParameter(<span class="string">"username"</span>));</div><div class="line"> <span class="keyword">this</span>.setPassword(<span class="keyword">this</span>.getInitParameter(<span class="string">"password"</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="MVC模式"><a href="#MVC模式" class="headerlink" title="MVC模式"></a>MVC模式</h2><p>MVC(Model，View，Controller)是软软件开发过程中较为流行的设计思想</p>
+<p>旨在分离模型，控制，视图。是一种分层思想的体现。</p>
+<p><img src="img\Servlet\1.png" alt="1"></p>
+<p>Model1简介</p>
+<p><img src="img\Servlet\2.png" alt="2"></p>
+<p><img src="img\Servlet\3.png" alt="3"></p>
+<hr>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/15/SublimeText技巧/" rel="next" title="SublimeText技巧">
+                <i class="fa fa-chevron-left"></i> SublimeText技巧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://img-1253359776.cosgz.myqcloud.com/yz.png"
+               alt="Yz" />
+          <p class="site-author-name" itemprop="name">Yz</p>
+           
+              <p class="site-description motion-element" itemprop="description">人从爱欲生忧，从忧生畏。无爱即无忧，不忧即无畏</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">Tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Servlet"><span class="nav-number">1.</span> <span class="nav-text">Servlet</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是servlet？"><span class="nav-number">1.1.</span> <span class="nav-text">什么是servlet？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">1.2.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomcat容器等级"><span class="nav-number">1.3.</span> <span class="nav-text">Tomcat容器等级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写servlet"><span class="nav-number">1.4.</span> <span class="nav-text">编写servlet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Servlet的执行流程"><span class="nav-number">1.5.</span> <span class="nav-text">Servlet的执行流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Servlet的生命周期"><span class="nav-number">1.6.</span> <span class="nav-text">Servlet的生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在下列时刻servlet容器装载Servlet"><span class="nav-number">1.7.</span> <span class="nav-text">在下列时刻servlet容器装载Servlet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Servlet与九大内置对象"><span class="nav-number">1.8.</span> <span class="nav-text">Servlet与九大内置对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Servlet获取表单信息实例"><span class="nav-number">1.9.</span> <span class="nav-text">Servlet获取表单信息实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Servlet路径跳转"><span class="nav-number">1.10.</span> <span class="nav-text">Servlet路径跳转</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Servlet获取初始化参数"><span class="nav-number">1.11.</span> <span class="nav-text">Servlet获取初始化参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVC模式"><span class="nav-number">1.12.</span> <span class="nav-text">MVC模式</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yz</span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("xTUrAIUh7isMpPUhVDHA60te-gzGzoHsz", "fduOR9IR2OS1WAqNbrHWBh8w");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

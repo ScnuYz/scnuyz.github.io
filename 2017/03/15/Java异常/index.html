@@ -1,0 +1,1133 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="浅谈Java异常什么是异常？异常指的是运行期出现的错误，也就是当程序开始执行以后执行期出现的错误。
+出现错误时观察错误的名字和行号最为重要。
+在《java编程思想》中这样定义 异常：阻止当前方法或作用域继续执行的问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java异常">
+<meta property="og:url" content="https://scnuyz.github.io/2017/03/15/Java异常/index.html">
+<meta property="og:site_name" content="泳智的博客">
+<meta property="og:description" content="浅谈Java异常什么是异常？异常指的是运行期出现的错误，也就是当程序开始执行以后执行期出现的错误。
+出现错误时观察错误的名字和行号最为重要。
+在《java编程思想》中这样定义 异常：阻止当前方法或作用域继续执行的问题">
+<meta property="og:image" content="https://scnuyz.github.io/img\exception\1.jpg">
+<meta property="og:updated_time" content="2017-03-15T02:57:04.922Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java异常">
+<meta name="twitter:description" content="浅谈Java异常什么是异常？异常指的是运行期出现的错误，也就是当程序开始执行以后执行期出现的错误。
+出现错误时观察错误的名字和行号最为重要。
+在《java编程思想》中这样定义 异常：阻止当前方法或作用域继续执行的问题">
+<meta name="twitter:image" content="https://scnuyz.github.io/img\exception\1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://scnuyz.github.io/2017/03/15/Java异常/"/>
+
+
+
+
+
+  <title> Java异常 | 泳智的博客 </title>
+</head>
+  
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("xTUrAIUh7isMpPUhVDHA60te-gzGzoHsz", "fduOR9IR2OS1WAqNbrHWBh8w");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+  
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">泳智的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一天进步一点</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+		<li> <a title="" href='javascript:(function() {
+    function c() {
+        var e = document.createElement("link");
+        e.setAttribute("type", "text/css");
+        e.setAttribute("rel", "stylesheet");
+        e.setAttribute("href", f);
+        e.setAttribute("class", l);
+        document.body.appendChild(e)
+    }
+
+    function h() {
+        var e = document.getElementsByClassName(l);
+        for (var t = 0; t < e.length; t++) {
+            document.body.removeChild(e[t])
+        }
+    }
+
+    function p() {
+        var e = document.createElement("div");
+        e.setAttribute("class", a);
+        document.body.appendChild(e);
+        setTimeout(function() {
+            document.body.removeChild(e)
+        }, 100)
+    }
+
+    function d(e) {
+        return {
+            height : e.offsetHeight,
+            width : e.offsetWidth
+        }
+    }
+
+    function v(i) {
+        var s = d(i);
+        return s.height > e && s.height < n && s.width > t && s.width < r
+    }
+
+    function m(e) {
+        var t = e;
+        var n = 0;
+        while (!!t) {
+            n += t.offsetTop;
+            t = t.offsetParent
+        }
+        return n
+    }
+
+    function g() {
+        var e = document.documentElement;
+        if (!!window.innerWidth) {
+            return window.innerHeight
+        } else if (e && !isNaN(e.clientHeight)) {
+            return e.clientHeight
+        }
+        return 0
+    }
+
+    function y() {
+        if (window.pageYOffset) {
+            return window.pageYOffset
+        }
+        return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+    }
+
+    function E(e) {
+        var t = m(e);
+        return t >= w && t <= b + w
+    }
+
+    function S() {
+        var e = document.createElement("audio");
+        e.setAttribute("class", l);
+        e.src = i;
+        e.loop = false;
+        e.addEventListener("canplay", function() {
+            setTimeout(function() {
+                x(k)
+            }, 500);
+            setTimeout(function() {
+                N();
+                p();
+                for (var e = 0; e < O.length; e++) {
+                    T(O[e])
+                }
+            }, 15500)
+        }, true);
+        e.addEventListener("ended", function() {
+            N();
+            h()
+        }, true);
+        e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+        document.body.appendChild(e);
+        e.play()
+    }
+
+    function x(e) {
+        e.className += " " + s + " " + o
+    }
+
+    function T(e) {
+        e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+    }
+
+    function N() {
+        var e = document.getElementsByClassName(s);
+        var t = new RegExp("\\b" + s + "\\b");
+        for (var n = 0; n < e.length; ) {
+            e[n].className = e[n].className.replace(t, "")
+        }
+    }
+
+    var e = 30;
+    var t = 30;
+    var n = 350;
+    var r = 350;
+    var i = "http://music-1253359776.cosgz.myqcloud.com/Audio%20Machine%20-%20Breath%20and%20Life.mp3";
+    var s = "mw-harlem_shake_me";
+    var o = "im_first";
+    var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+    var a = "mw-strobe_light";
+    var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+    var l = "mw_added_css";
+    var b = g();
+    var w = y();
+    var C = document.getElementsByTagName("*");
+    var k = null;
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            if (E(A)) {
+                k = A;
+                break
+            }
+        }
+    }
+    if (A === null) {
+        console.warn("Could not find a node of the right size. Please try a different page.");
+        return
+    }
+    c();
+    S();
+    var O = [];
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            O.push(A)
+        }
+    }
+    })()    '>点击一下试试看</a> </li>
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/03/15/Java异常/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://img-1253359776.cosgz.myqcloud.com/yz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="泳智的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java异常
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-15T10:55:53+08:00">
+                2017-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/15/Java异常/" class="leancloud_visitors" data-flag-title="Java异常">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="浅谈Java异常"><a href="#浅谈Java异常" class="headerlink" title="浅谈Java异常"></a>浅谈Java异常</h1><h4 id="什么是异常？"><a href="#什么是异常？" class="headerlink" title="什么是异常？"></a>什么是异常？</h4><p>异常指的是运行期出现的错误，也就是当程序开始执行以后执行期出现的错误。</p>
+<p>出现错误时观察错误的名字和行号最为重要。</p>
+<p>在《java编程思想》中这样定义 异常：<u>阻止当前方法或作用域继续执行的问题</u><br><a id="more"></a><br>这里举个例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">devide</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span>&#123;</div><div class="line">	<span class="keyword">if</span>(b==<span class="number">0</span>)&#123;</div><div class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"除数不能为零"</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> a/b ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当我们在做除法运算的时候应该把除数不为零的情况也考虑进去！</p>
+<p>除了0溢出，还有数组下标越界，读取文件不存在等等。。</p>
+<p>Java程序在执行的过程中如果出现了异常事件，可以生成一个异常类对象，这个对象封装了异常事件的信息并将被提交给<u>Java运行时系统</u> （这个运行时系统默认的处理是直接把这个异常对象里面包装的信息打印出来）这个过程称为抛出异常</p>
+<p>Java运行时系统接收到异常对象的时候，会寻找能够处理这个异常的代码并把当前异常对象交给他处理，这个过程叫做捕获异常（catch）</p>
+<p>想用catch捕获异常时必须要写try，没有try就不能用catch，try里面写的是有可能产生异常的语句，catch里面写的是当try里面的语句运行时出现了异常的处理方式。</p>
+<p>方法声明的时候可以指明这个方法有可能会抛出的异常类型，使用throw抛出异常，声明方法后面有throws声明的可能出现的异常一定要去捕获。</p>
+<hr>
+<h4 id="异常的分类"><a href="#异常的分类" class="headerlink" title="异常的分类"></a>异常的分类</h4><ol>
+<li>Error : 称为错误，由Java虚拟机生成并抛出，包括动态链接失败，虚拟机错误等，程序对其不做处理</li>
+<li>Exception : 是所有异常类的父类，其子类对应了各种可能出现的异常事件，一般需要用户显式的声明或捕获。</li>
+<li>Runtime Exception : 一类特殊的异常，被零整除，数组下标越界等，产生较为频繁，处理也较为麻烦，<u>如果显式的声明或捕获将会对程序的可读性和运行效率影响很大</u> 。因此由系统自动检测并将它们交给缺省的异常处理程序（用户可不必对其处理）</li>
+</ol>
+<p><img src="img\exception\1.jpg" alt="1"></p>
+<p>Throwable 类是所有异常类的根基类，所有的异常类都是从他继承的</p>
+<p>Error 类的错误是不能处理的错误，因为这是系统内部的错误，Java虚拟机运行时出错，这种错误是处理不了的</p>
+<p>Exception 类是所有异常类的父类，是可以处理的异常</p>
+<p>Runtime Exception 类的错误是可以处理的，但不一定都要处理，也可以不处理</p>
+<hr>
+<h4 id="异常的捕获和处理"><a href="#异常的捕获和处理" class="headerlink" title="异常的捕获和处理"></a>异常的捕获和处理</h4><p>异常处理有5个关键字：try catch finally throw throws</p>
+<p>在网上看到有个例子是这么写的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//女友为什么是public？因为谁都能追</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GirlFriend</span> </span>&#123;</div><div class="line">    <span class="comment">//还记得吗？你们的故事就是从这开始的</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">     </div><div class="line">    <span class="comment">//我们用try包裹的代码来判断和测试她不稳定的坏情绪</span></div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        她小情绪的反映</div><div class="line">        她小情绪的行为</div><div class="line">        她小情绪的眼神</div><div class="line">        ……</div><div class="line">     </div><div class="line">    <span class="comment">//在实际中则是Exception e，你肯定知道</span></div><div class="line">    <span class="comment">//为什么有个e对象，都说了异常也是一种类</span></div><div class="line">    <span class="comment">//所谓的catch就是捉到她坏情绪的原因，并进行处理</span></div><div class="line">    &#125; <span class="keyword">catch</span> (工作累了异常 e） &#123;</div><div class="line">        <span class="comment">//打印异常信息，你可以认为是她在诉说原因</span></div><div class="line">        <span class="comment">//实际中我们要结合场景来处理</span></div><div class="line">        e.printStackTrace();</div><div class="line">    &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样我们就能有针对性的处理单个异常了，在try里面测试，catch里面进行处理 </p>
+<p>当然，有时候一个人情绪不好是由于多种原因，那么你只能小心翼翼的根据经验来捕捉更多的异常（坏情绪的封装对象），此时你也就需要多条catch语句了</p>
+<p>为什么所有坏情绪对象（Exception）要放到最后捕捉呢？</p>
+<p>很好理解，当你在无法确定她到底是累了，渴了还是怎么地产生的坏情绪时</p>
+<p>你便可以认为，反正她就是特么的很烦，想闹脾气，你得处理！！！（不然就over） </p>
+<p>好吧，你看到了，不论是讨好女友还是处理异常，都是一件相当不爽的事</p>
+<p>下面我们来看看一个很简单，很朴实的<strong>关键字finally</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line"> </div><div class="line">    ......</div><div class="line">     </div><div class="line">&#125; <span class="keyword">catch</span> (Exception e） &#123;</div><div class="line">    <span class="comment">//Todo</span></div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">    不管你特么心情好不好</div><div class="line">    反正都是老子洗碗！！！</div><div class="line">    靠……</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>咦？throws和throw两大关键字去哪儿了</p>
+<p>对于throws在java中的意思是，让调用处去处理这一异常</p>
+<p>就比如说她们受了一顿闷气，本来你不说还没什么，你一说她们就忍不住了</p>
+<p>把所有的火都对你发，谁让你要去惹她们的？</p>
+<p>自己可以处理却不处理，就叫做throws，一般在方法后面使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> 降低愤怒（） <span class="keyword">throws</span> 愤怒的异常 &#123;</div><div class="line">     </div><div class="line">    <span class="comment">/*你看，在这里明明可以try...catch的</span></div><div class="line">    但是却没有，把异常给抛到了调用处*/</div><div class="line">     </div><div class="line">    ......     <span class="comment">//这是处理方法，此处省略N行代码</span></div><div class="line">     </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>本来在降低愤怒()这一方法中可以try…catch的，但是不想，要留给招惹它的人</p>
+<p>那就用throws吧，谁惹我谁遭殃 </p>
+<p>其实，女人是一种很奇怪的动物，她们有时候会假装自己生气</p>
+<p>从而达到让你哄的目的，典型的欠try有木有……</p>
+<p>那么，这个时候throw就发挥了作用</p>
+<p>在java中，throw表示人为的抛出一个异常</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> throwMethod（） <span class="keyword">throws</span> Exception &#123;</div><div class="line">     </div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> 发疯了异常（<span class="string">"啊啊啊啊～～"</span>）</div><div class="line">     </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="然后这里可能就会有疑问了。。throw-和-throws的区别到底在哪"><a href="#然后这里可能就会有疑问了。。throw-和-throws的区别到底在哪" class="headerlink" title="然后这里可能就会有疑问了。。throw 和 throws的区别到底在哪?"></a>然后这里可能就会有疑问了。。throw 和 throws的区别到底在哪?</h4><p><strong>throw</strong></p>
+<p>是语句抛出一个异常。<br>语法：throw (异常对象);<br>      如：  throw e;</p>
+<p>一般会用于程序出现某种逻辑时程序员主动抛出某种特定类型的异常。如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </div><div class="line">        String s = <span class="string">"abc"</span>;  </div><div class="line">        <span class="keyword">if</span>(s.equals(<span class="string">"abc"</span>)) &#123;  </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NumberFormatException();  </div><div class="line">        &#125; <span class="keyword">else</span> &#123;  </div><div class="line">            System.out.println(s);  </div><div class="line">        &#125;  </div><div class="line">        <span class="comment">//function();  </span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>会抛出异常：</p>
+<p>会抛出异常：</p>
+<p><code>Exception in thread &quot;main&quot; java.lang.NumberFormatException</code></p>
+<p><code>at test.ExceptionTest.main(ExceptionTest.java:67)</code></p>
+<p><strong>throws</strong></p>
+<p>throws是方法可能抛出异常的声明。(用在声明方法时，表示该方法可能要抛出异常)<br>语法：<code>[(修饰符)](返回值类型)(方法名)([参数列表])[throws(异常类)]{......}</code><br>如：      <code>public void function() throws Exception{......}</code></p>
+<p>当某个方法可能会抛出某种异常时用于throws 声明可能抛出的异常，然后交给上层调用它的方法程序处理。如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">function</span><span class="params">()</span> <span class="keyword">throws</span> NumberFormatException</span>&#123;  </div><div class="line">        String s = <span class="string">"abc"</span>;  </div><div class="line">        System.out.println(Double.parseDouble(s));  </div><div class="line">    &#125;  </div><div class="line">      </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </div><div class="line">        <span class="keyword">try</span> &#123;  </div><div class="line">            function();  </div><div class="line">        &#125; <span class="keyword">catch</span> (NumberFormatException e) &#123;  </div><div class="line">            System.err.println(<span class="string">"非数据类型不能转换。"</span>);  </div><div class="line">            <span class="comment">//e.printStackTrace();  </span></div><div class="line">        &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="throw与throws的比较"><a href="#throw与throws的比较" class="headerlink" title="throw与throws的比较"></a>throw与throws的比较</h4><ol>
+<li>throws出现在方法函数头；而throw出现在函数体。</li>
+<li>throws表示出现异常的一种可能性，并不一定会发生这些异常；throw则是抛出了异常，执行throw则一定抛出了某种异常对象。</li>
+<li>两者都是消极处理异常的方式（这里的消极并不是说这种方式不好），只是抛出或者可能抛出异常，但是不会由函数去处理异常，真正的处理异常由函数的上层调用处理。</li>
+</ol>
+<hr>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ol>
+<li>在写程序时，对可能会出现异常的部分通常要用try{…}catch{…}去捕捉它并对它进行处理；</li>
+<li>用try{…}catch{…}捕捉了异常之后一定要对在catch{…}中对其进行处理，那怕是最简单的一句输出语句，或输入e.printStackTrace();</li>
+<li>如果是捕捉IO输入输出流中的异常，一定要在try{…}catch{…}后加finally{…}把输入输出流关闭；</li>
+<li>如果在函数体内用throw抛出了某种异常，最好要在函数名中加throws抛异常声明，然后交给调用它的上层函数进行处理。</li>
+<li>try关键字用来包围可能会出现异常的逻辑代码，它单独无法使用，必须配合catch或者finally使用。Java编译器允许的组合使用形式只有以下三种形式：try…catch…;       try….finally……;    try….catch…finally…当然catch块可以有多个，注意try块只能有一个,finally块是可选的（但是最多只能有一个finally块）。三个块执行的顺序为try—&gt;catch—&gt;finally。当然如果没有发生异常，则catch块不会执行。但是finally块无论在什么情况下都是会执行的（这点要非常注意，因此部分情况下，都会将释放资源的操作放在finally块中进行）。在有多个catch块的时候，是按照catch块的先后顺序进行匹配的，一旦异常类型被一个catch块匹配，则不会与后面的catch块进行匹配。</li>
+<li>在使用try..catch..finally块的时候，注意千万不要在finally块中使用return，因为finally中的return会覆盖已有的返回值。</li>
+<li>如果有使用文件读取、网络操作以及数据库操作等，记得在finally中释放资源。这样不仅会使得程序占用更少的资源，也会避免不必要的由于资源未释放而发生的异常情况。  </li>
+<li>注意catch块的顺序，比如：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">        FileInputStream inputStream = <span class="keyword">new</span> FileInputStream(<span class="string">"d:/a.txt"</span>);</div><div class="line">        <span class="keyword">int</span> ch = inputStream.read();</div><div class="line">        System.out.println(<span class="string">"aaa"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="string">"step1"</span>;</div><div class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">　　      System.out.println(<span class="string">"io exception"</span>);　　      </div><div class="line">         <span class="keyword">return</span> <span class="string">"step2"</span>;</div><div class="line">    &#125;<span class="keyword">catch</span> (FileNotFoundException e) &#123;</div><div class="line">        System.out.println(<span class="string">"file not found"</span>);　　　　      </div><div class="line">        <span class="keyword">return</span> <span class="string">"step3"</span>;</div><div class="line">    &#125;<span class="keyword">finally</span>&#123;</div><div class="line">        System.out.println(<span class="string">"finally block"</span>);</div><div class="line">        <span class="comment">//return "finally";</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>第二个catch的FileNotFoundException将永远不会被捕获到，因为FileNotFoundException是IOException的子类。</p>
+<hr>
+<h4 id="子类重写父类方法的时候的三点原则："><a href="#子类重写父类方法的时候的三点原则：" class="headerlink" title="子类重写父类方法的时候的三点原则："></a>子类重写父类方法的时候的三点原则：</h4><ol>
+<li>父类的方法没有声明异常，子类在重写该方法的时候不能声明异常；</li>
+<li>如果父类的方法声明一个异常exception1，则子类在重写该方法的时候声明的异常不能是exception1的父类；</li>
+<li>如果父类的方法声明的异常类型只有非运行时异常（运行时异常），则子类在重写该方法的时候声明的异常也只能有非运行时异常（运行时异常），不能含有运行时异常（非运行时异常）。</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/15/初识JSON/" rel="next" title="初识JSON">
+                <i class="fa fa-chevron-left"></i> 初识JSON
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/15/Java集合类/" rel="prev" title="Java集合类">
+                Java集合类 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://img-1253359776.cosgz.myqcloud.com/yz.png"
+               alt="Yz" />
+          <p class="site-author-name" itemprop="name">Yz</p>
+           
+              <p class="site-description motion-element" itemprop="description">人从爱欲生忧，从忧生畏。无爱即无忧，不忧即无畏</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">Tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#浅谈Java异常"><span class="nav-number">1.</span> <span class="nav-text">浅谈Java异常</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是异常？"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">什么是异常？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常的分类"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">异常的分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常的捕获和处理"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">异常的捕获和处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#然后这里可能就会有疑问了。。throw-和-throws的区别到底在哪"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">然后这里可能就会有疑问了。。throw 和 throws的区别到底在哪?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#throw与throws的比较"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">throw与throws的比较</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子类重写父类方法的时候的三点原则："><span class="nav-number">1.0.0.7.</span> <span class="nav-text">子类重写父类方法的时候的三点原则：</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yz</span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("xTUrAIUh7isMpPUhVDHA60te-gzGzoHsz", "fduOR9IR2OS1WAqNbrHWBh8w");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
