@@ -1,0 +1,2281 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Hibernate">
+<meta property="og:type" content="article">
+<meta property="og:title" content="认识hibernate">
+<meta property="og:url" content="https://scnuyz.github.io/2017/03/17/认识hibernate/index.html">
+<meta property="og:site_name" content="泳智的博客">
+<meta property="og:description" content="Hibernate">
+<meta property="og:updated_time" content="2017-03-16T16:33:03.658Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="认识hibernate">
+<meta name="twitter:description" content="Hibernate">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://scnuyz.github.io/2017/03/17/认识hibernate/"/>
+
+
+
+
+
+  <title> 认识hibernate | 泳智的博客 </title>
+</head>
+  
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("xTUrAIUh7isMpPUhVDHA60te-gzGzoHsz", "fduOR9IR2OS1WAqNbrHWBh8w");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+  
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">泳智的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一天进步一点</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+		<li> <a title="" href='javascript:(function() {
+    function c() {
+        var e = document.createElement("link");
+        e.setAttribute("type", "text/css");
+        e.setAttribute("rel", "stylesheet");
+        e.setAttribute("href", f);
+        e.setAttribute("class", l);
+        document.body.appendChild(e)
+    }
+
+    function h() {
+        var e = document.getElementsByClassName(l);
+        for (var t = 0; t < e.length; t++) {
+            document.body.removeChild(e[t])
+        }
+    }
+
+    function p() {
+        var e = document.createElement("div");
+        e.setAttribute("class", a);
+        document.body.appendChild(e);
+        setTimeout(function() {
+            document.body.removeChild(e)
+        }, 100)
+    }
+
+    function d(e) {
+        return {
+            height : e.offsetHeight,
+            width : e.offsetWidth
+        }
+    }
+
+    function v(i) {
+        var s = d(i);
+        return s.height > e && s.height < n && s.width > t && s.width < r
+    }
+
+    function m(e) {
+        var t = e;
+        var n = 0;
+        while (!!t) {
+            n += t.offsetTop;
+            t = t.offsetParent
+        }
+        return n
+    }
+
+    function g() {
+        var e = document.documentElement;
+        if (!!window.innerWidth) {
+            return window.innerHeight
+        } else if (e && !isNaN(e.clientHeight)) {
+            return e.clientHeight
+        }
+        return 0
+    }
+
+    function y() {
+        if (window.pageYOffset) {
+            return window.pageYOffset
+        }
+        return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+    }
+
+    function E(e) {
+        var t = m(e);
+        return t >= w && t <= b + w
+    }
+
+    function S() {
+        var e = document.createElement("audio");
+        e.setAttribute("class", l);
+        e.src = i;
+        e.loop = false;
+        e.addEventListener("canplay", function() {
+            setTimeout(function() {
+                x(k)
+            }, 500);
+            setTimeout(function() {
+                N();
+                p();
+                for (var e = 0; e < O.length; e++) {
+                    T(O[e])
+                }
+            }, 15500)
+        }, true);
+        e.addEventListener("ended", function() {
+            N();
+            h()
+        }, true);
+        e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+        document.body.appendChild(e);
+        e.play()
+    }
+
+    function x(e) {
+        e.className += " " + s + " " + o
+    }
+
+    function T(e) {
+        e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+    }
+
+    function N() {
+        var e = document.getElementsByClassName(s);
+        var t = new RegExp("\\b" + s + "\\b");
+        for (var n = 0; n < e.length; ) {
+            e[n].className = e[n].className.replace(t, "")
+        }
+    }
+
+    var e = 30;
+    var t = 30;
+    var n = 350;
+    var r = 350;
+    var i = "http://music-1253359776.cosgz.myqcloud.com/Audio%20Machine%20-%20Breath%20and%20Life.mp3";
+    var s = "mw-harlem_shake_me";
+    var o = "im_first";
+    var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+    var a = "mw-strobe_light";
+    var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+    var l = "mw_added_css";
+    var b = g();
+    var w = y();
+    var C = document.getElementsByTagName("*");
+    var k = null;
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            if (E(A)) {
+                k = A;
+                break
+            }
+        }
+    }
+    if (A === null) {
+        console.warn("Could not find a node of the right size. Please try a different page.");
+        return
+    }
+    c();
+    S();
+    var O = [];
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            O.push(A)
+        }
+    }
+    })()    '>点击一下试试看</a> </li>
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/03/17/认识hibernate/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://img-1253359776.cosgz.myqcloud.com/yz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="泳智的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                认识hibernate
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-17T00:32:12+08:00">
+                2017-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/17/认识hibernate/" class="leancloud_visitors" data-flag-title="认识hibernate">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Hibernate</p>
+<a id="more"></a>
+<p>ORM 概览</p>
+<p>什么是 JDBC？</p>
+<p>JDBC 代表 Java Database Connectivity ，它是提供了一组 Java API 来访问关系数据库的 Java 程序。这些 Java APIs 可以使 Java 应用程序执行 SQL 语句，能够与任何符合 SQL 规范的数据库进行交互。</p>
+<p>JDBC 提供了一个灵活的框架来编写操作数据库的独立的应用程序，该程序能够运行在不同的平台上且不需修改，能够与不同的 DBMS 进行交互。</p>
+<p>JDBC 的优点和缺点</p>
+<pre><code>JDBC 的优点        JDBC 的缺点  
+</code></pre><p>  干净整洁的 SQL 处理     大项目中使用很复杂<br>   大数据下有良好的性能       很大的编程成本<br>    对于小应用非常好          没有封装<br>    易学的简易语法       难以实现 MVC 的概念<br>                  查询需要指定 DBMS </p>
+<p>为什么是对象关系映射（ORM）？</p>
+<p>当我们工作在一个面向对象的系统中时，存在一个对象模型和关系数据库不匹配的问题。RDBMSs 用表格的形式存储数据，然而像 Java 或者 C# 这样的面向对象的语言它表示一个对象关联图。考虑下面的带有构造方法和公有方法的 Java 类：</p>
+<pre><code>public class Employee {
+   private int id;
+   private String first_name; 
+   private String last_name;   
+   private int salary;  
+
+   public Employee() {}
+   public Employee(String fname, String lname, int salary) {
+      this.first_name = fname;
+      this.last_name = lname;
+      this.salary = salary;
+   }
+   public int getId() {
+      return id;
+   }
+   public String getFirstName() {
+      return first_name;
+   }
+   public String getLastName() {
+      return last_name;
+   }
+   public int getSalary() {
+      return salary;
+   }
+}
+</code></pre><p>现考虑以上的对象需要被存储和索引进下面的 RDBMS 表格中：</p>
+<pre><code>create table EMPLOYEE (
+   id INT NOT NULL auto_increment,
+   first_name VARCHAR(20) default NULL,
+   last_name  VARCHAR(20) default NULL,
+   salary     INT  default NULL,
+   PRIMARY KEY (id)
+);
+</code></pre><p>第一个问题，如果我们开发了几页代码或应用程序后，需要修改数据库的设计怎么办？</p>
+<p>第二个问题，在关系型数据库中加载和存储对象时我们要面临以下五个不匹配的问题。</p>
+<p>  不匹配                        描述<br>   粒度        有时你将会有一个对象模型，该模型类的数量比数据库中关联的表的数量更多<br>   继承          RDBMSs 不会定义任何在面向对象编程语言中本来就有的继承<br>   身份     RDBMS 明确定义一个 ‘sameness’ 的概念：主键。然而，Java 同时定义了对象判等（a==b）和 对象值判等（a.equals(b)）<br>   关联     面向对象的编程语言使用对象引用来表示关联，而一个 RDBMS 使用外键来表示对象<br>   导航          在 Java 中和在 RDBMS 中访问对象的方式完全不相同     </p>
+<p>什么是 ORM？</p>
+<p>ORM 表示 Object-Relational Mapping (ORM)，是一个方便在关系数据库和类似于 Java， C# 等面向对象的编程语言中转换数据的技术。一个 ORM 系统相比于普通的 JDBC 有以下的优点。</p>
+<p>  1       使用业务代码访问对象而不是数据库中的表<br>  2       从面向对象逻辑中隐藏 SQL 查询的细节<br>  3       基于 JDBC 的 ‘under the hood’<br>  4       没有必要去处理数据库实现<br>  5       实体是基于业务的概念而不是数据库的结构<br>  6       事务管理和键的自动生成<br>  7       应用程序的快速开发                 </p>
+<p>一个 ORM 解决方案由以下四个实体组成：</p>
+<p>  1       一个 API 来在持久类的对象上实现基本的 CRUD 操作<br>  2       一个语言或 API 来指定引用类和属性的查询<br>  3       一个可配置的服务用来指定映射元数据<br>  4       一个技术和事务对象交互来执行 dirty checking, lazy association fetching 和其它优化的功能</p>
+<p>Java ORM 框架</p>
+<p>在 Java 中有几个持久化的框架和 ORM 选项。一个持久化的框架是 ORM 存储和索引对象到关系型数据库的服务。</p>
+<ul>
+<li>Enterprise JavaBeans Entity Beans</li>
+<li>Java Data Objects</li>
+<li>Castor</li>
+<li>TopLink</li>
+<li>Spring DAO</li>
+<li>Hibernate</li>
+<li>And many more</li>
+</ul>
+<p>简介</p>
+<p>Hibernate 是由 Gavin King 于 2001 年创建的开放源代码的对象关系框架。它强大且高效的构建具有关系对象持久性和查询服务的 Java 应用程序。</p>
+<p>Hibernate 将 Java 类映射到数据库表中，从 Java 数据类型中映射到 SQL 数据类型中，并把开发人员从 95% 的公共数据持续性编程工作中解放出来。</p>
+<p>Hibernate 是传统 Java 对象和数据库服务器之间的桥梁，用来处理基于 O/R 映射机制和模式的那些对象。</p>
+<p>Hibernate 优势</p>
+<ul>
+<li>Hibernate 使用 XML 文件来处理映射 Java 类别到数据库表格中，并且不用编写任何代码。</li>
+<li>为在数据库中直接储存和检索 Java 对象提供简单的 APIs。</li>
+<li>如果在数据库中或任何其它表格中出现变化，那么仅需要改变 XML 文件属性。</li>
+<li>抽象不熟悉的 SQL 类型，并为我们提供工作中所熟悉的 Java 对象。</li>
+<li>Hibernate 不需要应用程序服务器来操作。</li>
+<li>操控你数据库中对象复杂的关联。</li>
+<li>最小化与访问数据库的智能提取策略。</li>
+<li>提供简单的数据询问。</li>
+</ul>
+<p>支持的数据库</p>
+<p>Hibernate 支持几乎所有的主要 RDBMS。以下是一些由 Hibernate 所支持的数据库引擎。</p>
+<ul>
+<li>HSQL Database Engine</li>
+<li>DB2/NT</li>
+<li>MySQL</li>
+<li>PostgreSQL</li>
+<li>FrontBase</li>
+<li>Oracle</li>
+<li>Microsoft SQL Server Database</li>
+<li>Sybase SQL Server</li>
+<li>Informix Dynamic Server</li>
+</ul>
+<p>支持的技术</p>
+<p>Hibernate 支持多种多样的其它技术，包括以下：</p>
+<ul>
+<li>XDoclet Spring</li>
+<li>J2EE</li>
+<li>Eclipse plug-ins</li>
+<li>Maven</li>
+</ul>
+<p>架构</p>
+<p>Hibernate 架构是分层的，作为数据访问层，你不必知道底层 API 。Hibernate 利用数据库以及配置数据来为应用程序提供持续性服务（以及持续性对象）。</p>
+<p>下面是一个非常高水平的 Hibernate 应用程序架构视图。</p>
+<p>下面是一个详细的 Hibernate 应用程序体系结构视图以及一些重要的类。</p>
+<p>Hibernate 使用不同的现存 Java API，比如 JDBC，Java 事务 API（JTA），以及 Java 命名和目录界面（JNDI）。JDBC 提供了一个基本的抽象级别的通用关系数据库的功能， Hibernate 支持几乎所有带有 JDBC 驱动的数据库。JNDI 和 JTA 允许 Hibernate 与 J2EE 应用程序服务器相集成。</p>
+<p>下面的部分简要地描述了在 Hibernate 应用程序架构所涉及的每一个类对象。</p>
+<p>配置对象</p>
+<p>配置对象是你在任何 Hibernate 应用程序中创造的第一个 Hibernate 对象，并且经常只在应用程序初始化期间创造。它代表了 Hibernate 所需一个配置或属性文件。配置对象提供了两种基础组件。</p>
+<ul>
+<li>数据库连接：由 Hibernate 支持的一个或多个配置文件处理。这些文件是 hibernate.properties 和 hibernate.cfg.xml。</li>
+<li>类映射设置：这个组件创造了 Java 类和数据库表格之间的联系。</li>
+</ul>
+<p>SessionFactory 对象</p>
+<p>配置对象被用于创造一个 SessionFactory 对象，使用提供的配置文件为应用程序依次配置 Hibernate，并允许实例化一个会话对象。SessionFactory 是一个线程安全对象并由应用程序所有的线程所使用。</p>
+<p>SessionFactory 是一个重量级对象所以通常它都是在应用程序启动时创造然后留存为以后使用。每个数据库需要一个 SessionFactory 对象使用一个单独的配置文件。所以如果你使用多种数据库那么你要创造多种 SessionFactory 对象。</p>
+<p>Session 对象</p>
+<p>一个会话被用于与数据库的物理连接。Session 对象是轻量级的，并被设计为每次实例化都需要与数据库的交互。持久对象通过 Session 对象保存和检索。</p>
+<p>Session 对象不应该长时间保持开启状态因为它们通常情况下并非线程安全，并且它们应该按照所需创造和销毁。</p>
+<p>Transaction 对象</p>
+<p>一个事务代表了与数据库工作的一个单元并且大部分 RDBMS 支持事务功能。在 Hibernate 中事务由底层事务管理器和事务（来自 JDBC 或者 JTA）处理。</p>
+<p>这是一个选择性对象，Hibernate 应用程序可能不选择使用这个接口，而是在自己应用程序代码中管理事务。</p>
+<p>Query 对象</p>
+<p>Query 对象使用 SQL 或者 Hibernate 查询语言（HQL）字符串在数据库中来检索数据并创造对象。一个查询的实例被用于连结查询参数，限制由查询返回的结果数量，并最终执行查询。</p>
+<p>Criteria 对象</p>
+<p>Criteria 对象被用于创造和执行面向规则查询的对象来检索对象。</p>
+<p>环境</p>
+<p>下载 Hibernate</p>
+<ul>
+<li>首先要在想要把 Hibernate 应用安装在 Windows 系统或是 Unix 系统这两者之间做出选择，之后继续到下一个步骤去下载与 Windows 系统对应的 .zip 文件或是与 Unix 系统对应的 .tz 文件。</li>
+<li>之后到 <a href="http://www.hibernate.org/downloads" target="_blank" rel="external">http://www.hibernate.org/downloads</a> 这个网址来下载最新版本的 Hibernate 应用。</li>
+</ul>
+<p>安装 Hibernate</p>
+<p>一旦你下好并且解压了 Hibernate 应用最新版本的安装文件，你需要执行以下两个简单的步骤。一定要确保你把你的 CLASSPATH 变量设置合理，否则当你编译你的应用时可能会遇到问题。</p>
+<ul>
+<li>首先把从 /lib 复制来的所有库文件拷贝到 CLASSPATH 里，并且改变你的 CLASSPATH 变量来涵盖所有的 JAR。</li>
+<li>最后复制 hibernate3.jar 这个文件到 CLASSPATH 里。这个文件位于安装文件的根目录里，它是 Hibernate 应用针对的主要 JAR。</li>
+</ul>
+<p>Hibernate 的前提</p>
+<p>以下是一个 Hibernate 应用需要的有关包/库的表格，在安装 Hibernate 应用之前你需要先安装它们。为了安装这些包你必须把来自 /lib 的库文件拷贝到 CLASSPATH ，并按以下说明相应地改变 CLASSPATH 变量。</p>
+<p>  S.N.    包/库<br>  1       dom4j - XML 解析 www.dom4j.org/<br>  2       Xalan - XSLT 处理器 <a href="http://xml.apache.org/xalan-j/" target="_blank" rel="external">http://xml.apache.org/xalan-j/</a><br>  3       Xerces - The Xerces Java 解析器 <a href="http://xml.apache.org/xerces-j/" target="_blank" rel="external">http://xml.apache.org/xerces-j/</a><br>  4       cglib -Java 类生成库<a href="http://cglib.sourceforge.net/" target="_blank" rel="external">http://cglib.sourceforge.net/</a><br>  5       log4j - 日志控制 <a href="http://logging.apache.org/log4j" target="_blank" rel="external">http://logging.apache.org/log4j</a><br>  6       Commons - 日志，邮件等 <a href="http://jakarta.apache.org/commons" target="_blank" rel="external">http://jakarta.apache.org/commons</a><br>  7       SLF4J - 简单日志门面 <a href="http://www.slf4j.org" target="_blank" rel="external">http://www.slf4j.org</a>     </p>
+<p>配置</p>
+<p>Hibernate 需要事先知道在哪里找到映射信息，这些映射信息定义了 Java 类怎样关联到数据库表。Hibernate 也需要一套相关数据库和其它相关参数的配置设置。所有这些信息通常是作为一个标准的 Java 属性文件提供的，名叫 hibernate.properties。又或者是作为 XML 文件提供的，名叫 hibernate.cfg.xml。</p>
+<p>我们将考虑 hibernate.cfg.xml 这个 XML 格式文件，来决定在我的例子里指定需要的 Hibernate 应用属性。这个 XML 文件中大多数的属性是不需要修改的。这个文件保存在应用程序的类路径的根目录里。</p>
+<p>Hibernate 属性</p>
+<p>下面是一个重要的属性列表，你可能需要表中的属性来在单独的情况下配置数据库。</p>
+<p>  S.N.    属性和描述<br>  1       hibernate.dialect 这个属性使 Hibernate 应用为被选择的数据库生成适当的 SQL。<br>  2       hibernate.connection.driver_classJDBC 驱动程序类。<br>  3       hibernate.connection.url 数据库实例的 JDBC URL。<br>  4       hibernate.connection.username数据库用户名。<br>  5       hibernate.connection.password 数据库密码。<br>  6       hibernate.connection.pool_size 限制在 Hibernate 应用数据库连接池中连接的数量。<br>  7       hibernate.connection.autocommit 允许在 JDBC 连接中使用自动提交模式。</p>
+<p>如果您正在使用 JNDI 和数据库应用程序服务器然后您必须配置以下属性:</p>
+<p>  S.N.    属性和描述<br>  1       hibernate.connection.datasource 在应用程序服务器环境中您正在使用的应用程序 JNDI 名。<br>  2       hibernate.jndi.class JNDI 的 InitialContext 类。<br>  3       hibernate.jndi.<jndipropertyname> 在 JNDI的 InitialContext 类中通过任何你想要的 Java 命名和目录接口属性。<br>  4       hibernate.jndi.url 为 JNDI 提供 URL。<br>  5       hibernate.connection.username 数据库用户名。<br>  6       hibernate.connection.password 数据库密码。    </jndipropertyname></p>
+<p>Hibernate 和 MySQL 数据库</p>
+<p>MySQL 数据库是目前可用的开源数据库系统中最受欢迎的数据库之一。我们要创建 hibernate.cfg.xml 配置文件并将其放置在应用程序的 CLASSPATH 的根目录里。你要确保在你的 MySQL 数据库中 testdb 数据库是可用的，而且你要有一个用户 test 可用来访问数据库。</p>
+<p>XML 配置文件一定要遵守 Hibernate 3 Configuration DTD，在 <a href="http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd" target="_blank" rel="external">http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd</a>. 这个网址中是可以找到的。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;!DOCTYPE hibernate-configuration SYSTEM 
+&quot;http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd&quot;&gt;
+
+&lt;hibernate-configuration&gt;
+   &lt;session-factory&gt;
+   &lt;property name=&quot;hibernate.dialect&quot;&gt;
+      org.hibernate.dialect.MySQLDialect
+   &lt;/property&gt;
+   &lt;property name=&quot;hibernate.connection.driver_class&quot;&gt;
+      com.mysql.jdbc.Driver
+   &lt;/property&gt;
+
+   &lt;!-- Assume test is the database name --&gt;
+   &lt;property name=&quot;hibernate.connection.url&quot;&gt;
+      jdbc:mysql://localhost/test
+   &lt;/property&gt;
+   &lt;property name=&quot;hibernate.connection.username&quot;&gt;
+      root
+   &lt;/property&gt;
+   &lt;property name=&quot;hibernate.connection.password&quot;&gt;
+      root123
+   &lt;/property&gt;
+
+   &lt;!-- List of XML mapping files --&gt;
+   &lt;mapping resource=&quot;Employee.hbm.xml&quot;/&gt;
+
+&lt;/session-factory&gt;
+&lt;/hibernate-configuration&gt; 
+</code></pre><p>上面的配置文件包含与 hibernate-mapping 文件相关的 <mapping> 标签，我们将在下章看看 hibernate mapping 文件到底是什么并且要知道为什么用它，怎样用它。以下是各种重要数据库同源语属性类型的列表:</mapping></p>
+<p>  数据库                          方言属性<br>  DB2                          org.hibernate.dialect.DB2Dialect<br>  HSQLDB                       org.hibernate.dialect.HSQLDialect<br>  HypersonicSQL                org.hibernate.dialect.HSQLDialect<br>  Informix                     org.hibernate.dialect.InformixDialect<br>  Ingres                       org.hibernate.dialect.IngresDialect<br>  Interbase                    org.hibernate.dialect.InterbaseDialect<br>  Microsoft SQL Server 2000    org.hibernate.dialect.SQLServerDialect<br>  Microsoft SQL Server 2005    org.hibernate.dialect.SQLServer2005Dialect<br>  Microsoft SQL Server 2008    org.hibernate.dialect.SQLServer2008Dialect<br>  MySQL                        org.hibernate.dialect.MySQLDialect<br>  Oracle (any version)         org.hibernate.dialect.OracleDialect<br>  Oracle 11g                   org.hibernate.dialect.Oracle10gDialect<br>  Oracle 10g                   org.hibernate.dialect.Oracle10gDialect<br>  Oracle 9i                    org.hibernate.dialect.Oracle9iDialect<br>  PostgreSQL                   org.hibernate.dialect.PostgreSQLDialect<br>  Progress                     org.hibernate.dialect.ProgressDialect<br>  SAP DB                       org.hibernate.dialect.SAPDBDialect<br>  Sybase                       org.hibernate.dialect.SybaseDialect<br>  Sybase Anywhere              org.hibernate.dialect.SybaseAnywhereDialec</p>
+<p>会话</p>
+<p>Session 用于获取与数据库的物理连接。 Session 对象是轻量级的，并且设计为在每次需要与数据库进行交互时被实例化。持久态对象被保存，并通过 Session 对象检索找回。</p>
+<p>该 Session 对象不应该长时间保持开放状态，因为它们通常不能保证线程安全，而应该根据需求被创建和销毁。Session 的主要功能是为映射实体类的实例提供创建，读取和删除操作。这些实例可能在给定时间点时存在于以下三种状态之一：</p>
+<ul>
+<li>瞬时状态: 一种新的持久性实例，被 Hibernate 认为是瞬时的，它不与 Session 相关联，在数据库中没有与之关联的记录且无标识符值。</li>
+<li>持久状态：可以将一个瞬时状态实例通过与一个 Session 关联的方式将其转化为持久状态实例。持久状态实例在数据库中没有与之关联的记录，有标识符值，并与一个 Session 关联。</li>
+<li>脱管状态：一旦关闭 Hibernate Session，持久状态实例将会成为脱管状态实例。</li>
+</ul>
+<p>若 Session 实例的持久态类别是序列化的，则该 Session 实例是序列化的。一个典型的事务应该使用以下语法：</p>
+<pre><code>Session session = factory.openSession();
+Transaction tx = null;
+try {
+   tx = session.beginTransaction();
+   // do some work
+   ...
+   tx.commit();
+}
+catch (Exception e) {
+   if (tx!=null) tx.rollback();
+   e.printStackTrace(); 
+}finally {
+   session.close();
+}
+</code></pre><p>如果 Session 引发异常，则事务必须被回滚，该 session 必须被丢弃。</p>
+<p>Session 接口方法</p>
+<p>Session 接口提供了很多方法，但在以下讲解中我将仅列出几个我们会在本教程中应用的重要方法。您可以查看 Hibernate 文件，查询与 Session 及 SessionFactory 相关的完整方法目录。</p>
+<p>  序号      Session 方法及说明<br>  1       Transaction beginTransaction()开始工作单位，并返回关联事务对象。<br>  2       void cancelQuery()取消当前的查询执行。<br>  3       void clear()完全清除该会话。<br>  4       Connection close()通过释放和清理 JDBC 连接以结束该会话。<br>  5       Criteria createCriteria(Class persistentClass)为给定的实体类或实体类的超类创建一个新的 Criteria 实例。<br>  6       Criteria createCriteria(String entityName)为给定的实体名称创建一个新的 Criteria 实例。<br>  7       Serializable getIdentifier(Object object)返回与给定实体相关联的会话的标识符值。<br>  8       Query createFilter(Object collection, String queryString)为给定的集合和过滤字符创建查询的新实例。<br>  9       Query createQuery(String queryString)为给定的 HQL 查询字符创建查询的新实例。<br>  10      SQLQuery createSQLQuery(String queryString)为给定的 SQL 查询字符串创建 SQLQuery 的新实例。<br>  11      void delete(Object object)从数据存储中删除持久化实例。<br>  12      void delete(String entityName, Object object)从数据存储中删除持久化实例。<br>  13      Session get(String entityName, Serializable id)返回给定命名的且带有给定标识符或 null 的持久化实例（若无该种持久化实例）。<br>  14      SessionFactory getSessionFactory()获取创建该会话的 session 工厂。<br>  15      void refresh(Object object)从基本数据库中重新读取给定实例的状态。<br>  16      Transaction getTransaction()获取与该 session 关联的事务实例。<br>  17      boolean isConnected()检查当前 session 是否连接。<br>  18      boolean isDirty()该 session 中是否包含必须与数据库同步的变化？<br>  19      boolean isOpen()检查该 session 是否仍处于开启状态。<br>  20      Serializable save(Object object)先分配一个生成的标识，以保持给定的瞬时状态实例。<br>  21      void saveOrUpdate(Object object)保存（对象）或更新（对象）给定的实例。<br>  22      void update(Object object)更新带有标识符且是给定的处于脱管状态的实例的持久化实例。<br>  23      void update(String entityName, Object object)更新带有标识符且是给定的处于脱管状态的实例的持久化实例。</p>
+<p>持久化类</p>
+<p>Hibernate 的完整概念是提取 Java 类属性中的值，并且将它们保存到数据库表单中。映射文件能够帮助 Hibernate 确定如何从该类中提取值，并将它们映射在表格和相关域中。</p>
+<p>在 Hibernate 中，其对象或实例将会被存储在数据库表单中的 Java 类被称为持久化类。若该类遵循一些简单的规则或者被大家所熟知的 Plain Old Java Object (POJO) 编程模型，Hibernate 将会处于其最佳运行状态。以下所列就是持久化类的主要规则，然而，在这些规则中，没有一条是硬性要求。</p>
+<ul>
+<li>所有将被持久化的 Java 类都需要一个默认的构造函数。</li>
+<li>为了使对象能够在 Hibernate 和数据库中容易识别，所有类都需要包含一个 ID。此属性映射到数据库表的主键列。</li>
+<li>所有将被持久化的属性都应该声明为 private，并具有由 JavaBean 风格定义的 getXXX 和 setXXX 方法。</li>
+<li>Hibernate 的一个重要特征为代理，它取决于该持久化类是处于非 final 的，还是处于一个所有方法都声明为 public 的接口。</li>
+<li>所有的类是不可扩展或按 EJB 要求实现的一些特殊的类和接口。</li>
+</ul>
+<p>POJO 的名称用于强调一个给定的对象是普通的 Java 对象，而不是特殊的对象，尤其不是一个 Enterprise JavaBean。</p>
+<p>一个简单的 POJO 的例子</p>
+<p>基于以上所述规则，我们能够定义如下 POLO 类：</p>
+<pre><code>public class Employee {
+   private int id;
+   private String firstName; 
+   private String lastName;   
+   private int salary;  
+
+   public Employee() {}
+   public Employee(String fname, String lname, int salary) {
+      this.firstName = fname;
+      this.lastName = lname;
+      this.salary = salary;
+   }
+   public int getId() {
+      return id;
+   }
+   public void setId( int id ) {
+      this.id = id;
+   }
+   public String getFirstName() {
+      return firstName;
+   }
+   public void setFirstName( String first_name ) {
+      this.firstName = first_name;
+   }
+   public String getLastName() {
+      return lastName;
+   }
+   public void setLastName( String last_name ) {
+      this.lastName = last_name;
+   }
+   public int getSalary() {
+      return salary;
+   }
+   public void setSalary( int salary ) {
+      this.salary = salary;
+   }
+}
+</code></pre><p>映射文件</p>
+<p>一个对象/关系型映射一般定义在 XML 文件中。映射文件指示 Hibernate 如何将已经定义的类或类组与数据库中的表对应起来。</p>
+<p>尽管有些 Hibernate 用户选择手写 XML 文件，但是有很多工具可以用来给先进的 Hibernate 用户生成映射文件。这样的工具包括 XDoclet, Middlegen 和 AndroMDA。</p>
+<p>让我们来考虑我们之前定义的 POJO 类，它的对象将延续到下一部分定义的表中。</p>
+<pre><code>public class Employee {
+    private int id;
+    private String firstName; 
+    private String lastName;   
+    private int salary;  
+
+    public Employee() {}
+    public Employee(String fname, String lname, int salary) {
+        this.firstName = fname;
+        this.lastName = lname;
+        this.salary = salary;
+    }
+    public int getId() {
+        return id;
+    }
+    public void setId( int id ) {
+        this.id = id;
+    }
+    public String getFirstName() {
+        return firstName;
+    }
+    public void setFirstName( String first_name ) {
+        this.firstName = first_name;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+    public void setLastName( String last_name ) {
+        this.lastName = last_name;
+    }
+    public int getSalary() {
+        return salary;
+    }
+    public void setSalary( int salary ) {
+        this.salary = salary;
+    }
+}
+</code></pre><p>对于每一个你想要提供持久性的对象都需要一个表与之保持一致。考虑上述对象需要存储和检索到下列 RDBMS 表中：</p>
+<pre><code>create table EMPLOYEE (
+    id INT NOT NULL auto_increment,
+    first_name VARCHAR(20) default NULL,
+    last_name  VARCHAR(20) default NULL,
+    salary     INT  default NULL,
+    PRIMARY KEY (id)
+);
+</code></pre><p>基于这两个实体之上，我们可以定义下列映射文件来指示 Hibernate 如何将已定义的类或类组与数据库表匹配。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;!DOCTYPE hibernate-mapping PUBLIC 
+ &quot;-//Hibernate/Hibernate Mapping DTD//EN&quot;
+ &quot;http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd&quot;&gt; 
+
+&lt;hibernate-mapping&gt;
+   &lt;class name=&quot;Employee&quot; table=&quot;EMPLOYEE&quot;&gt;
+      &lt;meta attribute=&quot;class-description&quot;&gt;
+         This class contains the employee detail. 
+      &lt;/meta&gt;
+      &lt;id name=&quot;id&quot; type=&quot;int&quot; column=&quot;id&quot;&gt;
+         &lt;generator class=&quot;native&quot;/&gt;
+      &lt;/id&gt;
+      &lt;property name=&quot;firstName&quot; column=&quot;first_name&quot; type=&quot;string&quot;/&gt;
+      &lt;property name=&quot;lastName&quot; column=&quot;last_name&quot; type=&quot;string&quot;/&gt;
+      &lt;property name=&quot;salary&quot; column=&quot;salary&quot; type=&quot;int&quot;/&gt;
+   &lt;/class&gt;
+&lt;/hibernate-mapping&gt;
+</code></pre><p>你需要以格式 <classname>.hbm.xml保存映射文件。我们保存映射文件在 Employee.hbm.xml 中。让我们来详细地看一下在映射文件中使用的一些标签:</classname></p>
+<ul>
+<li>映射文件是一个以 <hibernate-mapping> 为根元素的 XML 文件，里面包含所有<class>标签。</class></hibernate-mapping></li>
+<li><class> 标签是用来定义从一个 Java 类到数据库表的特定映射。Java 的类名使用 name 属性来表示，数据库表明用 table 属性来表示。</class></li>
+<li><meta> 标签是一个可选元素，可以被用来修饰类。</li>
+<li><id> 标签将类中独一无二的 ID 属性与数据库表中的主键关联起来。id 元素中的 name 属性引用类的性质，column 属性引用数据库表的列。type 属性保存 Hibernate 映射的类型，这个类型会将从 Java 转换成 SQL 数据类型。</id></li>
+<li>在 id 元素中的 <generator> 标签用来自动生成主键值。设置 generator 标签中的 class 属性可以设置 native使 Hibernate 可以使用 identity, sequence 或 hilo 算法根据底层数据库的情况来创建主键。</generator></li>
+<li><property> 标签用来将 Java 类的属性与数据库表的列匹配。标签中 name 属性引用的是类的性质，column属性引用的是数据库表的列。type 属性保存 Hibernate 映射的类型，这个类型会将从 Java 转换成 SQL 数据类型。</property></li>
+</ul>
+<p>还有一些其它属性和元素可用在映射文件中，我会在其它讨论 Hibernate 相关的主题中尽可能得涉及更多。</p>
+<p>映射类型</p>
+<p>当你准备一个 Hibernate 映射文件时，我们已经看到你把 Java 数据类型映射到了 RDBMS 数据格式。在映射文件中已经声明被使用的 types 不是 Java 数据类型；它们也不是 SQL 数据库类型。这种类型被称为 Hibernate 映射类型，可以从 Java 翻译成 SQL，反之亦然。</p>
+<p>在这一章中列举出所有的基础，日期和时间，大型数据对象，和其它内嵌的映射数据类型。</p>
+<p>原始类型</p>
+<p>  映射类型           Java 类型                        ANSI SQL 类型<br>  integer        int 或 java.lang.Integer        INTEGER<br>  long           long 或 java.lang.Long          BIGINT<br>  short          short 或 java.lang.Short        SMALLINT<br>  float          float 或 java.lang.Float        FLOAT<br>  double         double 或 java.lang.Double      DOUBLE<br>  big_decimal    java.math.BigDecimal           NUMERIC<br>  character      java.lang.String               CHAR(1)<br>  string         java.lang.String               VARCHAR<br>  byte           byte 或 java.lang.Byte          TINYINT<br>  boolean        boolean 或 java.lang.Boolean    BIT<br>  yes/no         boolean 或 java.lang.Boolean    CHAR(1) (‘Y’ or ‘N’)<br>  true/false     boolean 或 java.lang.Boolean    CHAR(1) (‘T’ or ‘F’)</p>
+<p>日期和时间类型</p>
+<p>  映射类型             Java 类型                                ANSI SQL 类型<br>  date             java.util.Date 或 java.sql.Date         DATE<br>  time             java.util.Date 或 java.sql.Time         TIME<br>  timestamp        java.util.Date 或 java.sql.Timestamp    TIMESTAMP<br>  calendar         java.util.Calendar                     TIMESTAMP<br>  calendar_date    java.util.Calendar                     DATE       </p>
+<p>二进制和大型数据对象</p>
+<p>  映射类型            Java 类型                                     ANSI SQL 类型<br>  binary          byte[]                                      VARBINARY (or BLOB)<br>  text            java.lang.String                            CLOB<br>  serializable    any Java class that implements java.io.Serializable    VARBINARY (or BLOB)<br>  clob            java.sql.Clob                               CLOB<br>  blob            java.sql.Blob                               BLOB               </p>
+<p>JDK 相关类型</p>
+<p>  映射类型        Java 类型               ANSI SQL 类型<br>  class       java.lang.Class       VARCHAR<br>  locale      java.util.Locale      VARCHAR<br>  timezone    java.util.TimeZone    VARCHAR<br>  currency    java.util.Currency    VARCHAR    </p>
+<p>例子</p>
+<p>让我们看一个独立应用程序利用 Hibernate 提供 Java 持久性的例子。我们将通过不同的步骤使用 Hibernate 技术创建 Java 应用程序。</p>
+<p>创建 POJO 类</p>
+<p>创建应用程序的第一步就是建立 Java 的 POJO 类或者其它类，这取决于即将要存放在数据库中的应用程序。我们可以考虑一下让我们的 Employee 类使用 getXXX 和 setXXX 方法从而使它们变成符合 JavaBeans 的类。</p>
+<p>POJO (Plain Old Java Object) 是 Java 的一个对象，这种对象不会扩展或者执行一些特殊的类并且它的接口都是分别在 EJB 框架的要求下的。所有正常的 Java 对象都是 POJO。</p>
+<p>当你设计一个存放在 Hibernate 中的类时，最重要的是提供支持 JavaBeans 的代码和在 Employee 类中像 id 属性一样可以当做索引的属性。</p>
+<pre><code>public class Employee {
+   private int id;
+   private String firstName; 
+   private String lastName;   
+   private int salary;  
+
+   public Employee() {}
+   public Employee(String fname, String lname, int salary) {
+      this.firstName = fname;
+      this.lastName = lname;
+      this.salary = salary;
+   }
+   public int getId() {
+      return id;
+   }
+   public void setId( int id ) {
+      this.id = id;
+   }
+   public String getFirstName() {
+      return firstName;
+   }
+   public void setFirstName( String first_name ) {
+      this.firstName = first_name;
+   }
+   public String getLastName() {
+      return lastName;
+   }
+   public void setLastName( String last_name ) {
+      this.lastName = last_name;
+   }
+   public int getSalary() {
+      return salary;
+   }
+   public void setSalary( int salary ) {
+      this.salary = salary;
+   }
+}
+</code></pre><p>创建数据库表</p>
+<p>第二步就是在你的数据库中创建表格。每一个你所愿意提供长期留存的对象都会有一个对应的表。上述的对象需要在下列的 RDBMS 表中存储和被检索到：</p>
+<pre><code>create table EMPLOYEE (
+   id INT NOT NULL auto_increment,
+   first_name VARCHAR(20) default NULL,
+   last_name  VARCHAR(20) default NULL,
+   salary     INT  default NULL,
+   PRIMARY KEY (id)
+);
+</code></pre><p>创建映射配置文件</p>
+<p>这一步是创建一个映射文件从而指导 Hibernate 如何对数据库的表映射定义的类。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;!DOCTYPE hibernate-mapping PUBLIC 
+ &quot;-//Hibernate/Hibernate Mapping DTD//EN&quot;
+ &quot;http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd&quot;&gt; 
+
+&lt;hibernate-mapping&gt;
+   &lt;class name=&quot;Employee&quot; table=&quot;EMPLOYEE&quot;&gt;
+      &lt;meta attribute=&quot;class-description&quot;&gt;
+         This class contains the employee detail. 
+      &lt;/meta&gt;
+      &lt;id name=&quot;id&quot; type=&quot;int&quot; column=&quot;id&quot;&gt;
+         &lt;generator class=&quot;native&quot;/&gt;
+      &lt;/id&gt;
+      &lt;property name=&quot;firstName&quot; column=&quot;first_name&quot; type=&quot;string&quot;/&gt;
+      &lt;property name=&quot;lastName&quot; column=&quot;last_name&quot; type=&quot;string&quot;/&gt;
+      &lt;property name=&quot;salary&quot; column=&quot;salary&quot; type=&quot;int&quot;/&gt;
+   &lt;/class&gt;
+&lt;/hibernate-mapping&gt;
+</code></pre><p>你需要将映射文档以<classname>.hbm.xml的格式保存在一个文件中。我们将映射文档保存在 Employee.hbm.xml文件中。下面让我们看看映射文档相关的一些小细节：</classname></p>
+<ul>
+<li>映射文档是一个 XML 格式的文档，它拥有<hibernate-mapping>作为根元素，这个元素包含了所有的 <class>元素。</class></hibernate-mapping></li>
+<li><class> 元素被用来定义从 Java 类到数据库表的特定的映射。Java 类的名称是特定的，它使用的是类元素的 name 属性，数据库表的名称也是特定的，它使用的是 table 属性。</class></li>
+<li><meta> 元素是一个可选元素，它可以用来创建类的描述。</li>
+<li><id> 元素向数据库的主要关键字表映射类中的特定的 ID 属性。id 元素的 name 属性涉及到了类中的属性同时 column 属性涉及到了数据库表中的列。type 属性掌握了 hibernate 的映射类型，这种映射类型将会从 Java 转到 SQL 数据类型。</id></li>
+<li>id 元素中的 <generator>元素是用来自动产生主要关键字的值的。将 generator 元素的 class 属性设置成 native 从而使 Hibernate 运用 identity, sequence 或者 hilo 算法依靠基础数据库的性能来创建主要关键字。</generator></li>
+<li><property> 元素是用来映射一个 Java 类的属性到数据库的表中的列中。这个元素的 name 属性涉及到类中的属性，column 属性涉及到数据表中的列。type 属性控制 Hibernate 的映射类型，这种映射类型将会从 Java 转到 SQL 数据类型。</property></li>
+</ul>
+<p>映射文档中还有许多其它的属性和元素，在探讨其它的 Hibernate 相关的话题时我将会详细进行讲解。</p>
+<p>创建应用程序类</p>
+<p>最后，我们将要使用 main() 方法创建应用程序类来运行应用程序。我们将用这个程序来保存一些 Employee 的记录，然后我们将在这些记录上应用 CRUD 操作。</p>
+<pre><code>import java.util.List; 
+import java.util.Date;
+import java.util.Iterator; 
+
+import org.hibernate.HibernateException; 
+import org.hibernate.Session; 
+import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+public class ManageEmployee {
+   private static SessionFactory factory; 
+   public static void main(String[] args) {
+      try{
+         factory = new Configuration().configure().buildSessionFactory();
+      }catch (Throwable ex) { 
+         System.err.println(&quot;Failed to create sessionFactory object.&quot; + ex);
+         throw new ExceptionInInitializerError(ex); 
+      }
+      ManageEmployee ME = new ManageEmployee();
+
+      /* Add few employee records in database */
+      Integer empID1 = ME.addEmployee(&quot;Zara&quot;, &quot;Ali&quot;, 1000);
+      Integer empID2 = ME.addEmployee(&quot;Daisy&quot;, &quot;Das&quot;, 5000);
+      Integer empID3 = ME.addEmployee(&quot;John&quot;, &quot;Paul&quot;, 10000);
+
+      /* List down all the employees */
+      ME.listEmployees();
+
+      /* Update employee&apos;s records */
+      ME.updateEmployee(empID1, 5000);
+
+      /* Delete an employee from the database */
+      ME.deleteEmployee(empID2);
+
+      /* List down new list of the employees */
+      ME.listEmployees();
+   }
+   /* Method to CREATE an employee in the database */
+   public Integer addEmployee(String fname, String lname, int salary){
+      Session session = factory.openSession();
+      Transaction tx = null;
+      Integer employeeID = null;
+      try{
+         tx = session.beginTransaction();
+         Employee employee = new Employee(fname, lname, salary);
+         employeeID = (Integer) session.save(employee); 
+         tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+      return employeeID;
+   }
+   /* Method to  READ all the employees */
+   public void listEmployees( ){
+      Session session = factory.openSession();
+      Transaction tx = null;
+      try{
+         tx = session.beginTransaction();
+         List employees = session.createQuery(&quot;FROM Employee&quot;).list(); 
+         for (Iterator iterator = 
+                           employees.iterator(); iterator.hasNext();){
+            Employee employee = (Employee) iterator.next(); 
+            System.out.print(&quot;First Name: &quot; + employee.getFirstName()); 
+            System.out.print(&quot;  Last Name: &quot; + employee.getLastName()); 
+            System.out.println(&quot;  Salary: &quot; + employee.getSalary()); 
+         }
+         tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+   }
+   /* Method to UPDATE salary for an employee */
+   public void updateEmployee(Integer EmployeeID, int salary ){
+      Session session = factory.openSession();
+      Transaction tx = null;
+      try{
+         tx = session.beginTransaction();
+         Employee employee = 
+                    (Employee)session.get(Employee.class, EmployeeID); 
+         employee.setSalary( salary );
+         session.update(employee); 
+         tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+   }
+   /* Method to DELETE an employee from the records */
+   public void deleteEmployee(Integer EmployeeID){
+      Session session = factory.openSession();
+      Transaction tx = null;
+      try{
+         tx = session.beginTransaction();
+         Employee employee = 
+                   (Employee)session.get(Employee.class, EmployeeID); 
+         session.delete(employee); 
+         tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+   }
+}
+</code></pre><p>编译和执行</p>
+<p>下面是编译和运行上述提到的应用程序的步骤。在编译和执行应用程序之前确保你已经设置好了 PATH 和 CLASSPATH。</p>
+<ul>
+<li>创建设置章节中所讲的 hibernate.cfg.xml 配置文件。</li>
+<li>创建上文所述的 Employee.hbm.xml 映射文件。</li>
+<li>创建上文所述的 Employee.java 源文件并且进行编译。</li>
+<li>创建上文所述的 ManageEmployee.java 源文件并且进行编译。</li>
+<li>执行二进制的 ManageEmployee 来运行程序。</li>
+</ul>
+<p>你将会得到如下结果，记录将会在 EMPLOYEE 表中建立。</p>
+<pre><code>$java ManageEmployee
+.......VARIOUS LOG MESSAGES WILL DISPLAY HERE........
+
+First Name: Zara  Last Name: Ali  Salary: 1000
+First Name: Daisy  Last Name: Das  Salary: 5000
+First Name: John  Last Name: Paul  Salary: 10000
+First Name: Zara  Last Name: Ali  Salary: 5000
+First Name: John  Last Name: Paul  Salary: 10000
+</code></pre><p>如果你检查你的 EMPLOYEE 表，它将会有如下记录：</p>
+<pre><code>mysql&gt; select * from EMPLOYEE;
++----+------------+-----------+--------+
+| id | first_name | last_name | salary |
++----+------------+-----------+--------+
+| 29 | Zara       | Ali       |   5000 |
+| 31 | John       | Paul      |  10000 |
++----+------------+-----------+--------+
+2 rows in set (0.00 sec
+
+mysql&gt;
+</code></pre><p>O/R 映射</p>
+<p>目前为止我们已经通过应用 Hibernate 见识过十分基础的 O/R 映射了，但是还有三个更加重要的有关映射的话题需要我们更详细的探讨。这三个话题是集合的映射，实体类之间的关联映射以及组件映射。</p>
+<p>集合映射</p>
+<p>如果一个实例或者类中有特定变量的值的集合，那么我们可以应用 Java 中的任何的可用的接口来映射这些值。Hibernate 可以保存 java.util.Map, java.util.Set, java.util.SortedMap, java.util.SortedSet, java.util.List 和其它持续的实例或者值的任何数组的实例。</p>
+<p>  集合类型                     映射和描述<br>  java.util.Set            它和 <set> 元素匹配并且用 java.util.HashSet 初始化。<br>  java.util.SortedSet      它和 <set> 元素匹配并且用 java.util.TreeSet 初始化。sort属性可以设置成比较器或者自然排序。<br>  java.util.List           它和 <list> 元素匹配并且用 java.util.ArrayList 初始化。<br>  java.util.Collection     它和 <bag> 或者 <ibag> 元素匹配以及用 java.util.ArrayList 初始化。<br>  java.util.Map            它和 <map> 元素匹配并且用 java.util.HashMap 初始化。<br>  java.util.SortedMap”)    它和 <map> 元素匹配并且用 java.util.TreeMap 初始化。sort属性可以设置成比较器或者 自然排序。</map></map></ibag></bag></list></set></set></p>
+<p>对于 Java 的原始数值 Hibernate 采用<primitive-array>支持数组，对于 Java 的其它数值 Hibernate 采用<array>支持数组。然而它们很少被应用，因此我也就不在本指导中讨论它们。</array></primitive-array></p>
+<p>如果你想要映射一个用户定义的集合接口而这个接口不是 Hibernate 直接支持的话，那么你需要告诉 Hibernate 你定义的这个集合的语法，这个很难操作而且不推荐使用。</p>
+<p>关联映射</p>
+<p>实体类之间的关联映射以及表之间的关系是 ORM 的灵魂之处。对象间的关系的子集可以用下列四种方式解释。关联映射可以是单向的也可以是双向的。</p>
+<p>  映射类型            描述<br>  Many-to-One     使用 Hibernate 映射多对一关系<br>  One-to-One      使用 Hibernate 映射一对一关系<br>  One-to-Many     使用 Hibernate 映射一对多关系<br>  Many-to-Many    使用 Hibernate 映射多对多关系</p>
+<p>组件映射</p>
+<p>作为变量的一员实体类很可能和其它类具有相关关系。如果引用的类没有自己的生命周期并且完全依靠于拥有它的那个实体类的生命周期的话，那么这个引用类因此就可以叫做组件类。</p>
+<p>组件集合的映射很可能和正常集合的映射相似，只会有很少的设置上的不同。我们可以在例子中看看这两种映射。</p>
+<p>  映射类型                  描述<br>  Component Mappings    类的映射对于作为变量的一员的另外的类具有参考作用。</p>
+<p>注释</p>
+<p>到现在为止，你已经看到 Hibernate 如何使用 XML 映射文件来完成从 POJO 到数据库表的数据转换的，反之亦然。Hibernate 注释是无需使用 XML 文件来定义映射的最新方法。你可以额外使用注释或直接代替 XML 映射元数据。</p>
+<p>Hibernate 注释是一种强大的来给对象和关系映射表提供元数据的方法。所有的元数据被添加到 POJO java 文件代码中，这有利于用户在开发时更好的理解表的结构和 POJO。</p>
+<p>如果你想让你的应用程序移植到其它 EJB 3 的 ORM 应用程序中,您必须使用注释来表示映射信息，但是如果想要得到更大的灵活性,那么你应该使用基于 XML 的映射。</p>
+<p>Hibernate 注释的环境设置</p>
+<p>首先你必须确定你使用的是 JDK 5.0，否则你需要升级你的 JDK 至 JDK 5.0，来使你的主机能够支持注释。</p>
+<p>其次，你需要安装 Hibernate 3.x 注释包，可以从 sourceforge 行下载：（下载 Hibernate 注释） 并且从 Hibernate 注释发布中拷贝 hibernate-annotations.jar, lib/hibernate-comons-annotations.jar 和 lib/ejb3-persistence.jar 到你的 CLASSPATH。</p>
+<p>注释类示例</p>
+<p>正如我上面所提到的，所有的元数据被添加到 POJO java 文件代码中，这有利于用户在开发时更好的理解表的结构和 POJO。</p>
+<p>下面我们将使用 EMPLOYEE 表来存储对象:</p>
+<pre><code>create table EMPLOYEE (
+   id INT NOT NULL auto_increment,
+   first_name VARCHAR(20) default NULL,
+   last_name  VARCHAR(20) default NULL,
+   salary     INT  default NULL,
+   PRIMARY KEY (id)
+);
+</code></pre><p>以下是用带有注释的 Employee 类来映射使用定义好的 Employee 表的对象:</p>
+<pre><code>import javax.persistence.*;
+
+@Entity
+@Table(name = &quot;EMPLOYEE&quot;)
+public class Employee {
+   @Id @GeneratedValue
+   @Column(name = &quot;id&quot;)
+   private int id;
+
+   @Column(name = &quot;first_name&quot;)
+   private String firstName;
+
+   @Column(name = &quot;last_name&quot;)
+   private String lastName;
+
+   @Column(name = &quot;salary&quot;)
+   private int salary;  
+
+   public Employee() {}
+   public int getId() {
+      return id;
+   }
+   public void setId( int id ) {
+      this.id = id;
+   }
+   public String getFirstName() {
+      return firstName;
+   }
+   public void setFirstName( String first_name ) {
+      this.firstName = first_name;
+   }
+   public String getLastName() {
+      return lastName;
+   }
+   public void setLastName( String last_name ) {
+      this.lastName = last_name;
+   }
+   public int getSalary() {
+      return salary;
+   }
+   public void setSalary( int salary ) {
+      this.salary = salary;
+   }
+}
+</code></pre><p>Hibernate 检测到 @Id 注释字段并且认定它应该在运行时通过字段直接访问一个对象上的属性。如果你将 @Id 注释放在 getId() 方法中，你可以通过默认的 getter 和 setter 方法来访问属性。因此，所有其它注释也放在字段或是 getter 方法中，决定于选择的策略。下一节将解释上面的类中使用的注释。</p>
+<p>@Entity 注释</p>
+<p>EJB 3 标准的注释包含在 javax.persistence 包，所以我们第一步需要导入这个包。第二步我们对 Employee 类使用 @Entity 注释，标志着这个类为一个实体 bean，所以它必须含有一个没有参数的构造函数并且在可保护范围是可见的。</p>
+<p>@Table 注释</p>
+<p>@table 注释允许您明确表的详细信息保证实体在数据库中持续存在。</p>
+<p>@table 注释提供了四个属性，允许您覆盖的表的名称，目录及其模式,在表中可以对列制定独特的约束。现在我们使用的是表名为 EMPLOYEE。</p>
+<p>@Id 和 @GeneratedValue 注释</p>
+<p>每一个实体 bean 都有一个主键，你在类中可以用 @Id 来进行注释。主键可以是一个字段或者是多个字段的组合，这取决于你的表的结构。</p>
+<p>默认情况下，@Id 注释将自动确定最合适的主键生成策略，但是你可以通过使用 @GeneratedValue 注释来覆盖掉它。strategy 和 generator 这两个参数我不打算在这里讨论，所以我们只使用默认键生成策略。让 Hibernate 确定使用哪些生成器类型来使代码移植于不同的数据库之间。</p>
+<p>@Column Annotation</p>
+<p>@Column 注释用于指定某一列与某一个字段或是属性映射的细节信息。您可以使用下列注释的最常用的属性:</p>
+<ul>
+<li>name 属性允许显式地指定列的名称。</li>
+<li>length 属性为用于映射一个值，特别为一个字符串值的列的大小。</li>
+<li>nullable 属性允许当生成模式时，一个列可以被标记为非空。</li>
+<li>unique 属性允许列中只能含有唯一的内容</li>
+</ul>
+<p>创建应用类</p>
+<p>最后,我们将创建应用程序类，并使用 main() 方法来运行应用程序。我们将使用此应用程序来保存一些员工的记录,然后我们对这些记录进行 CRUD 操作。</p>
+<pre><code>import java.util.List; 
+import java.util.Date;
+import java.util.Iterator; 
+
+import org.hibernate.HibernateException; 
+import org.hibernate.Session; 
+import org.hibernate.Transaction;
+import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+public class ManageEmployee {
+   private static SessionFactory factory; 
+   public static void main(String[] args) {
+      try{
+         factory = new AnnotationConfiguration().
+                   configure().
+                   //addPackage(&quot;com.xyz&quot;) //add package if used.
+                   addAnnotatedClass(Employee.class).
+                   buildSessionFactory();
+      }catch (Throwable ex) { 
+         System.err.println(&quot;Failed to create sessionFactory object.&quot; + ex);
+         throw new ExceptionInInitializerError(ex); 
+      }
+      ManageEmployee ME = new ManageEmployee();
+
+      /* Add few employee records in database */
+      Integer empID1 = ME.addEmployee(&quot;Zara&quot;, &quot;Ali&quot;, 1000);
+      Integer empID2 = ME.addEmployee(&quot;Daisy&quot;, &quot;Das&quot;, 5000);
+      Integer empID3 = ME.addEmployee(&quot;John&quot;, &quot;Paul&quot;, 10000);
+
+      /* List down all the employees */
+      ME.listEmployees();
+
+      /* Update employee&apos;s records */
+      ME.updateEmployee(empID1, 5000);
+
+      /* Delete an employee from the database */
+      ME.deleteEmployee(empID2);
+
+      /* List down new list of the employees */
+      ME.listEmployees();
+   }
+   /* Method to CREATE an employee in the database */
+   public Integer addEmployee(String fname, String lname, int salary){
+      Session session = factory.openSession();
+      Transaction tx = null;
+      Integer employeeID = null;
+      try{
+         tx = session.beginTransaction();
+         Employee employee = new Employee();
+         employee.setFirstName(fname);
+         employee.setLastName(lname);
+         employee.setSalary(salary);
+         employeeID = (Integer) session.save(employee); 
+         tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+      return employeeID;
+   }
+   /* Method to  READ all the employees */
+   public void listEmployees( ){
+      Session session = factory.openSession();
+      Transaction tx = null;
+      try{
+         tx = session.beginTransaction();
+         List employees = session.createQuery(&quot;FROM Employee&quot;).list(); 
+         for (Iterator iterator = 
+                           employees.iterator(); iterator.hasNext();){
+            Employee employee = (Employee) iterator.next(); 
+            System.out.print(&quot;First Name: &quot; + employee.getFirstName()); 
+            System.out.print(&quot;  Last Name: &quot; + employee.getLastName()); 
+            System.out.println(&quot;  Salary: &quot; + employee.getSalary()); 
+         }
+         tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+   }
+   /* Method to UPDATE salary for an employee */
+   public void updateEmployee(Integer EmployeeID, int salary ){
+      Session session = factory.openSession();
+      Transaction tx = null;
+      try{
+         tx = session.beginTransaction();
+         Employee employee = 
+                    (Employee)session.get(Employee.class, EmployeeID); 
+         employee.setSalary( salary );
+         session.update(employee); 
+         tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+   }
+   /* Method to DELETE an employee from the records */
+   public void deleteEmployee(Integer EmployeeID){
+      Session session = factory.openSession();
+      Transaction tx = null;
+      try{
+         tx = session.beginTransaction();
+         Employee employee = 
+                   (Employee)session.get(Employee.class, EmployeeID); 
+         session.delete(employee); 
+         tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+   }
+}
+</code></pre><p>数据库配置</p>
+<p>现在，让我们创建 hibernate.cfg.xml 配置文件来定义数据库相关参数。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;!DOCTYPE hibernate-configuration SYSTEM 
+&quot;http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd&quot;&gt;
+
+&lt;hibernate-configuration&gt;
+   &lt;session-factory&gt;
+   &lt;property name=&quot;hibernate.dialect&quot;&gt;
+      org.hibernate.dialect.MySQLDialect
+   &lt;/property&gt;
+   &lt;property name=&quot;hibernate.connection.driver_class&quot;&gt;
+      com.mysql.jdbc.Driver
+   &lt;/property&gt;
+
+   &lt;!-- Assume students is the database name --&gt;
+   &lt;property name=&quot;hibernate.connection.url&quot;&gt;
+      jdbc:mysql://localhost/test
+   &lt;/property&gt;
+   &lt;property name=&quot;hibernate.connection.username&quot;&gt;
+      root
+   &lt;/property&gt;
+   &lt;property name=&quot;hibernate.connection.password&quot;&gt;
+      cohondob
+   &lt;/property&gt;
+
+&lt;/session-factory&gt;
+&lt;/hibernate-configuration&gt;
+</code></pre><p>编译和执行</p>
+<p>这里是编译并运行以上提到的应用程序的步骤。再继续编译和运行之前需要确保你正确设置路径和类路径。</p>
+<ul>
+<li>从目录中删除 Employee.hbm.xml 映射文件。</li>
+<li>创建上述 Employee.java 源文件并编译。</li>
+<li>创建上述 ManageEmployee.java 源文件并编译。</li>
+<li>执行 ManageEmployee 二进制程序。</li>
+</ul>
+<p>你将得到如下结果，并且会在 EMPLOYEE 表中记录。</p>
+<pre><code>$java ManageEmployee
+.......VARIOUS LOG MESSAGES WILL DISPLAY HERE........
+
+First Name: Zara  Last Name: Ali  Salary: 1000
+First Name: Daisy  Last Name: Das  Salary: 5000
+First Name: John  Last Name: Paul  Salary: 10000
+First Name: Zara  Last Name: Ali  Salary: 5000
+First Name: John  Last Name: Paul  Salary: 10000
+</code></pre><p>如果你查看 EMPLOYEE 表，它将有如下记录：</p>
+<pre><code>mysql&gt; select * from EMPLOYEE;
++----+------------+-----------+--------+
+| id | first_name | last_name | salary |
++----+------------+-----------+--------+
+| 29 | Zara       | Ali       |   5000 |
+| 31 | John       | Paul      |  10000 |
++----+------------+-----------+--------+
+2 rows in set (0.00 sec
+
+mysql&gt;
+</code></pre><p>查询语言</p>
+<p>Hibernate 查询语言（HQL）是一种面向对象的查询语言，类似于 SQL，但不是去对表和列进行操作，而是面向对象和它们的属性。 HQL 查询被 Hibernate 翻译为传统的 SQL 查询从而对数据库进行操作。</p>
+<p>尽管你能直接使用本地 SQL 语句，但我还是建议你尽可能的使用 HQL 语句，以避免数据库关于可移植性的麻烦，并且体现了 Hibernate 的 SQL 生成和缓存策略。</p>
+<p>在 HQL 中一些关键字比如 SELECT ，FROM 和 WHERE 等，是不区分大小写的，但是一些属性比如表名和列名是区分大小写的。</p>
+<p>FROM 语句</p>
+<p>如果你想要在存储中加载一个完整并持久的对象,你将使用 FROM 语句。以下是 FROM 语句的一些简单的语法：</p>
+<pre><code>String hql = &quot;FROM Employee&quot;;
+Query query = session.createQuery(hql);
+List results = query.list();
+</code></pre><p>如果你需要在 HQL 中完全限定类名，只需要指定包和类名，如下：</p>
+<pre><code>String hql = &quot;FROM com.hibernatebook.criteria.Employee&quot;;
+Query query = session.createQuery(hql);
+List results = query.list();
+</code></pre><p>AS 语句</p>
+<p>在 HQL 中 AS 语句能够用来给你的类分配别名，尤其是在长查询的情况下。例如，我们之前的例子，可以用如下方式展示：</p>
+<pre><code>String hql = &quot;FROM Employee AS E&quot;;
+Query query = session.createQuery(hql);
+List results = query.list();
+</code></pre><p>关键字 AS 是可选择的并且你也可以在类名后直接指定一个别名，如下：</p>
+<pre><code>String hql = &quot;FROM Employee E&quot;;
+Query query = session.createQuery(hql);
+List results = query.list();
+</code></pre><p>SELECT 语句</p>
+<p>SELECT 语句比 from 语句提供了更多的对结果集的控制。如果你只想得到对象的几个属性而不是整个对象你需要使用 SELECT 语句。下面是一个 SELECT 语句的简单语法示例，这个例子是为了得到 Employee 对象的 first_name 字段：</p>
+<pre><code>String hql = &quot;SELECT E.firstName FROM Employee E&quot;;
+Query query = session.createQuery(hql);
+List results = query.list();
+</code></pre><p>值得注意的是 Employee.firstName 是 Employee 对象的属性，而不是一个 EMPLOYEE 表的字段。</p>
+<p>WHERE 语句</p>
+<p>如果你想要精确地从数据库存储中返回特定对象，你需要使用 WHERE 语句。下面是 WHERE 语句的简单语法例子：</p>
+<pre><code>String hql = &quot;FROM Employee E WHERE E.id = 10&quot;;
+Query query = session.createQuery(hql);
+List results = query.list();
+</code></pre><p>ORDER BY 语句</p>
+<p>为了给 HSQ 查询结果进行排序，你将需要使用 ORDER BY 语句。你能利用任意一个属性给你的结果进行排序，包括升序或降序排序。下面是一个使用 ORDER BY 语句的简单示例：</p>
+<pre><code>String hql = &quot;FROM Employee E WHERE E.id &gt; 10 ORDER BY E.salary DESC&quot;;
+Query query = session.createQuery(hql);
+List results = query.list();
+</code></pre><p>如果你想要给多个属性进行排序，你只需要在 ORDER BY 语句后面添加你要进行排序的属性即可，并且用逗号进行分割：</p>
+<pre><code>String hql = &quot;FROM Employee E WHERE E.id &gt; 10 &quot; +
+             &quot;ORDER BY E.firstName DESC, E.salary DESC &quot;;
+Query query = session.createQuery(hql);
+List results = query.list();
+</code></pre><p>GROUP BY 语句</p>
+<p>这一语句允许 Hibernate 将信息从数据库中提取出来，并且基于某种属性的值将信息进行编组,通常而言,该语句会使用得到的结果来包含一个聚合值。下面是一个简单的使用 GROUP BY 语句的语法:</p>
+<pre><code>String hql = &quot;SELECT SUM(E.salary), E.firtName FROM Employee E &quot; +
+             &quot;GROUP BY E.firstName&quot;;
+Query query = session.createQuery(hql);
+List results = query.list();
+</code></pre><p>使用命名参数</p>
+<p>Hibernate 的 HQL 查询功能支持命名参数。这使得 HQL 查询功能既能接受来自用户的简单输入，又无需防御 SQL 注入攻击。下面是使用命名参数的简单的语法:</p>
+<pre><code>String hql = &quot;FROM Employee E WHERE E.id = :employee_id&quot;;
+Query query = session.createQuery(hql);
+query.setParameter(&quot;employee_id&quot;,10);
+List results = query.list();
+</code></pre><p>UPDATE 语句</p>
+<p>HQL Hibernate 3 较 HQL Hibernate 2，新增了批量更新功能和选择性删除工作的功能。查询接口包含一个 executeUpdate() 方法，可以执行 HQL 的 UPDATE 或 DELETE 语句。</p>
+<p>UPDATE 语句能够更新一个或多个对象的一个或多个属性。下面是使用 UPDATE 语句的简单的语法:</p>
+<pre><code>String hql = &quot;UPDATE Employee set salary = :salary &quot;  + 
+             &quot;WHERE id = :employee_id&quot;;
+Query query = session.createQuery(hql);
+query.setParameter(&quot;salary&quot;, 1000);
+query.setParameter(&quot;employee_id&quot;, 10);
+int result = query.executeUpdate();
+System.out.println(&quot;Rows affected: &quot; + result);
+</code></pre><p>DELETE 语句</p>
+<p>DELETE 语句可以用来删除一个或多个对象。以下是使用 DELETE 语句的简单语法：</p>
+<pre><code>String hql = &quot;DELETE FROM Employee &quot;  + 
+             &quot;WHERE id = :employee_id&quot;;
+Query query = session.createQuery(hql);
+query.setParameter(&quot;employee_id&quot;, 10);
+int result = query.executeUpdate();
+System.out.println(&quot;Rows affected: &quot; + result);
+</code></pre><p>INSERT 语句</p>
+<p>HQL 只有当记录从一个对象插入到另一个对象时才支持 INSERT INTO 语句。下面是使用 INSERT INTO 语句的简单的语法:</p>
+<pre><code>String hql = &quot;INSERT INTO Employee(firstName, lastName, salary)&quot;  + 
+             &quot;SELECT firstName, lastName, salary FROM old_employee&quot;;
+Query query = session.createQuery(hql);
+int result = query.executeUpdate();
+System.out.println(&quot;Rows affected: &quot; + result);
+</code></pre><p>聚合方法</p>
+<p>HQL 类似于 SQL，支持一系列的聚合方法,它们以同样的方式在 HQL 和 SQL 中工作，以下列出了几种可用方法：</p>
+<p>  S.N.    方法                           描述<br>  1       avg(property name)           属性的平均值<br>  2       count(property name or *)    属性在结果中出现的次数<br>  3       max(property name)           属性值的最大值<br>  4       min(property name)           属性值的最小值<br>  5       sum(property name)           属性值的总和     </p>
+<p>distinct 关键字表示只计算行集中的唯一值。下面的查询只计算唯一的值:</p>
+<pre><code>String hql = &quot;SELECT count(distinct E.firstName) FROM Employee E&quot;;
+Query query = session.createQuery(hql);
+List results = query.list();
+</code></pre><p>使用分页查询</p>
+<p>以下为两种分页查询界面的方法：</p>
+<p>  S.N.    方法&amp;描述<br>  1       Query setFirstResult(int startPosition) 该方法以一个整数表示结果中的第一行,从 0 行开始。<br>  2       Query setMaxResults(int maxResult) 这个方法告诉 Hibernate 来检索固定数量，即 maxResults 个对象。</p>
+<p>使用以上两种方法，我们可以在我们的 web 或 Swing 应用程序中构造一个分页组件。下面是示例,您可以扩展到每次取 10 行:</p>
+<pre><code>String hql = &quot;FROM Employee&quot;;
+Query query = session.createQuery(hql);
+query.setFirstResult(1);
+query.setMaxResults(10);
+List results = query.list();
+</code></pre><p>标准查询</p>
+<p>Hibernate 提供了操纵对象和相应的 RDBMS 表中可用的数据的替代方法。一种方法是标准的 API，它允许你建立一个标准的可编程查询对象来应用过滤规则和逻辑条件。</p>
+<p>Hibernate Session 接口提供了 createCriteria() 方法，可用于创建一个 Criteria 对象，使当您的应用程序执行一个标准查询时返回一个持久化对象的类的实例。</p>
+<p>以下是一个最简单的标准查询的例子，它只是简单地返回对应于员工类的每个对象：</p>
+<pre><code>Criteria cr = session.createCriteria(Employee.class);  
+List results = cr.list();  
+</code></pre><p>对标准的限制</p>
+<p>你可以使用 Criteria 对象可用的 add() 方法去添加一个标准查询的限制。</p>
+<p>以下是一个示例，它实现了添加一个限制，令返回工资等于 2000 的记录：</p>
+<pre><code>Criteria cr = session.createCriteria(Employee.class);    
+cr.add(Restrictions.eq(&quot;salary&quot;, 2000));    
+List results = cr.list();  
+</code></pre><p>以下是几个例子，涵盖了不同的情况，可按要求进行使用：</p>
+<pre><code>Criteria cr = session.createCriteria(Employee.class);
+
+// To get records having salary more than 2000
+cr.add(Restrictions.gt(&quot;salary&quot;, 2000));
+
+// To get records having salary less than 2000
+cr.add(Restrictions.lt(&quot;salary&quot;, 2000));
+
+// To get records having fistName starting with zara
+cr.add(Restrictions.like(&quot;firstName&quot;, &quot;zara%&quot;));
+
+// Case sensitive form of the above restriction.
+cr.add(Restrictions.ilike(&quot;firstName&quot;, &quot;zara%&quot;));
+
+// To get records having salary in between 1000 and 2000
+cr.add(Restrictions.between(&quot;salary&quot;, 1000, 2000));
+
+// To check if the given property is null
+cr.add(Restrictions.isNull(&quot;salary&quot;));
+
+// To check if the given property is not null
+cr.add(Restrictions.isNotNull(&quot;salary&quot;));
+
+// To check if the given property is empty
+cr.add(Restrictions.isEmpty(&quot;salary&quot;));
+
+// To check if the given property is not empty
+cr.add(Restrictions.isNotEmpty(&quot;salary&quot;));
+</code></pre><p>你可以模仿以下示例，使用逻辑表达式创建 AND 或 OR 的条件组合：</p>
+<pre><code>Criteria cr = session.createCriteria(Employee.class);
+
+Criterion salary = Restrictions.gt(&quot;salary&quot;, 2000);
+Criterion name = Restrictions.ilike(&quot;firstNname&quot;,&quot;zara%&quot;);
+
+// To get records matching with OR condistions
+LogicalExpression orExp = Restrictions.or(salary, name);
+cr.add( orExp );
+
+// To get records matching with AND condistions
+LogicalExpression andExp = Restrictions.and(salary, name);
+cr.add( andExp );
+
+List results = cr.list();
+</code></pre><p>另外，上述所有的条件都可按之前的教程中解释的那样与 HQL 直接使用。</p>
+<p>分页使用标准</p>
+<p>这里有两种分页标准接口方法：</p>
+<p>  序号      方法描述<br>  1       public Criteria setFirstResult(int firstResult)，这种方法需要一个代表你的结果集的第一行的整数，以第 0 行为开始。<br>  2       public Criteria setMaxResults(int maxResults)，这个方法设置了 Hibernate 检索对象的 maxResults。</p>
+<p>利用上述两种方法结合在一起，我们可以在我们的 Web 或 Swing 应用程序构建一个分页组件。以下是一个例子，利用它你可以一次取出 10 行：</p>
+<pre><code>Criteria cr = session.createCriteria(Employee.class);
+cr.setFirstResult(1);
+cr.setMaxResults(10);
+List results = cr.list();
+</code></pre><p>排序结果</p>
+<p>标准 API 提供了 org.hibernate.criterion.order 类可以去根据你的一个对象的属性把你的排序结果集按升序或降序排列。这个例子演示了如何使用 Order 类对结果集进行排序：</p>
+<pre><code>Criteria cr = session.createCriteria(Employee.class);
+// To get records having salary more than 2000
+cr.add(Restrictions.gt(&quot;salary&quot;, 2000));
+
+// To sort records in descening order
+crit.addOrder(Order.desc(&quot;salary&quot;));
+
+// To sort records in ascending order
+crit.addOrder(Order.asc(&quot;salary&quot;));
+
+List results = cr.list();  
+</code></pre><p>预测与聚合</p>
+<p>标准 API 提供了 org.hibernate.criterion.projections 类可得到各属性值的平均值，最大值或最小值。Projections 类与 Restrictions 类相似，均提供了几个获取预测实例的静态工厂方法。</p>
+<p>以下是几个例子，涵盖了不同的情况，可按要求进行使用：</p>
+<pre><code>Criteria cr = session.createCriteria(Employee.class);
+
+// To get total row count.
+cr.setProjection(Projections.rowCount());
+
+// To get average of a property.
+cr.setProjection(Projections.avg(&quot;salary&quot;));
+
+// To get distinct count of a property.
+cr.setProjection(Projections.countDistinct(&quot;firstName&quot;));
+
+// To get maximum of a property.
+cr.setProjection(Projections.max(&quot;salary&quot;));
+
+// To get minimum of a property.
+cr.setProjection(Projections.min(&quot;salary&quot;));
+
+// To get sum of a property.
+cr.setProjection(Projections.sum(&quot;salary&quot;));  
+</code></pre><p>标准查询示例</p>
+<p>考虑下面的 POJO 类：</p>
+<pre><code>public class Employee {
+   private int id;
+   private String firstName; 
+   private String lastName;   
+   private int salary;  
+
+   public Employee() {}
+   public Employee(String fname, String lname, int salary) {
+      this.firstName = fname;
+      this.lastName = lname;
+      this.salary = salary;
+   }
+   public int getId() {
+      return id;
+   }
+   public void setId( int id ) {
+      this.id = id;
+   }
+   public String getFirstName() {
+      return firstName;
+   }
+   public void setFirstName( String first_name ) {
+      this.firstName = first_name;
+   }
+   public String getLastName() {
+      return lastName;
+   }
+   public void setLastName( String last_name ) {
+      this.lastName = last_name;
+   }
+   public int getSalary() {
+      return salary;
+   }
+   public void setSalary( int salary ) {
+      this.salary = salary;
+   }
+}
+</code></pre><p>让我们创建以下员工表来存储 Employee 对象：</p>
+<pre><code>create table EMPLOYEE (
+   id INT NOT NULL auto_increment,
+   first_name VARCHAR(20) default NULL,
+   last_name  VARCHAR(20) default NULL,
+   salary     INT  default NULL,
+   PRIMARY KEY (id)
+);
+</code></pre><p>以下是映射文件：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;!DOCTYPE hibernate-mapping PUBLIC 
+ &quot;-//Hibernate/Hibernate Mapping DTD//EN&quot;
+ &quot;http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd&quot;&gt; 
+
+&lt;hibernate-mapping&gt;
+   &lt;class name=&quot;Employee&quot; table=&quot;EMPLOYEE&quot;&gt;
+      &lt;meta attribute=&quot;class-description&quot;&gt;
+         This class contains the employee detail. 
+      &lt;/meta&gt;
+      &lt;id name=&quot;id&quot; type=&quot;int&quot; column=&quot;id&quot;&gt;
+         &lt;generator class=&quot;native&quot;/&gt;
+      &lt;/id&gt;
+      &lt;property name=&quot;firstName&quot; column=&quot;first_name&quot; type=&quot;string&quot;/&gt;
+      &lt;property name=&quot;lastName&quot; column=&quot;last_name&quot; type=&quot;string&quot;/&gt;
+      &lt;property name=&quot;salary&quot; column=&quot;salary&quot; type=&quot;int&quot;/&gt;
+   &lt;/class&gt;
+&lt;/hibernate-mapping&gt;  
+</code></pre><p>最后，我们将用 main() 方法创建应用程序类来运行应用程序，我们将使用 Criteria 查询：</p>
+<pre><code>import java.util.List; 
+import java.util.Date;
+import java.util.Iterator; 
+
+import org.hibernate.HibernateException; 
+import org.hibernate.Session; 
+import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Projections;
+import org.hibernate.cfg.Configuration;
+
+public class ManageEmployee {
+   private static SessionFactory factory; 
+   public static void main(String[] args) {
+      try{
+         factory = new Configuration().configure().buildSessionFactory();
+      }catch (Throwable ex) { 
+         System.err.println(&quot;Failed to create sessionFactory object.&quot; + ex);
+         throw new ExceptionInInitializerError(ex); 
+      }
+      ManageEmployee ME = new ManageEmployee();
+
+      /* Add few employee records in database */
+      Integer empID1 = ME.addEmployee(&quot;Zara&quot;, &quot;Ali&quot;, 2000);
+      Integer empID2 = ME.addEmployee(&quot;Daisy&quot;, &quot;Das&quot;, 5000);
+      Integer empID3 = ME.addEmployee(&quot;John&quot;, &quot;Paul&quot;, 5000);
+      Integer empID4 = ME.addEmployee(&quot;Mohd&quot;, &quot;Yasee&quot;, 3000);
+
+      /* List down all the employees */
+      ME.listEmployees();
+
+      /* Print Total employee&apos;s count */
+      ME.countEmployee();
+
+      /* Print Toatl salary */
+      ME.totalSalary();
+   }
+   /* Method to CREATE an employee in the database */
+   public Integer addEmployee(String fname, String lname, int salary){
+      Session session = factory.openSession();
+      Transaction tx = null;
+      Integer employeeID = null;
+      try{
+         tx = session.beginTransaction();
+         Employee employee = new Employee(fname, lname, salary);
+         employeeID = (Integer) session.save(employee); 
+         tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+      return employeeID;
+   }
+
+   /* Method to  READ all the employees having salary more than 2000 */
+   public void listEmployees( ){
+      Session session = factory.openSession();
+      Transaction tx = null;
+      try{
+         tx = session.beginTransaction();
+         Criteria cr = session.createCriteria(Employee.class);
+         // Add restriction.
+         cr.add(Restrictions.gt(&quot;salary&quot;, 2000));
+         List employees = cr.list();
+
+         for (Iterator iterator = 
+                           employees.iterator(); iterator.hasNext();){
+            Employee employee = (Employee) iterator.next(); 
+            System.out.print(&quot;First Name: &quot; + employee.getFirstName()); 
+            System.out.print(&quot;  Last Name: &quot; + employee.getLastName()); 
+            System.out.println(&quot;  Salary: &quot; + employee.getSalary()); 
+         }
+         tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+   }
+   /* Method to print total number of records */
+   public void countEmployee(){
+      Session session = factory.openSession();
+      Transaction tx = null;
+      try{
+         tx = session.beginTransaction();
+         Criteria cr = session.createCriteria(Employee.class);
+
+         // To get total row count.
+         cr.setProjection(Projections.rowCount());
+         List rowCount = cr.list();
+
+         System.out.println(&quot;Total Coint: &quot; + rowCount.get(0) );
+         tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+   }
+  /* Method to print sum of salaries */
+   public void totalSalary(){
+      Session session = factory.openSession();
+      Transaction tx = null;
+      try{
+         tx = session.beginTransaction();
+         Criteria cr = session.createCriteria(Employee.class);
+
+         // To get total salary.
+         cr.setProjection(Projections.sum(&quot;salary&quot;));
+         List totalSalary = cr.list();
+
+         System.out.println(&quot;Total Salary: &quot; + totalSalary.get(0) );
+         tx.commit();
+      }catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      }finally {
+         session.close(); 
+      }
+   }
+}  
+</code></pre><p>编译和执行</p>
+<p>这是编译并运行上述应用程序的步骤。确保你有适当的 PATH 和 CLASSPATH，然后执行编译程序。</p>
+<ul>
+<li>按照在配置一章讲述的方法创建 hibernate.cfg.xml 配置文件。</li>
+<li>如上述所示创建 employee.hbm.xml 映射文件。</li>
+<li>如上述所示创建 employee.java 源文件并编译。</li>
+<li>如上述所示创建 manageemployee.java 源文件并编译。</li>
+<li>执行 manageemployee 二进制代码运行程序。</li>
+</ul>
+<p>你会得到下面的结果，并且记录将会在 EMPLOYEE 表创建。</p>
+<pre><code>$java ManageEmployee
+.......VARIOUS LOG MESSAGES WILL DISPLAY HERE........
+
+First Name: Daisy  Last Name: Das  Salary: 5000
+First Name: John  Last Name: Paul  Salary: 5000
+First Name: Mohd  Last Name: Yasee  Salary: 3000
+Total Coint: 4
+Total Salary: 15000
+</code></pre><p>如果你检查你的 EMPLOYEE 表，它应该有以下记录：</p>
+<pre><code>mysql&gt; select * from EMPLOYEE;
++----+------------+-----------+--------+
+| id | first_name | last_name | salary |
++----+------------+-----------+--------+
+| 14 | Zara       | Ali       |   2000 |
+| 15 | Daisy      | Das       |   5000 |
+| 16 | John       | Paul      |   5000 |
+| 17 | Mohd       | Yasee     |   3000 |
++----+------------+-----------+--------+
+4 rows in set (0.00 sec)
+mysql&gt;  
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/15/初识Servlet/" rel="next" title="初识Servlet">
+                <i class="fa fa-chevron-left"></i> 初识Servlet
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://img-1253359776.cosgz.myqcloud.com/yz.png"
+               alt="Yz" />
+          <p class="site-author-name" itemprop="name">Yz</p>
+           
+              <p class="site-description motion-element" itemprop="description">人从爱欲生忧，从忧生畏。无爱即无忧，不忧即无畏</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">Tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yz</span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("xTUrAIUh7isMpPUhVDHA60te-gzGzoHsz", "fduOR9IR2OS1WAqNbrHWBh8w");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
