@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Java," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -87,16 +87,19 @@
 
 
 
-<meta name="description" content="二维码的生成与解析Q:如何生成二维码?">
+<meta name="description" content="单例模式懒汉式，线程不安全当被问到要实现一个单例模式时，很多人的第一反应是写出如下的代码，包括教科书上也是这样教我们的。
+1234567891011public class Singleton &amp;#123;    private static Singleton instance;    private Singleton ()&amp;#123;&amp;#125;    public static Singl">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java二维码生成与解析">
-<meta property="og:url" content="https://scnuyz.github.io/2017/03/15/Java二维码生成与解析/index.html">
+<meta property="og:title" content="单例模式">
+<meta property="og:url" content="https://scnuyz.github.io/2017/03/22/单例模式/index.html">
 <meta property="og:site_name" content="泳智的博客">
-<meta property="og:description" content="二维码的生成与解析Q:如何生成二维码?">
-<meta property="og:updated_time" content="2017-03-15T03:03:59.737Z">
+<meta property="og:description" content="单例模式懒汉式，线程不安全当被问到要实现一个单例模式时，很多人的第一反应是写出如下的代码，包括教科书上也是这样教我们的。
+1234567891011public class Singleton &amp;#123;    private static Singleton instance;    private Singleton ()&amp;#123;&amp;#125;    public static Singl">
+<meta property="og:updated_time" content="2017-03-22T11:54:54.103Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java二维码生成与解析">
-<meta name="twitter:description" content="二维码的生成与解析Q:如何生成二维码?">
+<meta name="twitter:title" content="单例模式">
+<meta name="twitter:description" content="单例模式懒汉式，线程不安全当被问到要实现一个单例模式时，很多人的第一反应是写出如下的代码，包括教科书上也是这样教我们的。
+1234567891011public class Singleton &amp;#123;    private static Singleton instance;    private Singleton ()&amp;#123;&amp;#125;    public static Singl">
 
 
 
@@ -124,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="https://scnuyz.github.io/2017/03/15/Java二维码生成与解析/"/>
+  <link rel="canonical" href="https://scnuyz.github.io/2017/03/22/单例模式/"/>
 
 
 
 
 
-  <title> Java二维码生成与解析 | 泳智的博客 </title>
+  <title> 单例模式 | 泳智的博客 </title>
 </head>
   
   
@@ -500,7 +503,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/03/15/Java二维码生成与解析/">
+    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/03/22/单例模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Yz">
@@ -521,7 +524,7 @@
             
             
               
-                Java二维码生成与解析
+                单例模式
               
             
           </h1>
@@ -536,8 +539,8 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-15T10:59:52+08:00">
-                2017-03-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-22T19:54:26+08:00">
+                2017-03-22
               </time>
             
 
@@ -554,7 +557,7 @@
 
           
           
-             <span id="/2017/03/15/Java二维码生成与解析/" class="leancloud_visitors" data-flag-title="Java二维码生成与解析">
+             <span id="/2017/03/22/单例模式/" class="leancloud_visitors" data-flag-title="单例模式">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -583,29 +586,38 @@
       
 
       
-        <h2 id="二维码的生成与解析"><a href="#二维码的生成与解析" class="headerlink" title="二维码的生成与解析"></a>二维码的生成与解析</h2><p><strong>Q:如何生成二维码?</strong><br><a id="more"></a><br><strong>A:</strong><br>这里用到了google的zxing</p>
-<p><a href="https://github.com/zxing/zxing" target="_blank" rel="external">这里贴上github的地址https://github.com/zxing/zxing</a></p>
-<p>这里先贴上生成的二维码的代码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.File;   </div><div class="line"><span class="keyword">import</span> java.nio.file.Path;</div><div class="line"><span class="keyword">import</span> java.util.Hashtable;   </div><div class="line"></div><div class="line"><span class="keyword">import</span> com.google.zxing.BarcodeFormat;   </div><div class="line"><span class="keyword">import</span> com.google.zxing.EncodeHintType;   </div><div class="line"><span class="keyword">import</span> com.google.zxing.MultiFormatWriter;   </div><div class="line"><span class="keyword">import</span> com.google.zxing.client.j2se.MatrixToImageWriter;   </div><div class="line"><span class="keyword">import</span> com.google.zxing.common.BitMatrix;   </div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QRcode</span> </span>&#123;   </div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String []args)</span><span class="keyword">throws</span> Exception</span>&#123;   </div><div class="line">        String text = <span class="string">"我是你爸爸"</span>;   </div><div class="line">        <span class="keyword">int</span> width = <span class="number">300</span>;   </div><div class="line">        <span class="keyword">int</span> height = <span class="number">300</span>;   </div><div class="line">        String format = <span class="string">"png"</span>;   </div><div class="line">        Hashtable hints= <span class="keyword">new</span> Hashtable();   </div><div class="line">        hints.put(EncodeHintType.CHARACTER_SET, <span class="string">"utf-8"</span>);   </div><div class="line">         BitMatrix bitMatrix = <span class="keyword">new</span> MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height,hints);           </div><div class="line">         Path file = <span class="keyword">new</span> File(<span class="string">"D:/code/img.png"</span>).toPath();         </div><div class="line">         MatrixToImageWriter.writeToPath(bitMatrix, format, file);   </div><div class="line"></div><div class="line">    &#125;   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<hr>
-<p><strong>Q:为什么我这里会出现找不到Path类的错误？</strong></p>
-<p><strong>A:</strong><br>这个问题我也同样遇到过，其实只是jdk的版本问题，7以上 的版本都可以的。别忘了导入jar包喔！</p>
-<hr>
-<p><strong>Q:为什么我的文本是一个地址链接，扫出来没有跳转而只是显示地址文本？</strong></p>
-<p><strong>A:</strong><br>这个只要你加上<a href="http://这个就可以了，不信你试一下！" target="_blank" rel="external">http://这个就可以了，不信你试一下！</a></p>
-<hr>
-<p><strong>Q:那么，要如何解析二维码呢？</strong></p>
-<p><strong>A:</strong></p>
-<p>不多说，贴个代码先</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.awt.image.BufferedImage;</div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.util.HashMap;</div><div class="line"><span class="keyword">import</span> java.util.Hashtable;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.imageio.ImageIO;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.google.zxing.BinaryBitmap;</div><div class="line"><span class="keyword">import</span> com.google.zxing.EncodeHintType;</div><div class="line"><span class="keyword">import</span> com.google.zxing.MultiFormatReader;</div><div class="line"><span class="keyword">import</span> com.google.zxing.NotFoundException;</div><div class="line"><span class="keyword">import</span> com.google.zxing.Result;</div><div class="line"><span class="keyword">import</span> com.google.zxing.client.j2se.BufferedImageLuminanceSource;</div><div class="line"><span class="keyword">import</span> com.google.zxing.common.HybridBinarizer;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReadQR</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            com.google.zxing.MultiFormatReader formatReader = <span class="keyword">new</span> MultiFormatReader();</div><div class="line"></div><div class="line">            File file = <span class="keyword">new</span> File(<span class="string">"D:/code/img.png"</span>);</div><div class="line"></div><div class="line">            BufferedImage image = ImageIO.read(file);</div><div class="line"></div><div class="line">            BinaryBitmap binaryBitmap = <span class="keyword">new</span> BinaryBitmap(<span class="keyword">new</span> HybridBinarizer(<span class="keyword">new</span> BufferedImageLuminanceSource(image)));</div><div class="line">            HashMap hints = <span class="keyword">new</span> HashMap();         </div><div class="line">             hints.put(EncodeHintType.CHARACTER_SET, <span class="string">"utf-8"</span>); </div><div class="line">            Result result = formatReader.decode(binaryBitmap,hints);</div><div class="line">            System.out.println(<span class="string">"解析结果："</span>+result.toString());</div><div class="line">            System.out.println(<span class="string">"二维码格式类型："</span>+result.getBarcodeFormat());</div><div class="line">            System.out.println(<span class="string">"二维码文本内容："</span>+result.getText());</div><div class="line">        &#125; <span class="keyword">catch</span> (NotFoundException e) &#123;</div><div class="line">            <span class="comment">// TODO Auto-generated catch block</span></div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">            <span class="comment">// TODO Auto-generated catch block</span></div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>Q:如果我想扫出来是个人名片呢？</strong></p>
-<p><strong>A:</strong></p>
-<p>这个没问题啊，不过他是有一套标准的，用到的是vCard</p>
-<p>关于vcard可以到这里了解<br><a href="https://en.wikipedia.org/wiki/VCard" target="_blank" rel="external">https://en.wikipedia.org/wiki/VCard</a></p>
-<p>一般来说用2.1版本就可以了，</p>
-<p>格式如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">BEGIN:VCARD</div><div class="line">VERSION:2.1</div><div class="line">N:Gump;Forrest;;Mr.</div><div class="line">FN:Forrest Gump</div><div class="line">ORG:Bubba Gump Shrimp Co.</div><div class="line">TITLE:Shrimp Man</div><div class="line">PHOTO;GIF:http://www.example.com/dir_photos/my_photo.gif</div><div class="line">TEL;WORK;VOICE:(111) 555-1212</div><div class="line">TEL;HOME;VOICE:(404) 555-1212</div><div class="line">ADR;WORK;PREF:;;100 Waters Edge;Baytown;LA;30314;United States of America</div><div class="line">LABEL;WORK;PREF;ENCODING=QUOTED-PRINTABLE;CHARSET=UTF-8:100 Waters Edge=0D=</div><div class="line"> =0ABaytown\, LA 30314=0D=0AUnited States of America</div><div class="line">ADR;HOME:;;42 Plantation St.;Baytown;LA;30314;United States of America</div><div class="line">LABEL;HOME;ENCODING=QUOTED-PRINTABLE;CHARSET=UTF-8:42 Plantation St.=0D=0A=</div><div class="line"> Baytown, LA 30314=0D=0AUnited States of America</div><div class="line">EMAIL:forrestgump@example.com</div><div class="line">REV:20080424T195243Z</div><div class="line">END:VCARD</div></pre></td></tr></table></figure>
-<p>把上面生二维码成时content的值按上面vcard的格式写的行了，换行记得加上”\n”</p>
+        <h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><h2 id="懒汉式，线程不安全"><a href="#懒汉式，线程不安全" class="headerlink" title="懒汉式，线程不安全"></a>懒汉式，线程不安全</h2><p>当被问到要实现一个单例模式时，很多人的第一反应是写出如下的代码，包括教科书上也是这样教我们的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span> <span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">     <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">         instance = <span class="keyword">new</span> Singleton();</div><div class="line">     &#125;</div><div class="line">     <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>这段代码简单明了，而且使用了懒加载模式，但是却存在致命的问题。当有多个线程并行调用 getInstance() 的时候，就会创建多个实例。也就是说在多线程下不能正常工作。</p>
+<h2 id="懒汉式，线程安全"><a href="#懒汉式，线程安全" class="headerlink" title="懒汉式，线程安全"></a>懒汉式，线程安全</h2><p>为了解决上面的问题，最简单的方法是将整个 getInstance() 方法设为同步（synchronized）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">        instance = <span class="keyword">new</span> Singleton();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> instance;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>虽然做到了线程安全，并且解决了多实例的问题，但是它并不高效。因为在任何时候只能有一个线程调用 getInstance() 方法。但是同步操作只需要在第一次调用时才被需要，即第一次创建单例实例对象时。这就引出了双重检验锁。</p>
+<h2 id="双重检验锁"><a href="#双重检验锁" class="headerlink" title="双重检验锁"></a>双重检验锁</h2><p>双重检验锁模式（double checked locking pattern），是一种使用同步块加锁的方法。程序员称其为双重检查锁，因为会有两次检查 <code>instance == null</code>，一次是在同步块外，一次是在同步块内。为什么在同步块内还要再检验一次？因为可能会有多个线程一起进入同步块外的 if，如果在同步块内不进行二次检验的话就会生成多个实例了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getSingleton</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;                         <span class="comment">//Single Checked</span></div><div class="line">        <span class="keyword">synchronized</span> (Singleton.class) &#123;</div><div class="line">            <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;                 <span class="comment">//Double Checked</span></div><div class="line">                instance = <span class="keyword">new</span> Singleton();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> instance ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这段代码看起来很完美，很可惜，它是有问题。主要在于<code>instance = new Singleton()</code>这句，这并非是一个原子操作，事实上在 JVM 中这句话大概做了下面 3 件事情。</p>
+<ol>
+<li>给 instance 分配内存</li>
+<li>调用 Singleton 的构造函数来初始化成员变量</li>
+<li>将instance对象指向分配的内存空间（执行完这步 instance 就为非 null 了）</li>
+</ol>
+<p>但是在 JVM 的即时编译器中存在指令重排序的优化。也就是说上面的第二步和第三步的顺序是不能保证的，最终的执行顺序可能是 1-2-3 也可能是 1-3-2。如果是后者，则在 3 执行完毕、2 未执行之前，被线程二抢占了，这时 instance 已经是非 null 了（但却没有初始化），所以线程二会直接返回 instance，然后使用，然后顺理成章地报错。</p>
+<p>我们只需要将 instance 变量声明成 volatile 就可以了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton instance; <span class="comment">//声明成 volatile</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span> <span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getSingleton</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;                         </div><div class="line">            <span class="keyword">synchronized</span> (Singleton.class) &#123;</div><div class="line">                <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;       </div><div class="line">                    instance = <span class="keyword">new</span> Singleton();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>有些人认为使用 volatile 的原因是可见性，也就是可以保证线程在本地不会存有 instance 的副本，每次都是去主内存中读取。但其实是不对的。使用 volatile 的主要原因是其另一个特性：禁止指令重排序优化。也就是说，在 volatile 变量的赋值操作后面会有一个内存屏障（生成的汇编代码上），读操作不会被重排序到内存屏障之前。比如上面的例子，取操作必须在执行完 1-2-3 之后或者 1-3-2 之后，不存在执行到 1-3 然后取到值的情况。从「先行发生原则」的角度理解的话，就是对于一个 volatile 变量的写操作都先行发生于后面对这个变量的读操作（这里的“后面”是时间上的先后顺序）。</p>
+<p>但是特别注意在 Java 5 以前的版本使用了 volatile 的双检锁还是有问题的。其原因是 Java 5 以前的 JMM （Java 内存模型）是存在缺陷的，即时将变量声明成 volatile 也不能完全避免重排序，主要是 volatile 变量前后的代码仍然存在重排序问题。这个 volatile 屏蔽重排序的问题在 Java 5 中才得以修复，所以在这之后才可以放心使用 volatile。</p>
+<p>相信你不会喜欢这种复杂又隐含问题的方式，当然我们有更好的实现线程安全的单例模式的办法。</p>
+<h2 id="饿汉式-static-final-field"><a href="#饿汉式-static-final-field" class="headerlink" title="饿汉式 static final field"></a>饿汉式 static final field</h2><p>这种方法非常简单，因为单例的实例被声明成 static 和 final 变量了，在第一次加载类到内存中时就会初始化，所以创建实例本身是线程安全的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</div><div class="line">    <span class="comment">//类加载时就初始化</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton instance = <span class="keyword">new</span> Singleton();</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这种写法如果完美的话，就没必要在啰嗦那么多双检锁的问题了。缺点是它不是一种懒加载模式（lazy initialization），单例会在加载类后一开始就被初始化，即使客户端没有调用 getInstance()方法。饿汉式的创建方式在一些场景中将无法使用：譬如 Singleton 实例的创建是依赖参数或者配置文件的，在 getInstance() 之前必须调用某个方法设置参数给它，那样这种单例写法就无法使用了。</p>
+<h2 id="静态内部类-static-nested-class"><a href="#静态内部类-static-nested-class" class="headerlink" title="静态内部类 static nested class"></a>静态内部类 static nested class</h2><p>我比较倾向于使用静态内部类的方法，这种方法也是《Effective Java》上所推荐的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;  </div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonHolder</span> </span>&#123;  </div><div class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();  </div><div class="line">    &#125;  </div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span> <span class="params">()</span></span>&#123;&#125;  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> SingletonHolder.INSTANCE; </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这种写法仍然使用JVM本身机制保证了线程安全问题；由于 SingletonHolder 是私有的，除了 getInstance() 之外没有办法访问它，因此它是懒汉式的；同时读取实例的时候不会进行同步，没有性能缺陷；也不依赖 JDK 版本。</p>
+<h2 id="枚举-Enum"><a href="#枚举-Enum" class="headerlink" title="枚举 Enum"></a>枚举 Enum</h2><p>用枚举写单例实在太简单了！这也是它最大的优点。下面这段代码就是声明枚举实例的通常做法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">enum</span> EasySingleton&#123;</div><div class="line">    INSTANCE;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们可以通过EasySingleton.INSTANCE来访问实例，这比调用getInstance()方法简单多了。创建枚举默认就是线程安全的，所以不需要担心double checked locking，而且还能防止反序列化导致重新创建新的对象。但是还是很少看到有人这样写，可能是因为不太熟悉吧。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一般来说，单例模式有五种写法：懒汉、饿汉、双重检验锁、静态内部类、枚举。上述所说都是线程安全的实现，文章开头给出的第一种方法不算正确的写法。</p>
+<p>就我个人而言，一般情况下直接使用饿汉式就好了，如果明确要求要懒加载（lazy initialization）会倾向于使用静态内部类，如果涉及到反序列化创建对象时会试着使用枚举的方式来实现单例。</p>
 
       
     </div>
@@ -633,12 +645,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Java/" rel="tag"># Java</a>
-          
-        </div>
-      
 
       
         
@@ -648,8 +654,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/15/Java匿名内部类/" rel="next" title="Java匿名内部类">
-                <i class="fa fa-chevron-left"></i> Java匿名内部类
+              <a href="/2017/03/19/Git的使用/" rel="next" title="Git的使用">
+                <i class="fa fa-chevron-left"></i> Git的使用
               </a>
             
           </div>
@@ -657,10 +663,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/15/初识xml/" rel="prev" title="初识xml">
-                初识xml <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -780,7 +782,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#二维码的生成与解析"><span class="nav-number">1.</span> <span class="nav-text">二维码的生成与解析</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#单例模式"><span class="nav-number">1.</span> <span class="nav-text">单例模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#懒汉式，线程不安全"><span class="nav-number">1.1.</span> <span class="nav-text">懒汉式，线程不安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#懒汉式，线程安全"><span class="nav-number">1.2.</span> <span class="nav-text">懒汉式，线程安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双重检验锁"><span class="nav-number">1.3.</span> <span class="nav-text">双重检验锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#饿汉式-static-final-field"><span class="nav-number">1.4.</span> <span class="nav-text">饿汉式 static final field</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态内部类-static-nested-class"><span class="nav-number">1.5.</span> <span class="nav-text">静态内部类 static nested class</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#枚举-Enum"><span class="nav-number">1.6.</span> <span class="nav-text">枚举 Enum</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.7.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
             
 
           </div>
