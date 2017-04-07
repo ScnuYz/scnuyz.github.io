@@ -87,15 +87,19 @@
 
 
 
-<meta name="description" content="人从爱欲生忧，从忧生畏。无爱即无忧，不忧即无畏">
-<meta property="og:type" content="website">
-<meta property="og:title" content="泳智的博客">
-<meta property="og:url" content="https://scnuyz.github.io/tags/JSON/index.html">
+<meta name="description" content="线程绑定可以通过一个线程，跨层面传递数据
+譬如，在C类中往线程存入一个数据，在A类中向线程取得这个数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程绑定">
+<meta property="og:url" content="https://scnuyz.github.io/2017/04/07/线程绑定/index.html">
 <meta property="og:site_name" content="泳智的博客">
-<meta property="og:description" content="人从爱欲生忧，从忧生畏。无爱即无忧，不忧即无畏">
+<meta property="og:description" content="线程绑定可以通过一个线程，跨层面传递数据
+譬如，在C类中往线程存入一个数据，在A类中向线程取得这个数据">
+<meta property="og:updated_time" content="2017-04-07T14:07:13.718Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="泳智的博客">
-<meta name="twitter:description" content="人从爱欲生忧，从忧生畏。无爱即无忧，不忧即无畏">
+<meta name="twitter:title" content="线程绑定">
+<meta name="twitter:description" content="线程绑定可以通过一个线程，跨层面传递数据
+譬如，在C类中往线程存入一个数据，在A类中向线程取得这个数据">
 
 
 
@@ -123,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="https://scnuyz.github.io/tags/JSON/"/>
+  <link rel="canonical" href="https://scnuyz.github.io/2017/04/07/线程绑定/"/>
 
 
 
 
 
-  <title> Tag: JSON | 泳智的博客 </title>
+  <title> 线程绑定 | 泳智的博客 </title>
 </head>
   
   
@@ -255,7 +259,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -489,46 +493,175 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        JSON
-        <small>Tag</small>
-      </h2>
-    </div>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/04/07/线程绑定/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://img-1253359776.cosgz.myqcloud.com/yz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="泳智的博客">
+    </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                线程绑定
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-07T22:04:07+08:00">
+                2017-04-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/04/07/线程绑定/" class="leancloud_visitors" data-flag-title="线程绑定">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <h2 id="线程绑定"><a href="#线程绑定" class="headerlink" title="线程绑定"></a>线程绑定</h2><p>可以通过一个线程，跨层面传递数据</p>
+<p>譬如，在C类中往线程存入一个数据，在A类中向线程取得这个数据</p>
+<a id="more"></a>
+<p>举一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">原来是做一个获取列表页面的功能</div><div class="line">servlet--service (list(页码)) --dao(findList(页码)) </div><div class="line"></div><div class="line">现在需求变更：页面中，增加了按关键字查询功能，按原来的想法，servlet收到关键字参数值后，就要传递给service、dao，就需要修改对应list方法的参数定义，改变了程序的结构，工作量很大。 </div><div class="line"></div><div class="line">但是，我们可以通过线程绑定的做法，在servlet中收到参数值，就把参数值存储（绑定到）在线程中，然后在dao中取出来使用。</div></pre></td></tr></table></figure>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalUtil</span></span>&#123;</div><div class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal&lt;String&gt; keywords = <span class="keyword">new</span> ThreadLocal&lt;String&gt;(); </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getKeywords</span> <span class="params">()</span>  </span>&#123; </div><div class="line">       String var = (String) keywords.get(); </div><div class="line">        <span class="keyword">return</span> var; </div><div class="line">    &#125; </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setKeywords</span> <span class="params">(String _var)</span>  </span>&#123; </div><div class="line">      keywords.set(_var); </div><div class="line">    &#125; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="这里可能会有疑问，ThreadLocal是什么？"><a href="#这里可能会有疑问，ThreadLocal是什么？" class="headerlink" title="这里可能会有疑问，ThreadLocal是什么？"></a>这里可能会有疑问，<code>ThreadLocal</code>是什么？</h3><p><code>ThreadLocal</code>很容易让人望文生义，想当然地认为是一个“本地线程”。其实，<code>ThreadLocal</code>并不是一个<code>Thread</code>，而是<code>Thread</code>的局部变量，也许把它命名为<code>ThreadLocalVariable</code>更容易让人理解一些。</p>
+<p><code>ThreadLocal</code>为解决多线程程序的并发问题提供了一种新的思路。使用这个工具类可以很简洁地编写出优美的多线程程序。</p>
+<p>当使用<code>ThreadLocal</code>维护变量时，<code>ThreadLocal</code>为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本。</p>
+<p><code>ThreadLocal</code>类中有一个<code>Map</code>，用于存储每一个线程的变量副本，<code>Map</code>中元素的键为线程对象，而值对应线程的变量副本，由于<code>Key</code>值不可重复，每一个“线程对象”对应线程的“变量副本”，而到达了线程安全。</p>
+<p>通过ThreadLocal存取的数据，总是与当前线程相关，也就是说，JVM为每个运行的线程，绑定了私有的本地实例存取空间，从而为多线程环境常出现的并发访问题提供了一种隔离机制。 </p>
+<p>使用ThreadLocal可以使对象达到线程隔离的目的。同一个ThreadLocal操作不同的Thread，实质是各个Thread对自己的变量操作。</p>
+<h3 id="联系生活中的实例：员工用车"><a href="#联系生活中的实例：员工用车" class="headerlink" title="联系生活中的实例：员工用车"></a>联系生活中的实例：员工用车</h3><p>同步就是一个公司只有一辆车，员工甲使用的时候其他人只能等待，只有员工甲用完后，其他人才可以使用</p>
+<p>ThreadLocal就是公司为每一个员工配一辆车，每个员工使用自己的车，员工之间用车互不影响，互相不受制约！</p>
 
-      <h1 class="post-title">
+      
+    </div>
+
+    <div>
+      
         
-            <a class="post-title-link" href="/2017/03/15/初识JSON/" itemprop="url">
-              
-                <span itemprop="name">初识JSON</span>
-              
-            </a>
+
+      
+    </div>
+
+    <div>
+      
         
-      </h1>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-03-15T10:47:18+08:00"
-              content="2017-03-15" >
-          03-15
-        </time>
-      </div>
+      
+    </div>
 
-    </header>
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/07/直接插入排序/" rel="next" title="直接插入排序">
+                <i class="fa fa-chevron-left"></i> 直接插入排序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
-  </div>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
           
           </div>
@@ -536,6 +669,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -555,8 +692,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://img-1253359776.cosgz.myqcloud.com/yz.png"
@@ -609,6 +755,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程绑定"><span class="nav-number">1.</span> <span class="nav-text">线程绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#这里可能会有疑问，ThreadLocal是什么？"><span class="nav-number">1.1.</span> <span class="nav-text">这里可能会有疑问，ThreadLocal是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#联系生活中的实例：员工用车"><span class="nav-number">1.2.</span> <span class="nav-text">联系生活中的实例：员工用车</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -721,6 +883,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
