@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Java," />
+  <meta name="keywords" content="排序," />
 
 
 
@@ -87,16 +87,26 @@
 
 
 
-<meta name="description" content="二维码的生成与解析Q:如何生成二维码?">
+<meta name="description" content="快速排序
+“快速排序”的思想很简单，整个排序过程只需要三步：（1）在数据集之中，选择一个元素作为”基准”（pivot）。（2）所有小于”基准”的元素，都移到”基准”的左边；所有大于”基准”的元素，都移到”基准”的右边。（3）对”基准”左边和右边的两个子集，不断重复第一步和第二步，直到所有子集只剩下一个元素为止。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java二维码生成与解析">
-<meta property="og:url" content="https://scnuyz.github.io/2017/03/15/Java二维码生成与解析/index.html">
+<meta property="og:title" content="快速排序">
+<meta property="og:url" content="https://scnuyz.github.io/2017/04/10/快速排序/index.html">
 <meta property="og:site_name" content="泳智的博客">
-<meta property="og:description" content="二维码的生成与解析Q:如何生成二维码?">
-<meta property="og:updated_time" content="2017-03-15T03:03:59.737Z">
+<meta property="og:description" content="快速排序
+“快速排序”的思想很简单，整个排序过程只需要三步：（1）在数据集之中，选择一个元素作为”基准”（pivot）。（2）所有小于”基准”的元素，都移到”基准”的左边；所有大于”基准”的元素，都移到”基准”的右边。（3）对”基准”左边和右边的两个子集，不断重复第一步和第二步，直到所有子集只剩下一个元素为止。">
+<meta property="og:image" content="http://image.beekka.com/blog/201104/bg2011040403.png">
+<meta property="og:image" content="http://image.beekka.com/blog/201104/bg2011040404.png">
+<meta property="og:image" content="http://image.beekka.com/blog/201104/bg2011040405.png">
+<meta property="og:image" content="http://image.beekka.com/blog/201104/bg2011040406.png">
+<meta property="og:image" content="http://image.beekka.com/blog/201104/bg2011040407.png">
+<meta property="og:image" content="http://image.beekka.com/blog/201104/bg2011040408.png">
+<meta property="og:updated_time" content="2017-04-10T09:41:24.371Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java二维码生成与解析">
-<meta name="twitter:description" content="二维码的生成与解析Q:如何生成二维码?">
+<meta name="twitter:title" content="快速排序">
+<meta name="twitter:description" content="快速排序
+“快速排序”的思想很简单，整个排序过程只需要三步：（1）在数据集之中，选择一个元素作为”基准”（pivot）。（2）所有小于”基准”的元素，都移到”基准”的左边；所有大于”基准”的元素，都移到”基准”的右边。（3）对”基准”左边和右边的两个子集，不断重复第一步和第二步，直到所有子集只剩下一个元素为止。">
+<meta name="twitter:image" content="http://image.beekka.com/blog/201104/bg2011040403.png">
 
 
 
@@ -124,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="https://scnuyz.github.io/2017/03/15/Java二维码生成与解析/"/>
+  <link rel="canonical" href="https://scnuyz.github.io/2017/04/10/快速排序/"/>
 
 
 
 
 
-  <title> Java二维码生成与解析 | 泳智的博客 </title>
+  <title> 快速排序 | 泳智的博客 </title>
 </head>
   
   
@@ -500,7 +510,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/03/15/Java二维码生成与解析/">
+    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/04/10/快速排序/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Yz">
@@ -521,7 +531,7 @@
             
             
               
-                Java二维码生成与解析
+                快速排序
               
             
           </h1>
@@ -536,8 +546,8 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-15T10:59:52+08:00">
-                2017-03-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-10T17:39:54+08:00">
+                2017-04-10
               </time>
             
 
@@ -554,7 +564,7 @@
 
           
           
-             <span id="/2017/03/15/Java二维码生成与解析/" class="leancloud_visitors" data-flag-title="Java二维码生成与解析">
+             <span id="/2017/04/10/快速排序/" class="leancloud_visitors" data-flag-title="快速排序">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -583,29 +593,27 @@
       
 
       
-        <h2 id="二维码的生成与解析"><a href="#二维码的生成与解析" class="headerlink" title="二维码的生成与解析"></a>二维码的生成与解析</h2><p><strong>Q:如何生成二维码?</strong><br><a id="more"></a><br><strong>A:</strong><br>这里用到了google的zxing</p>
-<p><a href="https://github.com/zxing/zxing" target="_blank" rel="external">这里贴上github的地址https://github.com/zxing/zxing</a></p>
-<p>这里先贴上生成的二维码的代码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.File;   </div><div class="line"><span class="keyword">import</span> java.nio.file.Path;</div><div class="line"><span class="keyword">import</span> java.util.Hashtable;   </div><div class="line"></div><div class="line"><span class="keyword">import</span> com.google.zxing.BarcodeFormat;   </div><div class="line"><span class="keyword">import</span> com.google.zxing.EncodeHintType;   </div><div class="line"><span class="keyword">import</span> com.google.zxing.MultiFormatWriter;   </div><div class="line"><span class="keyword">import</span> com.google.zxing.client.j2se.MatrixToImageWriter;   </div><div class="line"><span class="keyword">import</span> com.google.zxing.common.BitMatrix;   </div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QRcode</span> </span>&#123;   </div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String []args)</span><span class="keyword">throws</span> Exception</span>&#123;   </div><div class="line">        String text = <span class="string">"我是你爸爸"</span>;   </div><div class="line">        <span class="keyword">int</span> width = <span class="number">300</span>;   </div><div class="line">        <span class="keyword">int</span> height = <span class="number">300</span>;   </div><div class="line">        String format = <span class="string">"png"</span>;   </div><div class="line">        Hashtable hints= <span class="keyword">new</span> Hashtable();   </div><div class="line">        hints.put(EncodeHintType.CHARACTER_SET, <span class="string">"utf-8"</span>);   </div><div class="line">         BitMatrix bitMatrix = <span class="keyword">new</span> MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height,hints);           </div><div class="line">         Path file = <span class="keyword">new</span> File(<span class="string">"D:/code/img.png"</span>).toPath();         </div><div class="line">         MatrixToImageWriter.writeToPath(bitMatrix, format, file);   </div><div class="line"></div><div class="line">    &#125;   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<hr>
-<p><strong>Q:为什么我这里会出现找不到Path类的错误？</strong></p>
-<p><strong>A:</strong><br>这个问题我也同样遇到过，其实只是jdk的版本问题，7以上 的版本都可以的。别忘了导入jar包喔！</p>
-<hr>
-<p><strong>Q:为什么我的文本是一个地址链接，扫出来没有跳转而只是显示地址文本？</strong></p>
-<p><strong>A:</strong><br>这个只要你加上<a href="http://这个就可以了，不信你试一下！" target="_blank" rel="external">http://这个就可以了，不信你试一下！</a></p>
-<hr>
-<p><strong>Q:那么，要如何解析二维码呢？</strong></p>
-<p><strong>A:</strong></p>
-<p>不多说，贴个代码先</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.awt.image.BufferedImage;</div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.util.HashMap;</div><div class="line"><span class="keyword">import</span> java.util.Hashtable;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.imageio.ImageIO;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.google.zxing.BinaryBitmap;</div><div class="line"><span class="keyword">import</span> com.google.zxing.EncodeHintType;</div><div class="line"><span class="keyword">import</span> com.google.zxing.MultiFormatReader;</div><div class="line"><span class="keyword">import</span> com.google.zxing.NotFoundException;</div><div class="line"><span class="keyword">import</span> com.google.zxing.Result;</div><div class="line"><span class="keyword">import</span> com.google.zxing.client.j2se.BufferedImageLuminanceSource;</div><div class="line"><span class="keyword">import</span> com.google.zxing.common.HybridBinarizer;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReadQR</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            com.google.zxing.MultiFormatReader formatReader = <span class="keyword">new</span> MultiFormatReader();</div><div class="line"></div><div class="line">            File file = <span class="keyword">new</span> File(<span class="string">"D:/code/img.png"</span>);</div><div class="line"></div><div class="line">            BufferedImage image = ImageIO.read(file);</div><div class="line"></div><div class="line">            BinaryBitmap binaryBitmap = <span class="keyword">new</span> BinaryBitmap(<span class="keyword">new</span> HybridBinarizer(<span class="keyword">new</span> BufferedImageLuminanceSource(image)));</div><div class="line">            HashMap hints = <span class="keyword">new</span> HashMap();         </div><div class="line">             hints.put(EncodeHintType.CHARACTER_SET, <span class="string">"utf-8"</span>); </div><div class="line">            Result result = formatReader.decode(binaryBitmap,hints);</div><div class="line">            System.out.println(<span class="string">"解析结果："</span>+result.toString());</div><div class="line">            System.out.println(<span class="string">"二维码格式类型："</span>+result.getBarcodeFormat());</div><div class="line">            System.out.println(<span class="string">"二维码文本内容："</span>+result.getText());</div><div class="line">        &#125; <span class="keyword">catch</span> (NotFoundException e) &#123;</div><div class="line">            <span class="comment">// TODO Auto-generated catch block</span></div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">            <span class="comment">// TODO Auto-generated catch block</span></div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>Q:如果我想扫出来是个人名片呢？</strong></p>
-<p><strong>A:</strong></p>
-<p>这个没问题啊，不过他是有一套标准的，用到的是vCard</p>
-<p>关于vcard可以到这里了解<br><a href="https://en.wikipedia.org/wiki/VCard" target="_blank" rel="external">https://en.wikipedia.org/wiki/VCard</a></p>
-<p>一般来说用2.1版本就可以了，</p>
-<p>格式如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">BEGIN:VCARD</div><div class="line">VERSION:2.1</div><div class="line">N:Gump;Forrest;;Mr.</div><div class="line">FN:Forrest Gump</div><div class="line">ORG:Bubba Gump Shrimp Co.</div><div class="line">TITLE:Shrimp Man</div><div class="line">PHOTO;GIF:http://www.example.com/dir_photos/my_photo.gif</div><div class="line">TEL;WORK;VOICE:(111) 555-1212</div><div class="line">TEL;HOME;VOICE:(404) 555-1212</div><div class="line">ADR;WORK;PREF:;;100 Waters Edge;Baytown;LA;30314;United States of America</div><div class="line">LABEL;WORK;PREF;ENCODING=QUOTED-PRINTABLE;CHARSET=UTF-8:100 Waters Edge=0D=</div><div class="line"> =0ABaytown\, LA 30314=0D=0AUnited States of America</div><div class="line">ADR;HOME:;;42 Plantation St.;Baytown;LA;30314;United States of America</div><div class="line">LABEL;HOME;ENCODING=QUOTED-PRINTABLE;CHARSET=UTF-8:42 Plantation St.=0D=0A=</div><div class="line"> Baytown, LA 30314=0D=0AUnited States of America</div><div class="line">EMAIL:forrestgump@example.com</div><div class="line">REV:20080424T195243Z</div><div class="line">END:VCARD</div></pre></td></tr></table></figure>
-<p>把上面生二维码成时content的值按上面vcard的格式写的行了，换行记得加上”\n”</p>
+        <h1 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h1><blockquote>
+<p>“快速排序”的思想很简单，整个排序过程只需要三步：<br>（1）在数据集之中，选择一个元素作为”基准”（pivot）。<br>（2）所有小于”基准”的元素，都移到”基准”的左边；所有大于”基准”的元素，都移到”基准”的右边。<br>（3）对”基准”左边和右边的两个子集，不断重复第一步和第二步，直到所有子集只剩下一个元素为止。</p>
+</blockquote>
+<a id="more"></a>
+<p>举例来说，现在有一个数据集{85, 24, 63, 45, 17, 31, 96, 50}，怎么对其排序呢？</p>
+<p>第一步，选择中间的元素45作为”基准”。（基准值可以任意选择，但是选择中间的值比较容易理解。）</p>
+<p><img src="http://image.beekka.com/blog/201104/bg2011040403.png" alt="img"></p>
+<p>第二步，按照顺序，将每个元素与”基准”进行比较，形成两个子集，一个”小于45”，另一个”大于等于45”。</p>
+<p><img src="http://image.beekka.com/blog/201104/bg2011040404.png" alt="img"></p>
+<p>第三步，对两个子集不断重复第一步和第二步，直到所有子集只剩下一个元素为止。</p>
+<p><img src="http://image.beekka.com/blog/201104/bg2011040405.png" alt="img"></p>
+<p><img src="http://image.beekka.com/blog/201104/bg2011040406.png" alt="img"></p>
+<p><img src="http://image.beekka.com/blog/201104/bg2011040407.png" alt="img"></p>
+<p><img src="http://image.beekka.com/blog/201104/bg2011040408.png" alt="img"></p>
+<h3 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.kuaisu;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QuickSort</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@param</span> args</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[] arr = &#123;<span class="number">5</span>,<span class="number">1</span>,<span class="number">4</span>,<span class="number">7</span>,<span class="number">9</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">10</span>,<span class="number">15</span>,<span class="number">11</span>,<span class="number">14</span>,<span class="number">17</span>,<span class="number">19</span>,<span class="number">12</span>,<span class="number">13</span>,<span class="number">16</span>,<span class="number">18</span>&#125;;</div><div class="line">		System.out.println(<span class="string">"排序前："</span>);</div><div class="line">		printArr(arr); </div><div class="line">		sort(arr, <span class="number">0</span>, arr.length-<span class="number">1</span>);</div><div class="line">		System.out.println(<span class="string">"排序后："</span>);</div><div class="line">		printArr(arr); 		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 快速排序</div><div class="line">	 * <span class="doctag">@param</span> arr</div><div class="line">	 * <span class="doctag">@return</span></div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] arr,<span class="keyword">int</span> low ,<span class="keyword">int</span> high)</span></span>&#123;</div><div class="line">				</div><div class="line">		<span class="keyword">if</span>(low&gt;=high)</div><div class="line">			<span class="keyword">return</span>;</div><div class="line">		<span class="keyword">int</span> l = low ;</div><div class="line">		<span class="keyword">int</span> r = high ;</div><div class="line">		<span class="keyword">int</span> key = arr[l] ; <span class="comment">//基准</span></div><div class="line">		</div><div class="line">		<span class="keyword">while</span>(l&lt;r)&#123;</div><div class="line">			<span class="keyword">while</span>(l&lt;r &amp;&amp; arr[r]&gt;=key)</div><div class="line">				r--;			</div><div class="line">			<span class="keyword">if</span>(l&lt;r)			</div><div class="line">			swap(arr, l++, r);</div><div class="line">			<span class="keyword">while</span> (l&lt;r &amp;&amp; arr[l]&lt;=key) </div><div class="line">				l++;			</div><div class="line">			<span class="keyword">if</span>(l&lt;r)			</div><div class="line">			swap(arr, r--, l);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		arr[l] = key ;</div><div class="line">		sort(arr, low , l-<span class="number">1</span>) ;</div><div class="line">		sort(arr, l+<span class="number">1</span>, high) ;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * print the array on console</div><div class="line">	 * <span class="doctag">@param</span> arr</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printArr</span><span class="params">(<span class="keyword">int</span>[] arr)</span></span>&#123;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i : arr) &#123;</div><div class="line">			System.out.print(i+<span class="string">"  "</span>);</div><div class="line">		&#125;</div><div class="line">		System.out.println();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] arr,<span class="keyword">int</span> a , <span class="keyword">int</span> b)</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> temp = arr[a] ;</div><div class="line">		arr[a] = arr[b] ;</div><div class="line">		arr[b] = temp ;</div><div class="line">		printArr(arr);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">排序前：</div><div class="line">5  1  4  7  9  2  3  6  8  10  15  11  14  17  19  12  13  16  18  </div><div class="line">3  1  4  7  9  2  5  6  8  10  15  11  14  17  19  12  13  16  18  </div><div class="line">3  1  4  5  9  2  7  6  8  10  15  11  14  17  19  12  13  16  18  </div><div class="line">3  1  4  2  9  5  7  6  8  10  15  11  14  17  19  12  13  16  18  </div><div class="line">3  1  4  2  5  9  7  6  8  10  15  11  14  17  19  12  13  16  18  </div><div class="line">2  1  4  3  5  9  7  6  8  10  15  11  14  17  19  12  13  16  18  </div><div class="line">2  1  3  4  5  9  7  6  8  10  15  11  14  17  19  12  13  16  18  </div><div class="line">1  2  3  4  5  9  7  6  8  10  15  11  14  17  19  12  13  16  18  </div><div class="line">1  2  3  4  5  8  7  6  9  10  15  11  14  17  19  12  13  16  18  </div><div class="line">1  2  3  4  5  6  7  8  9  10  15  11  14  17  19  12  13  16  18  </div><div class="line">1  2  3  4  5  6  7  8  9  10  13  11  14  17  19  12  15  16  18  </div><div class="line">1  2  3  4  5  6  7  8  9  10  13  11  14  15  19  12  17  16  18  </div><div class="line">1  2  3  4  5  6  7  8  9  10  13  11  14  12  19  15  17  16  18  </div><div class="line">1  2  3  4  5  6  7  8  9  10  13  11  14  12  15  19  17  16  18  </div><div class="line">1  2  3  4  5  6  7  8  9  10  12  11  14  13  15  19  17  16  18  </div><div class="line">1  2  3  4  5  6  7  8  9  10  12  11  13  14  15  19  17  16  18  </div><div class="line">1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  19  17  16  18  </div><div class="line">1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  18  17  16  19  </div><div class="line">1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  </div><div class="line">排序后：</div><div class="line">1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19</div></pre></td></tr></table></figure>
+<h3 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h3><p>快速排序的时间主要耗费在划分操作上，对长度为k的区间进行划分，共需k-1次关键字的比较。</p>
+<p>最坏情况是每次划分选取的基准都是当前无序区中关键字最小(或最大)的记录，划分的结果是基准左边的子区间为空(或右边的子区间为空)，而划分所得的另一个非空的子区间中记录数目，仅仅比划分前的无序区中记录个数减少一个。<u>时间复杂度为O(n^2)</u></p>
+<p>在最好情况下，每次划分所取的基准都是当前无序区的”中值”记录，划分的结果是基准的左、右两个无序子区间的长度大致相等。<u>总的关键字比较次数：O(nlgn)</u></p>
+<p>尽管快速排序的最坏时间为O(n2)，但就平均性能而言，它是基于关键字比较的内部排序算法中速度最快者，快速排序亦因此而得名。<u>它的平均时间复杂度为O(nlgn)。</u></p>
 
       
     </div>
@@ -635,7 +643,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Java/" rel="tag"># Java</a>
+            <a href="/tags/排序/" rel="tag"># 排序</a>
           
         </div>
       
@@ -648,8 +656,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/15/Java匿名内部类/" rel="next" title="Java匿名内部类">
-                <i class="fa fa-chevron-left"></i> Java匿名内部类
+              <a href="/2017/04/07/线程绑定/" rel="next" title="线程绑定">
+                <i class="fa fa-chevron-left"></i> 线程绑定
               </a>
             
           </div>
@@ -658,8 +666,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/15/初识xml/" rel="prev" title="初识xml">
-                初识xml <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/10/冒泡排序/" rel="prev" title="冒泡排序">
+                冒泡排序 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -780,7 +788,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#二维码的生成与解析"><span class="nav-number">1.</span> <span class="nav-text">二维码的生成与解析</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#快速排序"><span class="nav-number">1.</span> <span class="nav-text">快速排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例代码"><span class="nav-number">1.0.1.</span> <span class="nav-text">示例代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性能分析"><span class="nav-number">1.0.2.</span> <span class="nav-text">性能分析</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

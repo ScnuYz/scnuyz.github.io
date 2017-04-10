@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Java," />
+  <meta name="keywords" content="排序," />
 
 
 
@@ -87,16 +87,25 @@
 
 
 
-<meta name="description" content="二维码的生成与解析Q:如何生成二维码?">
+<meta name="description" content="归并排序
+归并排序是建立在归并操作上的一种有效的排序算法,该算法是采用分治法的一个非常典型的应用。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为二路归并。
+
+过程归并过程为：比较a[i]和a[j]的大小，若a[i]≤a[j]，则将第一个有序表中的元素a[i]复制到r[k]中，并令i和k分别加上1；否则将第二个有序表中的元素a">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java二维码生成与解析">
-<meta property="og:url" content="https://scnuyz.github.io/2017/03/15/Java二维码生成与解析/index.html">
+<meta property="og:title" content="归并排序">
+<meta property="og:url" content="https://scnuyz.github.io/2017/04/10/归并排序/index.html">
 <meta property="og:site_name" content="泳智的博客">
-<meta property="og:description" content="二维码的生成与解析Q:如何生成二维码?">
-<meta property="og:updated_time" content="2017-03-15T03:03:59.737Z">
+<meta property="og:description" content="归并排序
+归并排序是建立在归并操作上的一种有效的排序算法,该算法是采用分治法的一个非常典型的应用。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为二路归并。
+
+过程归并过程为：比较a[i]和a[j]的大小，若a[i]≤a[j]，则将第一个有序表中的元素a[i]复制到r[k]中，并令i和k分别加上1；否则将第二个有序表中的元素a">
+<meta property="og:updated_time" content="2017-04-10T09:41:46.336Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java二维码生成与解析">
-<meta name="twitter:description" content="二维码的生成与解析Q:如何生成二维码?">
+<meta name="twitter:title" content="归并排序">
+<meta name="twitter:description" content="归并排序
+归并排序是建立在归并操作上的一种有效的排序算法,该算法是采用分治法的一个非常典型的应用。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为二路归并。
+
+过程归并过程为：比较a[i]和a[j]的大小，若a[i]≤a[j]，则将第一个有序表中的元素a[i]复制到r[k]中，并令i和k分别加上1；否则将第二个有序表中的元素a">
 
 
 
@@ -124,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="https://scnuyz.github.io/2017/03/15/Java二维码生成与解析/"/>
+  <link rel="canonical" href="https://scnuyz.github.io/2017/04/10/归并排序/"/>
 
 
 
 
 
-  <title> Java二维码生成与解析 | 泳智的博客 </title>
+  <title> 归并排序 | 泳智的博客 </title>
 </head>
   
   
@@ -500,7 +509,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/03/15/Java二维码生成与解析/">
+    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/04/10/归并排序/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Yz">
@@ -521,7 +530,7 @@
             
             
               
-                Java二维码生成与解析
+                归并排序
               
             
           </h1>
@@ -536,8 +545,8 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-15T10:59:52+08:00">
-                2017-03-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-10T17:40:15+08:00">
+                2017-04-10
               </time>
             
 
@@ -554,7 +563,7 @@
 
           
           
-             <span id="/2017/03/15/Java二维码生成与解析/" class="leancloud_visitors" data-flag-title="Java二维码生成与解析">
+             <span id="/2017/04/10/归并排序/" class="leancloud_visitors" data-flag-title="归并排序">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -583,29 +592,21 @@
       
 
       
-        <h2 id="二维码的生成与解析"><a href="#二维码的生成与解析" class="headerlink" title="二维码的生成与解析"></a>二维码的生成与解析</h2><p><strong>Q:如何生成二维码?</strong><br><a id="more"></a><br><strong>A:</strong><br>这里用到了google的zxing</p>
-<p><a href="https://github.com/zxing/zxing" target="_blank" rel="external">这里贴上github的地址https://github.com/zxing/zxing</a></p>
-<p>这里先贴上生成的二维码的代码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.File;   </div><div class="line"><span class="keyword">import</span> java.nio.file.Path;</div><div class="line"><span class="keyword">import</span> java.util.Hashtable;   </div><div class="line"></div><div class="line"><span class="keyword">import</span> com.google.zxing.BarcodeFormat;   </div><div class="line"><span class="keyword">import</span> com.google.zxing.EncodeHintType;   </div><div class="line"><span class="keyword">import</span> com.google.zxing.MultiFormatWriter;   </div><div class="line"><span class="keyword">import</span> com.google.zxing.client.j2se.MatrixToImageWriter;   </div><div class="line"><span class="keyword">import</span> com.google.zxing.common.BitMatrix;   </div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QRcode</span> </span>&#123;   </div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String []args)</span><span class="keyword">throws</span> Exception</span>&#123;   </div><div class="line">        String text = <span class="string">"我是你爸爸"</span>;   </div><div class="line">        <span class="keyword">int</span> width = <span class="number">300</span>;   </div><div class="line">        <span class="keyword">int</span> height = <span class="number">300</span>;   </div><div class="line">        String format = <span class="string">"png"</span>;   </div><div class="line">        Hashtable hints= <span class="keyword">new</span> Hashtable();   </div><div class="line">        hints.put(EncodeHintType.CHARACTER_SET, <span class="string">"utf-8"</span>);   </div><div class="line">         BitMatrix bitMatrix = <span class="keyword">new</span> MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height,hints);           </div><div class="line">         Path file = <span class="keyword">new</span> File(<span class="string">"D:/code/img.png"</span>).toPath();         </div><div class="line">         MatrixToImageWriter.writeToPath(bitMatrix, format, file);   </div><div class="line"></div><div class="line">    &#125;   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<hr>
-<p><strong>Q:为什么我这里会出现找不到Path类的错误？</strong></p>
-<p><strong>A:</strong><br>这个问题我也同样遇到过，其实只是jdk的版本问题，7以上 的版本都可以的。别忘了导入jar包喔！</p>
-<hr>
-<p><strong>Q:为什么我的文本是一个地址链接，扫出来没有跳转而只是显示地址文本？</strong></p>
-<p><strong>A:</strong><br>这个只要你加上<a href="http://这个就可以了，不信你试一下！" target="_blank" rel="external">http://这个就可以了，不信你试一下！</a></p>
-<hr>
-<p><strong>Q:那么，要如何解析二维码呢？</strong></p>
-<p><strong>A:</strong></p>
-<p>不多说，贴个代码先</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.awt.image.BufferedImage;</div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.util.HashMap;</div><div class="line"><span class="keyword">import</span> java.util.Hashtable;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.imageio.ImageIO;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.google.zxing.BinaryBitmap;</div><div class="line"><span class="keyword">import</span> com.google.zxing.EncodeHintType;</div><div class="line"><span class="keyword">import</span> com.google.zxing.MultiFormatReader;</div><div class="line"><span class="keyword">import</span> com.google.zxing.NotFoundException;</div><div class="line"><span class="keyword">import</span> com.google.zxing.Result;</div><div class="line"><span class="keyword">import</span> com.google.zxing.client.j2se.BufferedImageLuminanceSource;</div><div class="line"><span class="keyword">import</span> com.google.zxing.common.HybridBinarizer;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReadQR</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            com.google.zxing.MultiFormatReader formatReader = <span class="keyword">new</span> MultiFormatReader();</div><div class="line"></div><div class="line">            File file = <span class="keyword">new</span> File(<span class="string">"D:/code/img.png"</span>);</div><div class="line"></div><div class="line">            BufferedImage image = ImageIO.read(file);</div><div class="line"></div><div class="line">            BinaryBitmap binaryBitmap = <span class="keyword">new</span> BinaryBitmap(<span class="keyword">new</span> HybridBinarizer(<span class="keyword">new</span> BufferedImageLuminanceSource(image)));</div><div class="line">            HashMap hints = <span class="keyword">new</span> HashMap();         </div><div class="line">             hints.put(EncodeHintType.CHARACTER_SET, <span class="string">"utf-8"</span>); </div><div class="line">            Result result = formatReader.decode(binaryBitmap,hints);</div><div class="line">            System.out.println(<span class="string">"解析结果："</span>+result.toString());</div><div class="line">            System.out.println(<span class="string">"二维码格式类型："</span>+result.getBarcodeFormat());</div><div class="line">            System.out.println(<span class="string">"二维码文本内容："</span>+result.getText());</div><div class="line">        &#125; <span class="keyword">catch</span> (NotFoundException e) &#123;</div><div class="line">            <span class="comment">// TODO Auto-generated catch block</span></div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">            <span class="comment">// TODO Auto-generated catch block</span></div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>Q:如果我想扫出来是个人名片呢？</strong></p>
-<p><strong>A:</strong></p>
-<p>这个没问题啊，不过他是有一套标准的，用到的是vCard</p>
-<p>关于vcard可以到这里了解<br><a href="https://en.wikipedia.org/wiki/VCard" target="_blank" rel="external">https://en.wikipedia.org/wiki/VCard</a></p>
-<p>一般来说用2.1版本就可以了，</p>
-<p>格式如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">BEGIN:VCARD</div><div class="line">VERSION:2.1</div><div class="line">N:Gump;Forrest;;Mr.</div><div class="line">FN:Forrest Gump</div><div class="line">ORG:Bubba Gump Shrimp Co.</div><div class="line">TITLE:Shrimp Man</div><div class="line">PHOTO;GIF:http://www.example.com/dir_photos/my_photo.gif</div><div class="line">TEL;WORK;VOICE:(111) 555-1212</div><div class="line">TEL;HOME;VOICE:(404) 555-1212</div><div class="line">ADR;WORK;PREF:;;100 Waters Edge;Baytown;LA;30314;United States of America</div><div class="line">LABEL;WORK;PREF;ENCODING=QUOTED-PRINTABLE;CHARSET=UTF-8:100 Waters Edge=0D=</div><div class="line"> =0ABaytown\, LA 30314=0D=0AUnited States of America</div><div class="line">ADR;HOME:;;42 Plantation St.;Baytown;LA;30314;United States of America</div><div class="line">LABEL;HOME;ENCODING=QUOTED-PRINTABLE;CHARSET=UTF-8:42 Plantation St.=0D=0A=</div><div class="line"> Baytown, LA 30314=0D=0AUnited States of America</div><div class="line">EMAIL:forrestgump@example.com</div><div class="line">REV:20080424T195243Z</div><div class="line">END:VCARD</div></pre></td></tr></table></figure>
-<p>把上面生二维码成时content的值按上面vcard的格式写的行了，换行记得加上”\n”</p>
+        <h1 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h1><blockquote>
+<p>归并排序是建立在归并操作上的一种有效的排序算法,该算法是采用分治法的一个非常典型的应用。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为二路归并。</p>
+</blockquote>
+<h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><p>归并过程为：比较a[i]和a[j]的大小，若a[i]≤a[j]，则将第一个有序表中的元素a[i]复制到r[k]中，并令i和k分别加上1；否则将第二个有序表中的元素a[j]复制到r[k]中，并令j和k分别加上1，如此循环下去，直到其中一个有序表取完，然后再将另一个有序表中剩余的元素复制到r中从下标k到下标t的单元。归并排序的算法我们通常用递归实现，先把待排序区间[s,t]以中点二分，接着把左边子区间排序，再把右边子区间排序，最后把左区间和右区间用一次归并操作合并成有序的区间[s,t]。</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">归并操作(merge)，也叫归并算法，指的是将两个顺序序列合并成一个顺序序列的方法。</div><div class="line">如　设有数列&#123;6，202，100，301，38，8，1&#125;</div><div class="line">初始状态：6,202,100,301,38,8，1</div><div class="line">第一次归并后：&#123;6,202&#125;,&#123;100,301&#125;,&#123;8,38&#125;,&#123;1&#125;，比较次数：3；</div><div class="line">第二次归并后：&#123;6,100,202,301&#125;，&#123;1,8,38&#125;，比较次数：4；</div><div class="line">第三次归并后：&#123;1,6,8,38,100,202,301&#125;,比较次数：4；</div><div class="line">总的比较次数为：3+4+4=11,；</div><div class="line">逆序数为14；</div></pre></td></tr></table></figure>
+<h3 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h3><p>归并操作的工作原理如下：</p>
+<p>第一步：申请空间，使其大小为两个已经排序序列之和，该空间用来存放合并后的序列<br>第二步：设定两个指针，最初位置分别为两个已经排序序列的起始位置<br>第三步：比较两个指针所指向的元素，选择相对小的元素放入到合并空间，并移动指针到下一位置<br>重复步骤3直到某一指针超出序列尾<br>将另一序列剩下的所有元素直接复制到合并序列尾</p>
+<h3 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MergeSort</span> </span>&#123;</div><div class="line">	</div><div class="line">	 <span class="comment">/**</span></div><div class="line">     * 　*　&lt;pre&gt;</div><div class="line">     * 　*　二路归并</div><div class="line">     * 　*　原理：将两个有序表合并和一个有序表</div><div class="line">     * 　*　&lt;/pre&gt;</div><div class="line">     * 　*</div><div class="line">     * 　*　<span class="doctag">@param</span>　a</div><div class="line">     * 　*　<span class="doctag">@param</span>　s</div><div class="line">     * 　*　第一个有序表的起始下标</div><div class="line">     * 　*　<span class="doctag">@param</span>　m</div><div class="line">     * 　*　第二个有序表的起始下标</div><div class="line">     * 　*　<span class="doctag">@param</span>　t</div><div class="line">     * 　*　第二个有序表的结束小标</div><div class="line">     * 　*</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] a, <span class="keyword">int</span> s, <span class="keyword">int</span> m, <span class="keyword">int</span> t)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span>[] tmp = <span class="keyword">new</span> <span class="keyword">int</span>[t - s + <span class="number">1</span>];</div><div class="line">        <span class="keyword">int</span> i = s, j = m, k = <span class="number">0</span>;</div><div class="line">        <span class="keyword">while</span> (i &lt; m &amp;&amp; j &lt;= t) &#123;</div><div class="line">            <span class="keyword">if</span> (a[i] &lt;= a[j]) </div><div class="line">                tmp[k++] = a[i++];                </div><div class="line">            <span class="keyword">else</span> </div><div class="line">                tmp[k++] = a[j++];               </div><div class="line">            </div><div class="line">        &#125;</div><div class="line">        <span class="keyword">while</span> (i &lt; m) &#123;</div><div class="line">            tmp[k++] = a[i++];            </div><div class="line">        &#125;</div><div class="line">        <span class="keyword">while</span> (j &lt;= t) &#123;</div><div class="line">            tmp[k++] = a[j++];            </div><div class="line">        &#125;</div><div class="line">		<span class="comment">/*</span></div><div class="line">		 * public static void arraycopy(Object src, int srcPos, Object dest, int</div><div class="line">		 * destPos, int length) </div><div class="line">		 * src:源数组； </div><div class="line">		 * srcPos:源数组要复制的起始位置； </div><div class="line">		 * dest:目的数组；</div><div class="line">		 * destPos:目的数组放置的起始位置； </div><div class="line">		 * length:复制的长度。</div><div class="line">		 */</div><div class="line">       System.arraycopy(tmp, <span class="number">0</span>, a, s, tmp.length);</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 　*</div><div class="line">     * 　*　<span class="doctag">@param</span>　a</div><div class="line">     * 　*　<span class="doctag">@param</span>　s</div><div class="line">     * 　*　<span class="doctag">@param</span>　len</div><div class="line">     * 　*　每次归并的有序集合的长度</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">mergeSort</span><span class="params">(<span class="keyword">int</span>[] a, <span class="keyword">int</span> s, <span class="keyword">int</span> len)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> size = a.length;</div><div class="line">        <span class="keyword">int</span> mid = size / (len &lt;&lt; <span class="number">1</span>);</div><div class="line">        <span class="keyword">int</span> c = size &amp; ((len &lt;&lt; <span class="number">1</span>) - <span class="number">1</span>);</div><div class="line">        <span class="comment">//　-------归并到只剩一个有序集合的时候结束算法-------//</span></div><div class="line">        <span class="keyword">if</span> (mid == <span class="number">0</span>)</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        <span class="comment">//　------进行一趟归并排序-------//</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mid; ++i) &#123;</div><div class="line">            s = i * <span class="number">2</span> * len;</div><div class="line">            merge(a, s, s + len, (len &lt;&lt; <span class="number">1</span>) + s - <span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//　-------将剩下的数和倒数一个有序集合归并-------//</span></div><div class="line">        <span class="keyword">if</span> (c != <span class="number">0</span>)</div><div class="line">            merge(a, size - c - <span class="number">2</span> * len, size - c, size - <span class="number">1</span>);</div><div class="line">        <span class="comment">//　-------递归执行下一趟归并排序------//</span></div><div class="line">        mergeSort(a, <span class="number">0</span>, <span class="number">2</span> * len);</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span>[] a = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">4</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">5</span>&#125;;</div><div class="line">        mergeSort(a, <span class="number">0</span>, <span class="number">1</span>);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length; ++i) &#123;</div><div class="line">            System.out.print(a[i] + <span class="string">"　"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果"></a>输出结果</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">1　2　3　4　5　6</div></pre></td></tr></table></figure>
+<h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><ul>
+<li>稳定</li>
+<li>时间复杂度 O(n log n)  </li>
+<li>空间复杂度 O（n)</li>
+</ul>
 
       
     </div>
@@ -635,7 +636,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Java/" rel="tag"># Java</a>
+            <a href="/tags/排序/" rel="tag"># 排序</a>
           
         </div>
       
@@ -648,8 +649,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/15/Java匿名内部类/" rel="next" title="Java匿名内部类">
-                <i class="fa fa-chevron-left"></i> Java匿名内部类
+              <a href="/2017/04/10/冒泡排序/" rel="next" title="冒泡排序">
+                <i class="fa fa-chevron-left"></i> 冒泡排序
               </a>
             
           </div>
@@ -657,10 +658,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/15/初识xml/" rel="prev" title="初识xml">
-                初识xml <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -780,7 +777,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#二维码的生成与解析"><span class="nav-number">1.</span> <span class="nav-text">二维码的生成与解析</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#归并排序"><span class="nav-number">1.</span> <span class="nav-text">归并排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#过程"><span class="nav-number">1.0.1.</span> <span class="nav-text">过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法描述"><span class="nav-number">1.0.2.</span> <span class="nav-text">算法描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例代码"><span class="nav-number">1.0.3.</span> <span class="nav-text">示例代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出结果"><span class="nav-number">1.0.4.</span> <span class="nav-text">输出结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性能"><span class="nav-number">1.0.5.</span> <span class="nav-text">性能</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
