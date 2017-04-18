@@ -501,6 +501,438 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/04/18/Java-多线程-生产者和消费者问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://img-1253359776.cosgz.myqcloud.com/yz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="泳智的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/18/Java-多线程-生产者和消费者问题/" itemprop="url">
+                  Java 多线程 - 生产者和消费者问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-18T23:36:46+08:00">
+                2017-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/04/18/Java-多线程-生产者和消费者问题/" class="leancloud_visitors" data-flag-title="Java 多线程 - 生产者和消费者问题">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="Java-多线程：生产者消费者问题"><a href="#Java-多线程：生产者消费者问题" class="headerlink" title="Java 多线程：生产者消费者问题"></a>Java 多线程：生产者消费者问题</h1><blockquote>
+<p>生产者消费者问题描述了两个线程（即生产者线程和消费者线程），共享固定大小的缓冲区，在实际运行中可能出现的问题。</p>
+</blockquote>
+<ul>
+<li>生成者：生成一定量的数据放到缓冲区中，然后重复此过程。</li>
+<li>消费者：在缓冲区消耗这些数据。</li>
+</ul>
+<p>该问题的关键就是 要保证生产者不会在缓冲区满时加入数据，消费者也不会在缓冲区中空时消耗数据。</p>
+<p>要解决该问题，就必须 让生产者在缓冲区满时休眠（要么干脆就放弃数据），等到下次消费者消耗缓冲区中的数据的时候，生产者才能被唤醒，开始往缓冲区添加数据。同样，也可以让 消费者在缓冲区空时进入休眠，等到生产者往缓冲区添加数据之后，再唤醒消费者 。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/04/18/Java-多线程-生产者和消费者问题/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/04/18/Java-多线程-多线程产生的原因/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://img-1253359776.cosgz.myqcloud.com/yz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="泳智的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/18/Java-多线程-多线程产生的原因/" itemprop="url">
+                  Java 多线程 - 多线程产生的原因
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-18T23:36:08+08:00">
+                2017-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/04/18/Java-多线程-多线程产生的原因/" class="leancloud_visitors" data-flag-title="Java 多线程 - 多线程产生的原因">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Java-多线程：多线程生成的原因"><a href="#Java-多线程：多线程生成的原因" class="headerlink" title="Java 多线程：多线程生成的原因"></a>Java 多线程：多线程生成的原因</h1><h3 id="Java-内存模型"><a href="#Java-内存模型" class="headerlink" title="Java 内存模型"></a>Java 内存模型</h3><p><strong>线程之间的共享变量存储在主内存（main memory）中，每个线程都有一个私有的本地内存（local memory），本地内存中存储了该线程以读/写共享变量的副本。</strong></p>
+<p>本地内存是JMM（Java内存模型）的一个抽象概念，并不真实存在。它涵盖了缓存，写 缓冲区，寄存器以及其 他的硬件和编译器优化。Java内存模型的抽象示意图如下图：</p>
+<p><a href="https://cloud.githubusercontent.com/assets/9150767/13448138/81f142d6-e05b-11e5-8534-c2f383b5497d.png" target="_blank" rel="external"><img src="https://cloud.githubusercontent.com/assets/9150767/13448138/81f142d6-e05b-11e5-8534-c2f383b5497d.png" alt="3"></a></p>
+<h3 id="i-操作实质"><a href="#i-操作实质" class="headerlink" title="i++操作实质"></a>i++操作实质</h3><p>对于一个简单的 i++ 操作，结合上图1 ，会发生如下的步骤：</p>
+<ol>
+<li>read：作用于主内存中，把主内存中一个变量的值传输到 工作内存 中。</li>
+<li>load：作用于工作内存，把从read 操作从主内存中得到的值放入到工作内存的副本中。</li>
+<li>use：把工作内存中的该副本值传递给执行引擎（也就是操作数栈中）。</li>
+<li>assign：作用于工作内存，把执行引擎执行后的新值传递给该工作内存的变量。</li>
+<li>store：作用于工作内存，把工作内存中该变量的值传送到 主内存中去。</li>
+<li>write：作用于主内存的变量，把store 操作 得到的值写入到 主内存的该变量中。</li>
+</ol>
+<p>所以说，一个 i++ 操作并不是原子性的。这上述的这些步骤中，可能会有其他线程对主内存的变量进行操作，从而导致出现多线程问题。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/04/18/Java-多线程-Lock接口/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://img-1253359776.cosgz.myqcloud.com/yz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="泳智的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/18/Java-多线程-Lock接口/" itemprop="url">
+                  Java 多线程 - Lock接口
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-18T23:35:22+08:00">
+                2017-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/04/18/Java-多线程-Lock接口/" class="leancloud_visitors" data-flag-title="Java 多线程 - Lock接口">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="Java-多线程：Lock-接口"><a href="#Java-多线程：Lock-接口" class="headerlink" title="Java 多线程：Lock 接口"></a>Java 多线程：Lock 接口</h1><p>当我们了解了 多线程生成的原因 之后，会有相应的解决办法，最典型的就是 synchronized 和 lock。lock可以说是 synchronized 的一个替代品，synchronized 能做的事，lock 基本都可以做，而且能做得更好。</p>
+<p>他们的一些区别是：</p>
+<ul>
+<li>lock在获取锁的过程可以被中断。</li>
+<li>lock可以尝试获取锁，如果锁被其他线程持有，则返回 false，不会使当前线程休眠。</li>
+<li>lock在尝试获取锁的时候，传入一个时间参数，如果在这个时间范围内，没有获得锁，那么就是终止请求。</li>
+<li>synchronized 会自动释放锁，lock 则不会自动释放锁。</li>
+</ul>
+<p>这样可以看到，lock 比起 synchronized 具有更细粒度的控制。但是也不是说 lock 就完全可以取代 synchronized，因为 lock 的学习成本，复杂度等方面要比 synchronized 高，对于初级 java 程序员，使用 synchronized 的风险要比 lock 低。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/04/18/Java-多线程-Lock接口/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/04/17/编译加载机制/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1489,427 +1921,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/04/16/Spring-一/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yz">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://img-1253359776.cosgz.myqcloud.com/yz.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="泳智的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/16/Spring-一/" itemprop="url">
-                  Spring(一)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-16T22:43:19+08:00">
-                2017-04-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/04/16/Spring-一/" class="leancloud_visitors" data-flag-title="Spring(一)">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Spring-一"><a href="#Spring-一" class="headerlink" title="Spring(一)"></a>Spring(一)</h1><h3 id="是什么？——开源框架"><a href="#是什么？——开源框架" class="headerlink" title="是什么？——开源框架"></a>是什么？——开源框架</h3><p>为解决企业应用开发的复杂性而创建的</p>
-<p>轻量级的控制反转（IOC）和面向切面（AOP）的容器框架</p>
-<p>大小和开销两方面而言都是轻量级的</p>
-<p>通过控制反转的技术达到松耦合的目的</p>
-<p>提供了面向切面的编程的丰富支持</p>
-<p>允许提供分离应用的业务逻辑与系统级服务进行内聚性的开发</p>
-<p>包含并管理应用对象的配置和生命周期，这个意义上是一种容器</p>
-<p>将简单的组件配置，组合成为复杂的应用</p>
-<p>带来了复杂javaEE开发的春天</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/16/Spring-一/#more" rel="contents">
-              Weiterlesen &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/04/16/基数排序/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yz">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://img-1253359776.cosgz.myqcloud.com/yz.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="泳智的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/16/基数排序/" itemprop="url">
-                  基数排序
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-16T22:43:07+08:00">
-                2017-04-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/04/16/基数排序/" class="leancloud_visitors" data-flag-title="基数排序">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h1><blockquote>
-<p>基数排序属于<u>“分配式排序”</u>，又称“桶子法”，顾名思义，它是透过键值的部份资讯，将要排序的元素分配至某些“桶”中，藉以达到排序的作用，基数排序法是属于<u>稳定</u>性的排序，其时间复杂度为O (nlog(r)m)，其中r为所采取的基数，而m为堆数，在某些时候，基数排序法的效率高于其它的稳定性排序法。</p>
-</blockquote>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/16/基数排序/#more" rel="contents">
-              Weiterlesen &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/04/10/归并排序/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yz">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://img-1253359776.cosgz.myqcloud.com/yz.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="泳智的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/10/归并排序/" itemprop="url">
-                  归并排序
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-10T17:40:15+08:00">
-                2017-04-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/04/10/归并排序/" class="leancloud_visitors" data-flag-title="归并排序">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h1><blockquote>
-<p>归并排序是建立在归并操作上的一种有效的排序算法,该算法是采用分治法的一个非常典型的应用。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为二路归并。</p>
-</blockquote>
-<h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><p>归并过程为：比较a[i]和a[j]的大小，若a[i]≤a[j]，则将第一个有序表中的元素a[i]复制到r[k]中，并令i和k分别加上1；否则将第二个有序表中的元素a[j]复制到r[k]中，并令j和k分别加上1，如此循环下去，直到其中一个有序表取完，然后再将另一个有序表中剩余的元素复制到r中从下标k到下标t的单元。归并排序的算法我们通常用递归实现，先把待排序区间[s,t]以中点二分，接着把左边子区间排序，再把右边子区间排序，最后把左区间和右区间用一次归并操作合并成有序的区间[s,t]。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/10/归并排序/#more" rel="contents">
-              Weiterlesen &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1959,7 +1970,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
@@ -1972,7 +1983,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">Tags</span>
               
             </div>

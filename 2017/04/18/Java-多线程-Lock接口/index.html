@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Java 多线程," />
 
 
 
@@ -87,15 +87,28 @@
 
 
 
-<meta name="description" content="人从爱欲生忧，从忧生畏。无爱即无忧，不忧即无畏">
-<meta property="og:type" content="website">
-<meta property="og:title" content="泳智的博客">
-<meta property="og:url" content="https://scnuyz.github.io/archives/2017/index.html">
+<meta name="description" content="Java 多线程：Lock 接口当我们了解了 多线程生成的原因 之后，会有相应的解决办法，最典型的就是 synchronized 和 lock。lock可以说是 synchronized 的一个替代品，synchronized 能做的事，lock 基本都可以做，而且能做得更好。
+他们的一些区别是：
+
+lock在获取锁的过程可以被中断。
+lock可以尝试获取锁，如果锁被其他线程持有，则返回 fals">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 多线程 - Lock接口">
+<meta property="og:url" content="https://scnuyz.github.io/2017/04/18/Java-多线程-Lock接口/index.html">
 <meta property="og:site_name" content="泳智的博客">
-<meta property="og:description" content="人从爱欲生忧，从忧生畏。无爱即无忧，不忧即无畏">
+<meta property="og:description" content="Java 多线程：Lock 接口当我们了解了 多线程生成的原因 之后，会有相应的解决办法，最典型的就是 synchronized 和 lock。lock可以说是 synchronized 的一个替代品，synchronized 能做的事，lock 基本都可以做，而且能做得更好。
+他们的一些区别是：
+
+lock在获取锁的过程可以被中断。
+lock可以尝试获取锁，如果锁被其他线程持有，则返回 fals">
+<meta property="og:updated_time" content="2017-04-18T15:38:13.705Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="泳智的博客">
-<meta name="twitter:description" content="人从爱欲生忧，从忧生畏。无爱即无忧，不忧即无畏">
+<meta name="twitter:title" content="Java 多线程 - Lock接口">
+<meta name="twitter:description" content="Java 多线程：Lock 接口当我们了解了 多线程生成的原因 之后，会有相应的解决办法，最典型的就是 synchronized 和 lock。lock可以说是 synchronized 的一个替代品，synchronized 能做的事，lock 基本都可以做，而且能做得更好。
+他们的一些区别是：
+
+lock在获取锁的过程可以被中断。
+lock可以尝试获取锁，如果锁被其他线程持有，则返回 fals">
 
 
 
@@ -123,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="https://scnuyz.github.io/archives/2017/"/>
+  <link rel="canonical" href="https://scnuyz.github.io/2017/04/18/Java-多线程-Lock接口/"/>
 
 
 
 
 
-  <title> Archiv | 泳智的博客 </title>
+  <title> Java 多线程 - Lock接口 | 泳智的博客 </title>
 </head>
   
   
@@ -255,7 +268,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  page-archive  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -489,402 +502,218 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-    <span class="archive-page-counter">
-      
-      
-       
-      
-      OK! Insgesamt 35 Artikel. Bleib dran.
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/04/18/Java-多线程-Lock接口/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://img-1253359776.cosgz.myqcloud.com/yz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="泳智的博客">
     </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java 多线程 - Lock接口
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-18T23:35:22+08:00">
+                2017-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/04/18/Java-多线程-Lock接口/" class="leancloud_visitors" data-flag-title="Java 多线程 - Lock接口">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
 
       
       
-      
 
+      
+        <h1 id="Java-多线程：Lock-接口"><a href="#Java-多线程：Lock-接口" class="headerlink" title="Java 多线程：Lock 接口"></a>Java 多线程：Lock 接口</h1><p>当我们了解了 多线程生成的原因 之后，会有相应的解决办法，最典型的就是 synchronized 和 lock。lock可以说是 synchronized 的一个替代品，synchronized 能做的事，lock 基本都可以做，而且能做得更好。</p>
+<p>他们的一些区别是：</p>
+<ul>
+<li>lock在获取锁的过程可以被中断。</li>
+<li>lock可以尝试获取锁，如果锁被其他线程持有，则返回 false，不会使当前线程休眠。</li>
+<li>lock在尝试获取锁的时候，传入一个时间参数，如果在这个时间范围内，没有获得锁，那么就是终止请求。</li>
+<li>synchronized 会自动释放锁，lock 则不会自动释放锁。</li>
+</ul>
+<p>这样可以看到，lock 比起 synchronized 具有更细粒度的控制。但是也不是说 lock 就完全可以取代 synchronized，因为 lock 的学习成本，复杂度等方面要比 synchronized 高，对于初级 java 程序员，使用 synchronized 的风险要比 lock 低。</p>
+<a id="more"></a>
+<h2 id="Java-Lock接口源码分析"><a href="#Java-Lock接口源码分析" class="headerlink" title="Java Lock接口源码分析"></a>Java Lock接口源码分析</h2><p>Lock 接口方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Lock</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">lockInterruptibly</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException</span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">tryLock</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">tryLock</span><span class="params">(<span class="keyword">long</span> time, TimeUnit unit)</span> <span class="keyword">throws</span> InterruptedException</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span></span>;</div><div class="line">    <span class="function">Condition <span class="title">newCondition</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="lock，unlock-方法"><a href="#lock，unlock-方法" class="headerlink" title="lock，unlock 方法"></a>lock，unlock 方法</h2><p>lock() 可以用于对一段代码进行加锁，这样别的代码在锁释放之前需要进行等待，需要注意， <strong>lock不会像 synchronized 那样自动释放锁</strong> ，所以： <strong>一定要放在 try-finally块中，保证锁的释放。</strong> 例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    lock.lock();</div><div class="line">    ......</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">    lock.unlock();  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="tryLock-方法"><a href="#tryLock-方法" class="headerlink" title="tryLock 方法"></a>tryLock 方法</h2><ul>
+<li>tryLock()：尝试获得锁，如果成功，返回 true，否则，返回 false。</li>
+<li>tryLock(long time,TimeUnit unit)：在一定的时间内尝试获得锁，并且在这段时间直接可以被打断。如果成功获得，那么将返回 true，否则，返回 false。</li>
+</ul>
+<h2 id="lockInterruptibly-方法"><a href="#lockInterruptibly-方法" class="headerlink" title="lockInterruptibly 方法"></a>lockInterruptibly 方法</h2><p>这里首先需要了解两个概念才能更好的理解这个方法：</p>
+<ul>
+<li>线程的打断机制</li>
+<li>Thread类的interrupt,interrupted,isInterrupted方法的区别</li>
+</ul>
+<p>对于线程的打断机制， <strong>每个线程都有一个打断标志。</strong></p>
+<ul>
+<li>如果线程在 sleep 或 wait 或 join 的时候，此时如果别的进程调用此线程的 <code>interrupt()</code> 方法，此线程会被唤醒并被要求处理InterruptedException；</li>
+<li>如果线程在运行，则不会收到提醒。但是 此线程的 “打断标志” 会被设置。</li>
+</ul>
+<p>所以说，对于 interrupt() 方法：</p>
+<ul>
+<li><strong>不会中断一个正在运行的线程</strong> 。</li>
+<li><strong>不会中断一个正在运行的线程</strong> 。</li>
+<li><strong>不会中断一个正在运行的线程</strong> 。</li>
+</ul>
+<p>对于 interrupt,interrupted,isInterrupted方法的区别：</p>
+<p>interrupt 方法上面有说到了。对于 interrupted 和 isInterrupted 方法,stackoverflow 说得很好了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">interrupted() is static and checks the current thread. isInterrupted() is an instance method </div><div class="line">which checks the Thread object that it is called on.</div><div class="line"></div><div class="line">A common error is to call a static method on an instance.</div><div class="line"></div><div class="line">Thread myThread = ...;</div><div class="line">if (myThread.interrupted()) &#123;&#125; // WRONG! This might not be checking myThread.</div><div class="line">if (myThread.isInterrupted()) &#123;&#125; // Right!</div><div class="line"></div><div class="line">Another difference is that interrupted() also clears the status of the current thread. </div><div class="line">In other words, if you call it twice in a row and the thread is not interrupted </div><div class="line">between the two calls, the second call will return false even if the first call returned true.</div><div class="line"></div><div class="line">The Javadocs tell you important things like this; use them often!</div></pre></td></tr></table></figure>
+<p>下面再介绍下 lockInterruptibly 方法：</p>
+<p>当通过这个方法去获取锁时，如果线程正在等待获取锁，则这个线程能够响应中断，即中断线程的等待状 态。例如当两个线程同时通过lock.lockInterruptibly()想获取某个锁时，假若此时线程A获取到了锁，而线程B只有在等待，那 么对线程B调用threadB.interrupt()方法能够中断线程B的等待过程。</p>
+<h2 id="newCondition"><a href="#newCondition" class="headerlink" title="newCondition()"></a>newCondition()</h2><p>用于获取一个 Conodition 对象。Condition 对象是比 Lock 更细粒度的控制。要很好的理解 condition，个人觉得必须要知道，<a href="https://github.com/pzxwhc/MineKnowContainer/issues/8" target="_blank" rel="external">生产者消费者问题</a>。</p>
+<p>简单来说就是，我们都了解 生成者在缓冲区满了的时候需要休眠，此时会再唤起一个线程，那么你此时唤醒的是生成者还是消费者呢，如果是消费者，很好；但是如果是唤醒生产者，那还要再休眠，此时就浪费资源了。condition就可以用来解决这个问题，能保证每次唤醒的都是消费者。具体参考：<a href="https://github.com/pzxwhc/MineKnowContainer/issues/10" target="_blank" rel="external">Java 多线程：Condition 接口</a></p>
+<p>lock 方法大体就介绍到这里。</p>
+<h1 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h1><p>可重入锁：指同一个线程，外层函数获得锁之后，内层递归函数仍有获得该锁的代码，但是不受影响。</p>
+<p><strong>可重入锁的最大作用就是 可以避免死锁。</strong> 例如：A线程 有两个方法 a 和 b，其中 a 方法会调用 b 方法，假如 a，b 两个方法都需要获得锁，那么首先 a 方法先执行，会获得锁，此时 b方法将永远获得不了锁，b 方法将一直阻塞住， a 方法由于 b 方法没有执行完，它本身也 不释放锁，此时就会造成一个 死锁。<br>ReentrantLock 就是一个可重入锁。真正使用 锁的时候，一般是 <code>Lock lock ＝ new ReentrantLock()；</code> 然后 使用 Lock 接口方法。</p>
+<h1 id="ReadWriteLock"><a href="#ReadWriteLock" class="headerlink" title="ReadWriteLock"></a>ReadWriteLock</h1><p>接口代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public interface ReadWriteLock &#123;  </div><div class="line">    Lock readLock();  </div><div class="line">    Lock writeLock();  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>ReadWriteLock 可以算是 Lock 的一个细分，合理使用有利于提高效率。比如说， 对于一个变量 i， A，B 线程同时读，那么不会造成错误的结果，所以此时是允许并发，但是如果是同时写操作，那么则是有可能造成错误。所以真正使用的时候，可以使用 细分需要的是读锁还是写锁，再相应地进行加锁。</p>
+<p>Ps： <strong>从代码也可以看出，ReadWriteLock 和 Lock 没有关系，既不继承，也不是实现。</strong></p>
+
+      
+    </div>
+
+    <div>
       
         
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java-多线程/" rel="tag"># Java 多线程</a>
+          
         </div>
       
+
+      
+        
       
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/17/编译加载机制/" rel="next" title="编译加载机制">
+                <i class="fa fa-chevron-left"></i> 编译加载机制
+              </a>
+            
+          </div>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          <span class="post-nav-divider"></span>
 
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/18/Java-多线程-生产者和消费者问题/" itemprop="url">
-              
-                <span itemprop="name">Java 多线程 - 生产者和消费者问题</span>
-              
-            </a>
-        
-      </h1>
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/18/Java-多线程-多线程产生的原因/" rel="prev" title="Java 多线程 - 多线程产生的原因">
+                Java 多线程 - 多线程产生的原因 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-18T23:36:46+08:00"
-              content="2017-04-18" >
-          04-18
-        </time>
-      </div>
-
-    </header>
+      
+      
+    </footer>
   </article>
 
 
 
-    
-
+    <div class="post-spread">
       
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/18/Java-多线程-多线程产生的原因/" itemprop="url">
-              
-                <span itemprop="name">Java 多线程 - 多线程产生的原因</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-18T23:36:08+08:00"
-              content="2017-04-18" >
-          04-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/18/Java-多线程-Lock接口/" itemprop="url">
-              
-                <span itemprop="name">Java 多线程 - Lock接口</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-18T23:35:22+08:00"
-              content="2017-04-18" >
-          04-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/17/编译加载机制/" itemprop="url">
-              
-                <span itemprop="name">编译加载机制</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-17T17:40:20+08:00"
-              content="2017-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/17/GC在干什么/" itemprop="url">
-              
-                <span itemprop="name">GC在干什么</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-17T17:40:06+08:00"
-              content="2017-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/17/垃圾收集算法-复制算法/" itemprop="url">
-              
-                <span itemprop="name">垃圾收集算法-复制算法</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-17T17:39:25+08:00"
-              content="2017-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/17/垃圾收集算法-标记整理算法/" itemprop="url">
-              
-                <span itemprop="name">垃圾收集算法-标记整理算法</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-17T17:39:14+08:00"
-              content="2017-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/17/垃圾收集算法-标记清除算法/" itemprop="url">
-              
-                <span itemprop="name">垃圾收集算法-标记清除算法</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-17T17:39:07+08:00"
-              content="2017-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/17/JVM结构/" itemprop="url">
-              
-                <span itemprop="name">JVM结构</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-17T17:38:41+08:00"
-              content="2017-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/17/CMS垃圾收集器/" itemprop="url">
-              
-                <span itemprop="name">CMS垃圾收集器</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-17T17:34:47+08:00"
-              content="2017-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-  </section>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/2017/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2017/page/4/">4</a><a class="extend next" rel="next" href="/archives/2017/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
-
+    </div>
+  </div>
 
           
           </div>
@@ -892,6 +721,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -911,8 +744,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://img-1253359776.cosgz.myqcloud.com/yz.png"
@@ -965,6 +807,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-多线程：Lock-接口"><span class="nav-number">1.</span> <span class="nav-text">Java 多线程：Lock 接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-Lock接口源码分析"><span class="nav-number">1.1.</span> <span class="nav-text">Java Lock接口源码分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lock，unlock-方法"><span class="nav-number">1.2.</span> <span class="nav-text">lock，unlock 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tryLock-方法"><span class="nav-number">1.3.</span> <span class="nav-text">tryLock 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lockInterruptibly-方法"><span class="nav-number">1.4.</span> <span class="nav-text">lockInterruptibly 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#newCondition"><span class="nav-number">1.5.</span> <span class="nav-text">newCondition()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ReentrantLock"><span class="nav-number">2.</span> <span class="nav-text">ReentrantLock</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ReadWriteLock"><span class="nav-number">3.</span> <span class="nav-text">ReadWriteLock</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1077,11 +935,9 @@
 
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
 
 
   

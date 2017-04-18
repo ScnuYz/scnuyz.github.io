@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Java 多线程," />
 
 
 
@@ -87,15 +87,27 @@
 
 
 
-<meta name="description" content="人从爱欲生忧，从忧生畏。无爱即无忧，不忧即无畏">
-<meta property="og:type" content="website">
-<meta property="og:title" content="泳智的博客">
-<meta property="og:url" content="https://scnuyz.github.io/archives/2017/index.html">
+<meta name="description" content="Java 多线程：多线程生成的原因Java 内存模型线程之间的共享变量存储在主内存（main memory）中，每个线程都有一个私有的本地内存（local memory），本地内存中存储了该线程以读/写共享变量的副本。
+本地内存是JMM（Java内存模型）的一个抽象概念，并不真实存在。它涵盖了缓存，写 缓冲区，寄存器以及其 他的硬件和编译器优化。Java内存模型的抽象示意图如下图：
+
+i++操作实">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 多线程 - 多线程产生的原因">
+<meta property="og:url" content="https://scnuyz.github.io/2017/04/18/Java-多线程-多线程产生的原因/index.html">
 <meta property="og:site_name" content="泳智的博客">
-<meta property="og:description" content="人从爱欲生忧，从忧生畏。无爱即无忧，不忧即无畏">
+<meta property="og:description" content="Java 多线程：多线程生成的原因Java 内存模型线程之间的共享变量存储在主内存（main memory）中，每个线程都有一个私有的本地内存（local memory），本地内存中存储了该线程以读/写共享变量的副本。
+本地内存是JMM（Java内存模型）的一个抽象概念，并不真实存在。它涵盖了缓存，写 缓冲区，寄存器以及其 他的硬件和编译器优化。Java内存模型的抽象示意图如下图：
+
+i++操作实">
+<meta property="og:image" content="https://cloud.githubusercontent.com/assets/9150767/13448138/81f142d6-e05b-11e5-8534-c2f383b5497d.png">
+<meta property="og:updated_time" content="2017-04-18T15:37:51.352Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="泳智的博客">
-<meta name="twitter:description" content="人从爱欲生忧，从忧生畏。无爱即无忧，不忧即无畏">
+<meta name="twitter:title" content="Java 多线程 - 多线程产生的原因">
+<meta name="twitter:description" content="Java 多线程：多线程生成的原因Java 内存模型线程之间的共享变量存储在主内存（main memory）中，每个线程都有一个私有的本地内存（local memory），本地内存中存储了该线程以读/写共享变量的副本。
+本地内存是JMM（Java内存模型）的一个抽象概念，并不真实存在。它涵盖了缓存，写 缓冲区，寄存器以及其 他的硬件和编译器优化。Java内存模型的抽象示意图如下图：
+
+i++操作实">
+<meta name="twitter:image" content="https://cloud.githubusercontent.com/assets/9150767/13448138/81f142d6-e05b-11e5-8534-c2f383b5497d.png">
 
 
 
@@ -123,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="https://scnuyz.github.io/archives/2017/"/>
+  <link rel="canonical" href="https://scnuyz.github.io/2017/04/18/Java-多线程-多线程产生的原因/"/>
 
 
 
 
 
-  <title> Archiv | 泳智的博客 </title>
+  <title> Java 多线程 - 多线程产生的原因 | 泳智的博客 </title>
 </head>
   
   
@@ -255,7 +267,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  page-archive  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -489,402 +501,183 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-    <span class="archive-page-counter">
-      
-      
-       
-      
-      OK! Insgesamt 35 Artikel. Bleib dran.
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/04/18/Java-多线程-多线程产生的原因/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://img-1253359776.cosgz.myqcloud.com/yz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="泳智的博客">
     </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java 多线程 - 多线程产生的原因
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-18T23:36:08+08:00">
+                2017-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/04/18/Java-多线程-多线程产生的原因/" class="leancloud_visitors" data-flag-title="Java 多线程 - 多线程产生的原因">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
 
       
       
-      
 
+      
+        <h1 id="Java-多线程：多线程生成的原因"><a href="#Java-多线程：多线程生成的原因" class="headerlink" title="Java 多线程：多线程生成的原因"></a>Java 多线程：多线程生成的原因</h1><h3 id="Java-内存模型"><a href="#Java-内存模型" class="headerlink" title="Java 内存模型"></a>Java 内存模型</h3><p><strong>线程之间的共享变量存储在主内存（main memory）中，每个线程都有一个私有的本地内存（local memory），本地内存中存储了该线程以读/写共享变量的副本。</strong></p>
+<p>本地内存是JMM（Java内存模型）的一个抽象概念，并不真实存在。它涵盖了缓存，写 缓冲区，寄存器以及其 他的硬件和编译器优化。Java内存模型的抽象示意图如下图：</p>
+<p><a href="https://cloud.githubusercontent.com/assets/9150767/13448138/81f142d6-e05b-11e5-8534-c2f383b5497d.png" target="_blank" rel="external"><img src="https://cloud.githubusercontent.com/assets/9150767/13448138/81f142d6-e05b-11e5-8534-c2f383b5497d.png" alt="3"></a></p>
+<h3 id="i-操作实质"><a href="#i-操作实质" class="headerlink" title="i++操作实质"></a>i++操作实质</h3><p>对于一个简单的 i++ 操作，结合上图1 ，会发生如下的步骤：</p>
+<ol>
+<li>read：作用于主内存中，把主内存中一个变量的值传输到 工作内存 中。</li>
+<li>load：作用于工作内存，把从read 操作从主内存中得到的值放入到工作内存的副本中。</li>
+<li>use：把工作内存中的该副本值传递给执行引擎（也就是操作数栈中）。</li>
+<li>assign：作用于工作内存，把执行引擎执行后的新值传递给该工作内存的变量。</li>
+<li>store：作用于工作内存，把工作内存中该变量的值传送到 主内存中去。</li>
+<li>write：作用于主内存的变量，把store 操作 得到的值写入到 主内存的该变量中。</li>
+</ol>
+<p>所以说，一个 i++ 操作并不是原子性的。这上述的这些步骤中，可能会有其他线程对主内存的变量进行操作，从而导致出现多线程问题。</p>
+
+      
+    </div>
+
+    <div>
       
         
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java-多线程/" rel="tag"># Java 多线程</a>
+          
         </div>
       
+
+      
+        
       
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/18/Java-多线程-Lock接口/" rel="next" title="Java 多线程 - Lock接口">
+                <i class="fa fa-chevron-left"></i> Java 多线程 - Lock接口
+              </a>
+            
+          </div>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          <span class="post-nav-divider"></span>
 
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/18/Java-多线程-生产者和消费者问题/" itemprop="url">
-              
-                <span itemprop="name">Java 多线程 - 生产者和消费者问题</span>
-              
-            </a>
-        
-      </h1>
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/18/Java-多线程-生产者和消费者问题/" rel="prev" title="Java 多线程 - 生产者和消费者问题">
+                Java 多线程 - 生产者和消费者问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-18T23:36:46+08:00"
-              content="2017-04-18" >
-          04-18
-        </time>
-      </div>
-
-    </header>
+      
+      
+    </footer>
   </article>
 
 
 
-    
-
+    <div class="post-spread">
       
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/18/Java-多线程-多线程产生的原因/" itemprop="url">
-              
-                <span itemprop="name">Java 多线程 - 多线程产生的原因</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-18T23:36:08+08:00"
-              content="2017-04-18" >
-          04-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/18/Java-多线程-Lock接口/" itemprop="url">
-              
-                <span itemprop="name">Java 多线程 - Lock接口</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-18T23:35:22+08:00"
-              content="2017-04-18" >
-          04-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/17/编译加载机制/" itemprop="url">
-              
-                <span itemprop="name">编译加载机制</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-17T17:40:20+08:00"
-              content="2017-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/17/GC在干什么/" itemprop="url">
-              
-                <span itemprop="name">GC在干什么</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-17T17:40:06+08:00"
-              content="2017-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/17/垃圾收集算法-复制算法/" itemprop="url">
-              
-                <span itemprop="name">垃圾收集算法-复制算法</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-17T17:39:25+08:00"
-              content="2017-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/17/垃圾收集算法-标记整理算法/" itemprop="url">
-              
-                <span itemprop="name">垃圾收集算法-标记整理算法</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-17T17:39:14+08:00"
-              content="2017-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/17/垃圾收集算法-标记清除算法/" itemprop="url">
-              
-                <span itemprop="name">垃圾收集算法-标记清除算法</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-17T17:39:07+08:00"
-              content="2017-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/17/JVM结构/" itemprop="url">
-              
-                <span itemprop="name">JVM结构</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-17T17:38:41+08:00"
-              content="2017-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/17/CMS垃圾收集器/" itemprop="url">
-              
-                <span itemprop="name">CMS垃圾收集器</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-17T17:34:47+08:00"
-              content="2017-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-  </section>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/2017/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2017/page/4/">4</a><a class="extend next" rel="next" href="/archives/2017/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
-
+    </div>
+  </div>
 
           
           </div>
@@ -892,6 +685,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -911,8 +708,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://img-1253359776.cosgz.myqcloud.com/yz.png"
@@ -965,6 +771,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-多线程：多线程生成的原因"><span class="nav-number">1.</span> <span class="nav-text">Java 多线程：多线程生成的原因</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-内存模型"><span class="nav-number">1.0.1.</span> <span class="nav-text">Java 内存模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#i-操作实质"><span class="nav-number">1.0.2.</span> <span class="nav-text">i++操作实质</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1077,11 +899,9 @@
 
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
 
 
   

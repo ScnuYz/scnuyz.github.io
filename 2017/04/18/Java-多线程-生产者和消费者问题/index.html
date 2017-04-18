@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Java 多线程," />
 
 
 
@@ -87,15 +87,40 @@
 
 
 
-<meta name="description" content="人从爱欲生忧，从忧生畏。无爱即无忧，不忧即无畏">
-<meta property="og:type" content="website">
-<meta property="og:title" content="泳智的博客">
-<meta property="og:url" content="https://scnuyz.github.io/page/4/index.html">
+<meta name="description" content="Java 多线程：生产者消费者问题
+生产者消费者问题描述了两个线程（即生产者线程和消费者线程），共享固定大小的缓冲区，在实际运行中可能出现的问题。
+
+
+生成者：生成一定量的数据放到缓冲区中，然后重复此过程。
+消费者：在缓冲区消耗这些数据。
+
+该问题的关键就是 要保证生产者不会在缓冲区满时加入数据，消费者也不会在缓冲区中空时消耗数据。
+要解决该问题，就必须 让生产者在缓冲区满时休眠（要么干脆就放弃数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 多线程 - 生产者和消费者问题">
+<meta property="og:url" content="https://scnuyz.github.io/2017/04/18/Java-多线程-生产者和消费者问题/index.html">
 <meta property="og:site_name" content="泳智的博客">
-<meta property="og:description" content="人从爱欲生忧，从忧生畏。无爱即无忧，不忧即无畏">
+<meta property="og:description" content="Java 多线程：生产者消费者问题
+生产者消费者问题描述了两个线程（即生产者线程和消费者线程），共享固定大小的缓冲区，在实际运行中可能出现的问题。
+
+
+生成者：生成一定量的数据放到缓冲区中，然后重复此过程。
+消费者：在缓冲区消耗这些数据。
+
+该问题的关键就是 要保证生产者不会在缓冲区满时加入数据，消费者也不会在缓冲区中空时消耗数据。
+要解决该问题，就必须 让生产者在缓冲区满时休眠（要么干脆就放弃数">
+<meta property="og:updated_time" content="2017-04-18T15:37:19.341Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="泳智的博客">
-<meta name="twitter:description" content="人从爱欲生忧，从忧生畏。无爱即无忧，不忧即无畏">
+<meta name="twitter:title" content="Java 多线程 - 生产者和消费者问题">
+<meta name="twitter:description" content="Java 多线程：生产者消费者问题
+生产者消费者问题描述了两个线程（即生产者线程和消费者线程），共享固定大小的缓冲区，在实际运行中可能出现的问题。
+
+
+生成者：生成一定量的数据放到缓冲区中，然后重复此过程。
+消费者：在缓冲区消耗这些数据。
+
+该问题的关键就是 要保证生产者不会在缓冲区满时加入数据，消费者也不会在缓冲区中空时消耗数据。
+要解决该问题，就必须 让生产者在缓冲区满时休眠（要么干脆就放弃数">
 
 
 
@@ -123,13 +148,13 @@
 
 
 
-  <link rel="canonical" href="https://scnuyz.github.io/page/4/"/>
+  <link rel="canonical" href="https://scnuyz.github.io/2017/04/18/Java-多线程-生产者和消费者问题/"/>
 
 
 
 
 
-  <title> 泳智的博客 </title>
+  <title> Java 多线程 - 生产者和消费者问题 | 泳智的博客 </title>
 </head>
   
   
@@ -255,9 +280,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -490,9 +513,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -501,7 +524,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/03/15/Java二维码生成与解析/">
+    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/04/18/Java-多线程-生产者和消费者问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Yz">
@@ -522,10 +545,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/03/15/Java二维码生成与解析/" itemprop="url">
-                  Java二维码生成与解析
-                </a>
+                Java 多线程 - 生产者和消费者问题
               
             
           </h1>
@@ -540,8 +560,8 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-15T10:59:52+08:00">
-                2017-03-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-18T23:36:46+08:00">
+                2017-04-18
               </time>
             
 
@@ -558,7 +578,7 @@
 
           
           
-             <span id="/2017/03/15/Java二维码生成与解析/" class="leancloud_visitors" data-flag-title="Java二维码生成与解析">
+             <span id="/2017/04/18/Java-多线程-生产者和消费者问题/" class="leancloud_visitors" data-flag-title="Java 多线程 - 生产者和消费者问题">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -587,604 +607,83 @@
       
 
       
+        <h1 id="Java-多线程：生产者消费者问题"><a href="#Java-多线程：生产者消费者问题" class="headerlink" title="Java 多线程：生产者消费者问题"></a>Java 多线程：生产者消费者问题</h1><blockquote>
+<p>生产者消费者问题描述了两个线程（即生产者线程和消费者线程），共享固定大小的缓冲区，在实际运行中可能出现的问题。</p>
+</blockquote>
+<ul>
+<li>生成者：生成一定量的数据放到缓冲区中，然后重复此过程。</li>
+<li>消费者：在缓冲区消耗这些数据。</li>
+</ul>
+<p>该问题的关键就是 要保证生产者不会在缓冲区满时加入数据，消费者也不会在缓冲区中空时消耗数据。</p>
+<p>要解决该问题，就必须 让生产者在缓冲区满时休眠（要么干脆就放弃数据），等到下次消费者消耗缓冲区中的数据的时候，生产者才能被唤醒，开始往缓冲区添加数据。同样，也可以让 消费者在缓冲区空时进入休眠，等到生产者往缓冲区添加数据之后，再唤醒消费者 。</p>
+<a id="more"></a>
+<h1 id="Java-中的例子（解决生成者消费者问题）"><a href="#Java-中的例子（解决生成者消费者问题）" class="headerlink" title="Java 中的例子（解决生成者消费者问题）"></a>Java 中的例子（解决生成者消费者问题）</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.LinkedList;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicInteger;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProducerConsumerTest</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="keyword">int</span> BUFFER_SIZE = <span class="number">10</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> LinkedList&lt;Object&gt; buffer = <span class="keyword">new</span> LinkedList&lt;Object&gt;();</div><div class="line"></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span>  <span class="title">main</span> <span class="params">(String args[])</span></span>&#123;</div><div class="line">        <span class="comment">//创建2个Producer,3个Consumer</span></div><div class="line">        Thread producerA = <span class="keyword">new</span> Thread(createProducer(<span class="string">"producerA"</span>));</div><div class="line">        Thread producerB = <span class="keyword">new</span> Thread(createProducer(<span class="string">"producerB"</span>));</div><div class="line">        Thread consumerA = <span class="keyword">new</span> Thread(createConsumer(<span class="string">"consumerA"</span>));</div><div class="line">        Thread consumerB = <span class="keyword">new</span> Thread(createConsumer(<span class="string">"consumerB"</span>));</div><div class="line">        Thread consumerC = <span class="keyword">new</span> Thread(createConsumer(<span class="string">"consumerC"</span>));</div><div class="line"></div><div class="line">        producerA.start();</div><div class="line">        producerB.start();</div><div class="line">        consumerA.start();</div><div class="line">        consumerB.start();</div><div class="line">        consumerC.start();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Producer <span class="title">createProducer</span><span class="params">(String name)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Producer(name);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Consumer <span class="title">createConsumer</span><span class="params">(String name)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Consumer(name);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Producer</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Producer</span><span class="params">(String name)</span></span>&#123;</div><div class="line">            <span class="keyword">this</span>.setName(name);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">static</span> AtomicInteger i = <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">while</span>(i.getAndIncrement() &lt; BUFFER_SIZE)&#123;</div><div class="line">                <span class="keyword">synchronized</span> (buffer)&#123;</div><div class="line">                    produce();</div><div class="line">                    buffer.notifyAll();</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    Thread.sleep(<span class="number">100</span>);</div><div class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">produce</span><span class="params">()</span></span>&#123;</div><div class="line">            buffer.add(<span class="keyword">new</span> Object());</div><div class="line">            System.out.println(<span class="keyword">this</span>.getName() + <span class="string">" produce object. buffer.size = "</span> + buffer.size());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Consumer</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Consumer</span><span class="params">(String name)</span></span>&#123;</div><div class="line">            <span class="keyword">this</span>.setName(name);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">static</span> AtomicInteger i = <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">while</span> (i.getAndIncrement() &lt; BUFFER_SIZE) &#123;</div><div class="line">                <span class="keyword">synchronized</span> (buffer) &#123;</div><div class="line">                    <span class="keyword">while</span> (buffer.size() == <span class="number">0</span>) &#123;</div><div class="line">                        <span class="keyword">try</span> &#123;</div><div class="line">                            buffer.wait(<span class="number">50</span>);</div><div class="line">                        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                            e.printStackTrace();</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                    consumer();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">consumer</span><span class="params">()</span></span>&#123;</div><div class="line">            buffer.removeFirst();</div><div class="line">            System.out.println(<span class="keyword">this</span>.getName() + <span class="string">" consume object. buffer.size = "</span> + buffer.size());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
         
-          <h2 id="二维码的生成与解析"><a href="#二维码的生成与解析" class="headerlink" title="二维码的生成与解析"></a>二维码的生成与解析</h2><p><strong>Q:如何生成二维码?</strong><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/15/Java二维码生成与解析/#more" rel="contents">
-              Weiterlesen &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
-      
-    </div>
-
-    <div>
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/03/15/Java匿名内部类/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yz">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://img-1253359776.cosgz.myqcloud.com/yz.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="泳智的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/15/Java匿名内部类/" itemprop="url">
-                  Java匿名内部类
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-15T10:59:21+08:00">
-                2017-03-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/Java-多线程/" rel="tag"># Java 多线程</a>
           
-            
-          
-
-          
-          
-             <span id="/2017/03/15/Java匿名内部类/" class="leancloud_visitors" data-flag-title="Java匿名内部类">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
         
-          <h1 id="匿名内部类"><a href="#匿名内部类" class="headerlink" title="匿名内部类"></a>匿名内部类</h1><h4 id="什么是匿名内部类？"><a href="#什么是匿名内部类？" class="headerlink" title="什么是匿名内部类？"></a>什么是匿名内部类？</h4><p>匿名内部类也就是<u>没有名字的内部类</u></p>
-<p>正因为没有名字，所以匿名内部类<u>只能使用一次</u>，它通常用来简化代码编写</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/15/Java匿名内部类/#more" rel="contents">
-              Weiterlesen &raquo;
-            </a>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/18/Java-多线程-多线程产生的原因/" rel="next" title="Java 多线程 - 多线程产生的原因">
+                <i class="fa fa-chevron-left"></i> Java 多线程 - 多线程产生的原因
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
+          <span class="post-nav-divider"></span>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/03/15/Java集合类/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yz">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://img-1253359776.cosgz.myqcloud.com/yz.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="泳智的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+          <div class="post-nav-prev post-nav-item">
             
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/15/Java集合类/" itemprop="url">
-                  Java集合类
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-15T10:59:06+08:00">
-                2017-03-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/15/Java集合类/" class="leancloud_visitors" data-flag-title="Java集合类">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h1 id="集合类"><a href="#集合类" class="headerlink" title="集合类"></a>集合类</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h4 id="在谈及集合类之前，我们要知道Java有哪些数据存储方案？"><a href="#在谈及集合类之前，我们要知道Java有哪些数据存储方案？" class="headerlink" title="在谈及集合类之前，我们要知道Java有哪些数据存储方案？"></a>在谈及集合类之前，我们要知道Java有哪些数据存储方案？</h4><p>基本数据类型，String，自定义封装类，数组（可以是基本数据类型，也可以是引用数据类型，但是只能同类型），集合类，作用和数组类似，也可以存储一组数据，也称为容器类，是官方提供的。</p>
-<h4 id="那么为什么会出现集合类呢？集合类与数组的区别是什么？"><a href="#那么为什么会出现集合类呢？集合类与数组的区别是什么？" class="headerlink" title="那么为什么会出现集合类呢？集合类与数组的区别是什么？"></a>那么为什么会出现集合类呢？集合类与数组的区别是什么？</h4>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/15/Java集合类/#more" rel="contents">
-              Weiterlesen &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/03/15/Java异常/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yz">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://img-1253359776.cosgz.myqcloud.com/yz.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="泳智的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/15/Java异常/" itemprop="url">
-                  Java异常
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-15T10:55:53+08:00">
-                2017-03-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/15/Java异常/" class="leancloud_visitors" data-flag-title="Java异常">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="浅谈Java异常"><a href="#浅谈Java异常" class="headerlink" title="浅谈Java异常"></a>浅谈Java异常</h1><h4 id="什么是异常？"><a href="#什么是异常？" class="headerlink" title="什么是异常？"></a>什么是异常？</h4><p>异常指的是运行期出现的错误，也就是当程序开始执行以后执行期出现的错误。</p>
-<p>出现错误时观察错误的名字和行号最为重要。</p>
-<p>在《java编程思想》中这样定义 异常：<u>阻止当前方法或作用域继续执行的问题</u><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/15/Java异常/#more" rel="contents">
-              Weiterlesen &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+    <div class="post-spread">
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/03/15/初识JSON/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yz">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://img-1253359776.cosgz.myqcloud.com/yz.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="泳智的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/15/初识JSON/" itemprop="url">
-                  初识JSON
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-15T10:47:18+08:00">
-                2017-03-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/15/初识JSON/" class="leancloud_visitors" data-flag-title="初识JSON">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="初识JSON"><a href="#初识JSON" class="headerlink" title="初识JSON"></a>初识JSON</h1><h2 id="JSON是什么，有什么用？"><a href="#JSON是什么，有什么用？" class="headerlink" title="JSON是什么，有什么用？"></a>JSON是什么，有什么用？</h2><p>跟XML一样，是一种数据的格式规范。<br>可以理解成是“XML的简化版”，但与XML无关。</p>
-<p>JSON（JavaScript Object Notation）是一种轻量级的数据交换格式。<br>基于JS技术发展起来（因此JS对其有更好的支持），但与语言无关，任何语言都可以解析。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/15/初识JSON/#more" rel="contents">
-              Weiterlesen &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
-  </nav>
-
+  </div>
 
           
           </div>
@@ -1192,6 +691,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -1211,8 +714,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://img-1253359776.cosgz.myqcloud.com/yz.png"
@@ -1265,6 +777,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-多线程：生产者消费者问题"><span class="nav-number">1.</span> <span class="nav-text">Java 多线程：生产者消费者问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-中的例子（解决生成者消费者问题）"><span class="nav-number">2.</span> <span class="nav-text">Java 中的例子（解决生成者消费者问题）</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1377,6 +905,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
