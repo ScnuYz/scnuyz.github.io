@@ -69,21 +69,22 @@
 
 
 
-<meta name="description" content="编译加载机制与自定义类加载器编译机制编译主要是把 .java 文件转换为 .class 文件。 其中转换后的 .class 文件就包含了元数据，方法信息等一些信息。比如说元数据就包含了 Java 文件中声明的常量，也就是我们所说的常量池。
-类加载机制JVM 是通过 一个称为 ClassLoader 的东西 来加载 class 文件，每当 JVM 启动的时候，就会产生 三个 ClassLoader，">
+<meta name="description" content="编译机制编译主要是把 .java 文件转换为 .class 文件。 
+其中转换后的 .class 文件就包含了元数据，方法信息等一些信息。
+比如说元数据就包含了 Java 文件中声明的常量，也就是我们所说的常量池。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="编译加载机制">
 <meta property="og:url" content="https://scnuyz.github.io/2017/04/17/编译加载机制/index.html">
 <meta property="og:site_name" content="泳智的博客">
-<meta property="og:description" content="编译加载机制与自定义类加载器编译机制编译主要是把 .java 文件转换为 .class 文件。 其中转换后的 .class 文件就包含了元数据，方法信息等一些信息。比如说元数据就包含了 Java 文件中声明的常量，也就是我们所说的常量池。
-类加载机制JVM 是通过 一个称为 ClassLoader 的东西 来加载 class 文件，每当 JVM 启动的时候，就会产生 三个 ClassLoader，">
-<meta property="og:image" content="https://camo.githubusercontent.com/91ea3dcf5749a33f3c39d72c9a3f8c81cba9e683/687474703a2f2f3778727a6c6d2e636f6d312e7a302e676c622e636c6f7564646e2e636f6d2f706172656e742e706e67">
-<meta property="og:updated_time" content="2017-04-17T09:48:25.932Z">
+<meta property="og:description" content="编译机制编译主要是把 .java 文件转换为 .class 文件。 
+其中转换后的 .class 文件就包含了元数据，方法信息等一些信息。
+比如说元数据就包含了 Java 文件中声明的常量，也就是我们所说的常量池。">
+<meta property="og:updated_time" content="2017-09-29T09:58:27.883Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="编译加载机制">
-<meta name="twitter:description" content="编译加载机制与自定义类加载器编译机制编译主要是把 .java 文件转换为 .class 文件。 其中转换后的 .class 文件就包含了元数据，方法信息等一些信息。比如说元数据就包含了 Java 文件中声明的常量，也就是我们所说的常量池。
-类加载机制JVM 是通过 一个称为 ClassLoader 的东西 来加载 class 文件，每当 JVM 启动的时候，就会产生 三个 ClassLoader，">
-<meta name="twitter:image" content="https://camo.githubusercontent.com/91ea3dcf5749a33f3c39d72c9a3f8c81cba9e683/687474703a2f2f3778727a6c6d2e636f6d312e7a302e676c622e636c6f7564646e2e636f6d2f706172656e742e706e67">
+<meta name="twitter:description" content="编译机制编译主要是把 .java 文件转换为 .class 文件。 
+其中转换后的 .class 文件就包含了元数据，方法信息等一些信息。
+比如说元数据就包含了 Java 文件中声明的常量，也就是我们所说的常量池。">
 
 
 
@@ -303,27 +304,45 @@
       
 
       
-        <h1 id="编译加载机制与自定义类加载器"><a href="#编译加载机制与自定义类加载器" class="headerlink" title="编译加载机制与自定义类加载器"></a>编译加载机制与自定义类加载器</h1><h2 id="编译机制"><a href="#编译机制" class="headerlink" title="编译机制"></a>编译机制</h2><p><strong>编译主要是把 .java 文件转换为 .class 文件。</strong> 其中转换后的 .class 文件就包含了元数据，方法信息等一些信息。比如说元数据就包含了 Java 文件中声明的常量，也就是我们所说的常量池。</p>
-<h2 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h2><p>JVM 是通过 一个称为 <strong>ClassLoader</strong> 的东西 来加载 class 文件，<strong>每当 JVM 启动的时候，就会产生 三个 ClassLoader，它们分别是Bootstrap Loader， ExtClassLoader 和 AppClassLoader。</strong> </p>
-<p>这三个 ClassLoader 的作用是不同的，它们所加载的class 文件也不同。</p>
-<ul>
-<li>BootStrap Loader：它所加载的都是 JVM 中最底层的类。</li>
-<li>ExtClassLoader：用于加载 Java 的一些库。</li>
-<li>AppClassLoader：它主要由 java.class.path 来指定。</li>
-</ul>
-<p>JVM 加载 class 文件的时候， <strong>采用了双亲委托模型</strong> ，三个加载器的委托模式如下图所示：<br><a href="https://camo.githubusercontent.com/91ea3dcf5749a33f3c39d72c9a3f8c81cba9e683/687474703a2f2f3778727a6c6d2e636f6d312e7a302e676c622e636c6f7564646e2e636f6d2f706172656e742e706e67" target="_blank" rel="external"><img src="https://camo.githubusercontent.com/91ea3dcf5749a33f3c39d72c9a3f8c81cba9e683/687474703a2f2f3778727a6c6d2e636f6d312e7a302e676c622e636c6f7564646e2e636f6d2f706172656e742e706e67" alt="委托模式图"></a></p>
-<p>工作过程是：如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成， <strong>每一个层次的类加载都是如此</strong> ，因此所有的加载请求最终都应该传送到顶层的启动类加载器中，只有当父加载器反馈自己无法加载这个加载请求的时候，子加载器才会尝试自己去加载。</p>
-<p>那么，对于加载 class 文件， ClassLoader 如何将 class 文件变成一个 java 类的。在 ClassLoader中有一个非常重要的方法叫 <strong>findClass()</strong> 方法，它接受要加载的类作为它的参数，在该方法中会找到class文件并且读取文件中的内容到一个 byte 数组，然后再调用 另外一个重要的方法：<strong>defineClass()</strong>，该方法能够把 byte 数组中的内容转化为一个相应的 Class Object。</p>
-<p>委托机制，指先委托父转载器寻找目标类， <strong>只有在找不到的情况下才从自己的类路径中查找并装载类，这一点是从安全角度考虑的</strong> ， 试想如果有人编写了一个恶意的基础类，比如String类，并装载到JVM中将会引起多么可怕的后果呢。但是，由于有了全盘负责委托机制，String类 永远是有根装载器装载，这样就避免了事件的发生。另外，我们经常遇到的NoSuchMethodError的错误往往就是因为加载了不同版本的包造成的。</p>
+        <h3 id="编译机制"><a href="#编译机制" class="headerlink" title="编译机制"></a>编译机制</h3><p><strong>编译主要是把 .java 文件转换为 .class 文件。</strong> </p>
+<p>其中转换后的 .class 文件就包含了<u>元数据，方法信息</u>等一些信息。</p>
+<p>比如说元数据就包含了 Java 文件中声明的常量，也就是我们所说的常量池。</p>
 <a id="more"></a>
-<h2 id="自定义类加载器"><a href="#自定义类加载器" class="headerlink" title="自定义类加载器"></a>自定义类加载器</h2><p>默认的类加载器只知道如何从本地系统加载类。如果我们的程序只是在本机跑的话，一般来说默认加载器可以应付。 <strong>但是如果我们需要加载远程服务器的类，或者说加载网络上的，不是本机上的类的时候，就需要到自定义类加载器。</strong></p>
-<h3 id="实现方式："><a href="#实现方式：" class="headerlink" title="实现方式："></a>实现方式：</h3><p>自定义类加载器可以选择 <strong>继承ClassLoader类，重写里面的方法来实现。里面有三个重要的方法，一个是loadClass()方法，一个是findClass()方法，一个是defineClass()方法。</strong></p>
+<h3 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h3><blockquote>
+<p>Class文件由类装载器装载后，在JVM中将形成一份描述Class结构的元信息对象，通过该元信息对象可以获知Class的结构信息：如构造函数，属性和方法等，Java允许用户借由这个Class相关的元信息对象间接调用Class对象的功能。</p>
+<p>虚拟机把描述类的数据从class文件加载到内存，并对数据进行校验，转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是虚拟机的类加载机制。</p>
+</blockquote>
+<p>JVM 是通过 一个称为 <strong>ClassLoader</strong> 的东西来加载 class 文件，<strong>每当 JVM 启动的时候，就会产生 三个 ClassLoader，它们分别是</strong></p>
+<ul>
+<li>Bootstrap Loader</li>
+<li>ExtClassLoader</li>
+<li>AppClassLoader (也叫SystemClassLoader)</li>
+</ul>
+<p>这三个 ClassLoader 的作用是不同的，它们所加载的class 文件也不同。</p>
+<p>1）Bootstrap ClassLoader</p>
+<p>负责加载$JAVA_HOME中jre/lib/rt.jar里所有的class，由C++实现，<u>不是ClassLoader子类</u></p>
+<p>2）Extension ClassLoader</p>
+<p>负责加载java平台中<u>扩展功能的一些jar包</u>，包括$JAVA_HOME中jre/lib/*.jar或-Djava.ext.dirs指定目录下的jar包</p>
+<p>3）App ClassLoader</p>
+<p>负责记载<u>classpath中指定的jar包</u>及<u>目录中class</u></p>
+<p>4）Custom ClassLoader</p>
+<p>属于应用程序根据自身需要自定义的ClassLoader，如tomcat、jboss都会根据j2ee规范自行实现ClassLoader</p>
+<p><strong>工作过程</strong>：如果一个类加载器接收到了类加载的请求，它首先把这个请求委托给他的父类加载器去完成，每个层次的类加载器都是如此，因此所有的加载请求都应该传送到顶层的启动类加载器中，只有当父加载器反馈自己无法完成这个加载请求（它在搜索范围中没有找到所需的类）时，子加载器才会尝试自己去加载。</p>
+<p> <strong>好处</strong>：java类随着它的类加载器一起具备了一种带有优先级的层次关系。例如类java.lang.Object，它存放在rt.jar中，无论哪个类加载器要加载这个类，最终都会委派给启动类加载器进行加载，因此Object类在程序的各种类加载器环境中都是同一个类。相反，如果用户自己写了一个名为java.lang.Object的类，并放在程序的Classpath中，那系统中将会出现多个不同的Object类，java类型体系中最基础的行为也无法保证，应用程序也会变得一片混乱。</p>
+<p>另外，我们经常遇到的NoSuchMethodError的错误往往就是因为加载了不同版本的包造成的。</p>
+<h3 id="自定义类加载器"><a href="#自定义类加载器" class="headerlink" title="自定义类加载器"></a>自定义类加载器</h3><p>默认的类加载器只知道如何从本地系统加载类。如果我们的程序只是在本机跑的话，一般来说默认加载器可以应付。 <strong>但是如果我们需要加载远程服务器的类，或者说加载网络上的，不是本机上的类的时候，就需要到自定义类加载器。</strong></p>
+<p><strong>实现方式：</strong>自定义类加载器可以选择继承ClassLoader类，重写里面的方法来实现。里面有三个重要的方法</p>
+<ul>
+<li>loadClass()</li>
+<li>findClass()</li>
+<li>defineClass()</li>
+</ul>
 <ul>
 <li>对于loadClass(String name,Boolean resolve)方法：不推荐重写，因为loadClass()方法做的工作主要为实现双亲委托模型，我们重写的话可能会破坏该模型，并且也增加自己的开发难度。</li>
 <li>对于defineClass(String name,byte[] b,int off,int len)方法，主要用于将原始字节转换为Class对象，也不需要我们重写。</li>
 <li>对于findClass(String name)方法，根据名称来查找类。把.class文件的内容放入一个byte[]数组中，供defineClass()方法使用。一般我们就重写这个方法。在这个方法中，我们重新定义从哪里，怎么样读取文件内容。这样我们就可以把从本机上改为从网络上得到类，从而实现自定义类加载器。</li>
 </ul>
-<p>总而言之：</p>
+<p><strong>总而言之：</strong></p>
 <ol>
 <li>继承ClassLoader类。</li>
 <li>重写findClass(String name)方法。 在这个方法里面我们重新定义从哪里，怎么读取文件内容到byte[]数组中，供defineClass()使用。</li>
@@ -383,8 +402,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/17/GC在干什么/" rel="next" title="GC在干什么">
-                <i class="fa fa-chevron-left"></i> GC在干什么
+              <a href="/2017/04/17/JVM总结/" rel="next" title="JVM总结">
+                <i class="fa fa-chevron-left"></i> JVM总结
               </a>
             
           </div>
@@ -393,8 +412,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/18/Java-多线程-Lock接口/" rel="prev" title="Java 多线程 - Lock接口">
-                Java 多线程 - Lock接口 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/09/28/Shell入门笔记整理/" rel="prev" title="Shell入门笔记整理">
+                Shell入门笔记整理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -471,7 +490,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -484,7 +503,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
@@ -519,7 +538,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#编译加载机制与自定义类加载器"><span class="nav-number">1.</span> <span class="nav-text">编译加载机制与自定义类加载器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编译机制"><span class="nav-number">1.1.</span> <span class="nav-text">编译机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类加载机制"><span class="nav-number">1.2.</span> <span class="nav-text">类加载机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义类加载器"><span class="nav-number">1.3.</span> <span class="nav-text">自定义类加载器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现方式："><span class="nav-number">1.3.1.</span> <span class="nav-text">实现方式：</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#编译机制"><span class="nav-number">1.</span> <span class="nav-text">编译机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载机制"><span class="nav-number">2.</span> <span class="nav-text">类加载机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义类加载器"><span class="nav-number">3.</span> <span class="nav-text">自定义类加载器</span></a></li></ol></div>
             
 
           </div>

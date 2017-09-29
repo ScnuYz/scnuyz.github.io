@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JVM," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="总结了一下内存管理模型，回收算法，常见的问题，以及JVM相关参数的整理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM总结">
+<meta property="og:url" content="https://scnuyz.github.io/2017/04/17/JVM总结/index.html">
+<meta property="og:site_name" content="泳智的博客">
+<meta property="og:description" content="总结了一下内存管理模型，回收算法，常见的问题，以及JVM相关参数的整理">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/809552/201510/809552-20151021114030380-2135228460.png">
+<meta property="og:image" content="https://uploadfiles.nowcoder.com/images/20161223/415611_1482452665193_6FB53C51539B47559CF0D122A832CF63">
+<meta property="og:updated_time" content="2017-09-29T09:31:40.965Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM总结">
+<meta name="twitter:description" content="总结了一下内存管理模型，回收算法，常见的问题，以及JVM相关参数的整理">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/809552/201510/809552-20151021114030380-2135228460.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://scnuyz.github.io/2017/04/17/JVM总结/"/>
+
+
+
+
+
+  <title>JVM总结 | 泳智的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">泳智的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一天进步一点</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/04/17/JVM总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="泳智的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JVM总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-17T17:40:06+08:00">
+                2017-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>总结了一下内存管理模型，回收算法，常见的问题，以及JVM相关参数的整理</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="1-内存管理模型"><a href="#1-内存管理模型" class="headerlink" title="1.内存管理模型"></a>1.内存管理模型</h3><p>Java虚拟机运行时数据区域被分为五个区域：</p>
+<ul>
+<li>堆(Heap)</li>
+<li>栈(Stack)</li>
+<li>本地方法栈(Native Stack)</li>
+<li>方法区(Method Area)</li>
+<li>程序计数器(Program Count Register)</li>
+</ul>
+<p>简单讲，两大部分：栈，堆。</p>
+<p><img src="http://images2015.cnblogs.com/blog/809552/201510/809552-20151021114030380-2135228460.png" alt="JVM内存模型"></p>
+<p><strong>栈</strong>上空间一般都隶属各个线程（方法区，常量池线程共享），是<u>线程私有</u>的，她的生命周期与线程相同。</p>
+<p>意思是每个线程有自己的栈空间，其上主要是一些原始类型变量，每个方法执行时都会创建一个栈帧用于<u>存储局部变量表、操作数栈、动态链接、方法出口</u>等信息，每个线程在执行一个方法时，都意味着有一个栈帧在当前线程对应的栈帧中入栈和出栈。</p>
+<p><strong>堆区</strong>负责存放对象，这些对象90%都是短命对象，所以按照对象的生命长度将堆区划分为短命堆区（年轻代），和长命堆区（年老代），Java8开始没有永久代，改成元数据区。</p>
+<p>与堆相关的还有Java的垃圾回收机制（GC）,堆是垃圾回收器管理的主要区域。现在大多数的GC基本都采用了<em>分代收集算法</em>。如果再细致一点，还分为Eden空间，From Survivor空间,ToSurvivor空间，比例3:1:1。</p>
+<p>堆可以处于物理上不连续的内存空间中，只要逻辑上是连续的即可</p>
+<p><strong>本地方法栈</strong>与Java Stack所发挥的作用非常相似，他们之间的区别在于Java Stack为虚拟机栈执行java方法（也就是字节码）服务，而本地方法栈则为使用到Native方法服务。。</p>
+<p><strong>方法区</strong>与堆一样，是各个线程共享的内存区域，它用于存储虚拟机加载的类信息，常量，静态变量，即时编译器编译后的代码等数据。虽然JVM规范把方法区描述为堆的一个逻辑部分，但是他却有一个别名叫做<strong>非堆</strong>（Non-Heap）</p>
+<p>一个存储对象数据（堆），一个存储静态信息(方法区)。</p>
+<p><img src="https://uploadfiles.nowcoder.com/images/20161223/415611_1482452665193_6FB53C51539B47559CF0D122A832CF63" alt=""></p>
+<p>由上图可见，线程共享的只有Java堆和方法区~</p>
+<h3 id="2-Full-GC-的触发条件-？-minor-GC-的触发条件-？"><a href="#2-Full-GC-的触发条件-？-minor-GC-的触发条件-？" class="headerlink" title="2.Full GC 的触发条件 ？ minor GC 的触发条件 ？"></a>2.Full GC 的触发条件 ？ minor GC 的触发条件 ？</h3><ol>
+<li><p>新生代：</p>
+<p>（1）所有对象创建在新生代的Eden区，当Eden区满后触发新生代的Minor  GC，将Eden区和非空闲Survivor区存活的对象复制到另外一个空闲的Survivor区中。</p>
+<p>（2）保证一个Survivor区是空的，新生代Minor  GC就是在两个Survivor区之间相互复制存活对象，直到Survivor区满为止。</p>
+</li>
+</ol>
+<ol>
+<li><p>老年代：当Survivor区也满了之后就通过Minor GC将对象复制到老年代。老年代也满了的话，就将触发Full</p>
+<p>GC，针对整个堆（包括新生代、老年代、持久代）进行垃圾回收。</p>
+</li>
+<li><p>持久代：用于存放静态类型数据，如 Java Class, Method 等。持久代对垃圾回收没有显著影响。但是有些应用可能动态生成或调用一些Class，例如 Hibernate CGLib 等，在这种时候往往需要设置一个比较大的持久代空间来存放这些运行过程中动态增加的类型。持久代如果满了，将触发Full GC。</p>
+</li>
+</ol>
+<p>补充： <code>system.gc</code>也会触发Full GC</p>
+<p>Ps：上面所说的只是一般情况下，实际上，需要考虑一个空间分配担保的问题：</p>
+<p>在发生Minor GC之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象的总空间。</p>
+<p>如果大于则进行Minor GC，如果小于则看HandlePromotionFailure设置是否允许担保失败（不允许则直接Full GC）。</p>
+<p>如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于则尝试Minor GC（如果尝试失败也会触发Full GC），如果小于则进行Full GC。</p>
+<p>但是，具体到什么时刻执行，这个是由系统来进行决定，是无法预测的。</p>
+<h3 id="3-当一组对象生成时，内存申请过程？"><a href="#3-当一组对象生成时，内存申请过程？" class="headerlink" title="3.当一组对象生成时，内存申请过程？"></a>3.当一组对象生成时，内存申请过程？</h3><ol>
+<li>JVM会试图为相关Java对象在年轻代的Eden区中初始化一块内存区域。</li>
+<li>当Eden区空间足够时，内存申请结束。否则执行下一步。</li>
+<li>JVM试图释放在Eden区中所有不活跃的对象（Young GC）。释放后若Eden空间仍然不足以放入新对象，JVM则试图将部分Eden区中活跃对象放入Survivor区。</li>
+<li>Survivor区被用来作为Eden区及年老代的中间交换区域。当年老代空间足够时，Survivor区中存活了一定次数的对象会被移到年老代。</li>
+<li>当年老代空间不够时，JVM会在年老代进行完全的垃圾回收（Full GC）。</li>
+<li>Full GC后，若Survivor区及年老代仍然无法存放从Eden区复制过来的对象，则会导致JVM无法在Eden区为新生成的对象申请内存，即出现“Out of Memory”。</li>
+</ol>
+<h3 id="4-回收算法？？收集器？"><a href="#4-回收算法？？收集器？" class="headerlink" title="4.回收算法？？收集器？"></a>4.回收算法？？收集器？</h3><p>先来看一道题</p>
+<p><strong>以下哪些jvm的垃圾回收方式采用的是复制算法回收?</strong><br>​    A. 新生代串行收集器<br>​    B. 老年代串行收集器<br>​    C. 并行收集器<br>​    D. 新生代并行回收收集器<br>​    E. 老年代并行回收收集器<br>​    F.  cms收集器</p>
+<p><strong>答案：AD</strong></p>
+<p>Java有两个最基本的回收算法：</p>
+<ul>
+<li>复制算法</li>
+<li>标记清理算法 </li>
+</ul>
+<p><strong>复制算法</strong>：两个区域A和B，初始对象在A，继续存活的对象被转移到B。此为<u>新生代最常用</u>的算法</p>
+<p><strong>标记清理</strong>：一块区域，标记要回收的对象，然后回收，一定会出现碎片，那么引出标记-整理算法</p>
+<p><strong>标记-整理算法</strong>：多了碎片整理，整理出更大的内存放更大的对象</p>
+<p>另外，整个java的<u>垃圾回收是新生代和年老代的协作</u>，这种叫做<strong>分代回收</strong>。 </p>
+<p>P.S：</p>
+<ul>
+<li>Serial New 收集器是针对新生代的收集器，采用的是复制算法</li>
+<li>Parallel New（并行）收集器，新生代采用复制算法，老年代采用标记整理</li>
+<li>Parallel   Scavenge（并行）收集器，针对新生代，采用复制收集算法</li>
+<li>Serial Old（串行）收集器，新生代采用复制，老年代采用标记整理</li>
+<li>Parallel    Old（并行）收集器，针对老年代，标记整理</li>
+<li>CMS收集器，基于标记清理</li>
+<li>G1收集器：整体上是基于标记整理，局部采用复制</li>
+</ul>
+<p><strong>综上：新生代基本采用复制算法，老年代采用标记整理算法。cms采用标记清理。</strong></p>
+<h3 id="5-OOM（“Out-of-Memory”）异常一般原因？"><a href="#5-OOM（“Out-of-Memory”）异常一般原因？" class="headerlink" title="5.OOM（“Out of Memory”）异常一般原因？"></a>5.OOM（“Out of Memory”）异常一般原因？</h3><ol>
+<li>年老代溢出，表现为：<code>java.lang.OutOfMemoryError:Javaheapspace</code></li>
+</ol>
+<p>这是最常见的情况，产生的原因可能是：<u>设置的内存参数Xmx过小或程序的内存泄露及使用不当问题。</u></p>
+<p>例如循环上万次的字符串处理、创建上千万个对象、在一段代码内申请上百M甚至上G的内存。还有的时候虽然不会报内存溢出，却会使系统不间断的垃圾回收，也无法处理其它请求。这种情况下除了检查程序、打印堆内存等方法排查，还可以借助一些内存分析工具，比如MAT就很不错。</p>
+<ol>
+<li>持久代溢出，表现为：<code>java.lang.OutOfMemoryError:PermGenspace</code></li>
+</ol>
+<p><u>通常由于持久代设置过小，动态加载了大量Java类而导致溢出</u>，解决办法唯有将参数 <code>-XX:MaxPermSize</code> 调大（一般256m能满足绝大多数应用程序需求）。</p>
+<p>将部分Java类放到容器共享区（例如Tomcat share lib）去加载的办法也是一个思路，但前提是容器里部署了多个应用，且这些应用有大量的共享类库。</p>
+<p>来看这么一道题</p>
+<p><strong>下面哪种情况会导致持久区jvm堆内存溢出？</strong></p>
+<p>A. 循环上万次的字符串处理</p>
+<p>B. 在一段代码内申请上百M甚至上G的内存</p>
+<p>C. 使用CGLib技术直接操作字节码运行，生成大量的动态类</p>
+<p>D. 不断创建对象</p>
+<p><strong>答案：C</strong></p>
+<p>解析：持久带中主要存放用于存放静态类型数据，如 Java Class, Method 等， 与垃圾收集器要收集的Java对象关系不大。年老代溢出原因有循环上万次的字符串处理、创建上千万个对象、在一段代码内申请上百M甚至上G的内存，即ABD选项。持久代溢出原因~动态加载了大量Java类而导致溢出</p>
+<p><strong>这里可能有疑问。。字符串不是存在持久区的吗？为什么A不会导致持久区溢出？</strong></p>
+<blockquote>
+<p>在毕玄的《java分布式应用》一书中，明确指定持久代分布在方法区中，但是又有资料显示持久代是在堆中</p>
+<p>再翻了一下资料..其实….“持久代”仅仅是HotSpot存在的一个概念，并且将其置于方法区，JRocket与IBM的VM都不存在这个“持久代”，最新的HotSpot也计划将其移除。所以两种说法都对，在heap中和在Method Area中并没定论。 </p>
+<p>方法区物理上存在于堆里，而且是在堆的持久代里面；但在逻辑上，方法区和堆是独立的。</p>
+</blockquote>
+<h3 id="6-JVM相关参数"><a href="#6-JVM相关参数" class="headerlink" title="6.JVM相关参数"></a>6.JVM相关参数</h3><p><code>java -Xmx3550m -Xms3550m -Xmn2g -Xss128k -XX:NewRatio=4 -XX:SurvivorRatio=4 -XX:MaxPermSize=16m  -XX:MaxTenuringThreshold=0</code><br><code>-Xmx3550m</code>：最大堆内存为3550M。<br><code>-Xms3550m</code>：初始堆内存为3550m。<br>此值可以设置与-Xmx相同，以避免每次垃圾回收完成后JVM重新分配内存。</p>
+<p><code>-Xmn2g</code>：设置年轻代大小为2G。<br>整个堆大小=年轻代大小 + 年老代大小 + 持久代大小。<u>持久代一般固定大小为64m</u>，所以增大年轻代后，将会减小年老代大小。此值对系统性能影响较大，Sun官方<u>推荐配置为整个堆的3/8</u>。</p>
+<p><code>-Xss128k</code>：设置每个线程的堆栈大小。<br>JDK5.0以后每个线程堆栈大小为1M，在相同物理内存下，减小这个值能生成更多的线程。但是操作系统对一个进程内的线程数还是有限制的，不能无限生成，经验值在 3000~5000左右。 </p>
+<p><code>-XX:NewRatio=4</code>:设置年轻代（包括Eden和两个Survivor区）与年老代的比值（除去持久代）。设置为4，则年轻代与年老代所占比值为1：4，年轻代占整个堆栈的1/5</p>
+<p><code>-XX:SurvivorRatio=4</code>：设置年轻代中Eden区与Survivor区的大小比值。<br>设置为4，则两个Survivor区与一个Eden区的比值为2:4，一个Survivor区占整个年轻代的1/6</p>
+<p><code>-XX:MaxPermSize=16m</code>:设置持久代大小为16m。</p>
+<p><code>-XX:MaxTenuringThreshold=0</code>：设置垃圾最大年龄。<br>如果设置为0的话，则年轻代对象不经过Survivor区，直 接进入年老代。对于年老代比较多的应用，可以提高效率。如果将此值设置为一个较大值，则年轻代对象会在Survivor区进行多次复制，这样可以增加对象 再年轻代的存活时间，增加在年轻代即被回收的概论。</p>
+<p>收集器设置<br><code>-XX:+UseSerialGC</code>:设置串行收集器<br><code>-XX:+UseParallelGC</code>:设置并行收集器<br><code>-XX:+UseParalledlOldGC</code>:设置并行年老代收集器<br><code>-XX:+UseConcMarkSweepGC</code>:设置并发收集器</p>
+<p>垃圾回收统计信息<br><code>-XX:+PrintGC</code><br><code>-XX:+PrintGCDetails</code><br><code>-XX:+PrintGCTimeStamps</code><br><code>-Xloggc:filename</code></p>
+<p>并行收集器设置<br><code>-XX:ParallelGCThreads=n</code>:设置并行收集器收集时使用的CPU数。并行收集线程数。<br><code>-XX:MaxGCPauseMillis=n</code>:设置并行收集最大暂停时间<br><code>-XX:GCTimeRatio=n</code>:设置垃圾回收时间占程序运行时间的百分比。公式为1/(1+n)</p>
+<p>并发收集器设置<br><code>-XX:+CMSIncrementalMode</code>:设置为增量模式。适用于单CPU情况。<br><code>-XX:ParallelGCThreads=n</code>:设置并发收集器年轻代收集方式为并行收集时，使用的CPU数。并行收集线程数。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Yz 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JVM/" rel="tag"># JVM</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/17/编译加载机制/" rel="prev" title="编译加载机制">
+                编译加载机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <p class="site-author-name" itemprop="name">Yz</p>
+            <p class="site-description motion-element" itemprop="description">人从爱欲生忧，从忧生畏。无爱即无忧，不忧即无畏</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-内存管理模型"><span class="nav-number">1.</span> <span class="nav-text">1.内存管理模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Full-GC-的触发条件-？-minor-GC-的触发条件-？"><span class="nav-number">2.</span> <span class="nav-text">2.Full GC 的触发条件 ？ minor GC 的触发条件 ？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-当一组对象生成时，内存申请过程？"><span class="nav-number">3.</span> <span class="nav-text">3.当一组对象生成时，内存申请过程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-回收算法？？收集器？"><span class="nav-number">4.</span> <span class="nav-text">4.回收算法？？收集器？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-OOM（“Out-of-Memory”）异常一般原因？"><span class="nav-number">5.</span> <span class="nav-text">5.OOM（“Out of Memory”）异常一般原因？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-JVM相关参数"><span class="nav-number">6.</span> <span class="nav-text">6.JVM相关参数</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yz</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.2</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
