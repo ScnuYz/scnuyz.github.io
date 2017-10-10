@@ -53,7 +53,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="网络基础," />
 
 
 
@@ -69,19 +69,25 @@
 
 
 
-<meta name="description" content="进程是什么？是具有一定独立功能的程序、它是系统进行资源分配和调度的一个独立单位，重点在系统调度和单独的单位，也就是说进程是可以独 立运行的一段程序。
-线程又是什么？线程进程的一个实体，是CPU调度和分派的基本单位，他是比进程更小的能独立运行的基本单位，线程自己基本上不拥有系统资源。在运行时，只是暂用一些计数器、寄存器和栈 。">
+<meta name="description" content="很多文章都说TCP协议可靠，UDP协议不可靠！
+为什么前者可靠，后者不可靠呢？
+既然UDP协议不可靠，为什么还要使用它呢？
+所谓的TCP协议是面向连接的协议，面向连接是什么呢？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="进程间通信">
-<meta property="og:url" content="https://scnuyz.github.io/2017/09/09/进程间通信/index.html">
+<meta property="og:title" content="TCP与UDP区别">
+<meta property="og:url" content="https://scnuyz.github.io/2017/09/10/TCP与UDP区别/index.html">
 <meta property="og:site_name" content="泳智的博客">
-<meta property="og:description" content="进程是什么？是具有一定独立功能的程序、它是系统进行资源分配和调度的一个独立单位，重点在系统调度和单独的单位，也就是说进程是可以独 立运行的一段程序。
-线程又是什么？线程进程的一个实体，是CPU调度和分派的基本单位，他是比进程更小的能独立运行的基本单位，线程自己基本上不拥有系统资源。在运行时，只是暂用一些计数器、寄存器和栈 。">
-<meta property="og:updated_time" content="2017-10-09T05:29:44.732Z">
+<meta property="og:description" content="很多文章都说TCP协议可靠，UDP协议不可靠！
+为什么前者可靠，后者不可靠呢？
+既然UDP协议不可靠，为什么还要使用它呢？
+所谓的TCP协议是面向连接的协议，面向连接是什么呢？">
+<meta property="og:updated_time" content="2017-10-10T12:46:27.610Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="进程间通信">
-<meta name="twitter:description" content="进程是什么？是具有一定独立功能的程序、它是系统进行资源分配和调度的一个独立单位，重点在系统调度和单独的单位，也就是说进程是可以独 立运行的一段程序。
-线程又是什么？线程进程的一个实体，是CPU调度和分派的基本单位，他是比进程更小的能独立运行的基本单位，线程自己基本上不拥有系统资源。在运行时，只是暂用一些计数器、寄存器和栈 。">
+<meta name="twitter:title" content="TCP与UDP区别">
+<meta name="twitter:description" content="很多文章都说TCP协议可靠，UDP协议不可靠！
+为什么前者可靠，后者不可靠呢？
+既然UDP协议不可靠，为什么还要使用它呢？
+所谓的TCP协议是面向连接的协议，面向连接是什么呢？">
 
 
 
@@ -111,13 +117,13 @@
 
 
 
-  <link rel="canonical" href="https://scnuyz.github.io/2017/09/09/进程间通信/"/>
+  <link rel="canonical" href="https://scnuyz.github.io/2017/09/10/TCP与UDP区别/"/>
 
 
 
 
 
-  <title>进程间通信 | 泳智的博客</title>
+  <title>TCP与UDP区别 | 泳智的博客</title>
   
 
 
@@ -234,7 +240,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/09/09/进程间通信/">
+    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/09/10/TCP与UDP区别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Yz">
@@ -251,7 +257,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">进程间通信</h1>
+          <h1 class="post-title" itemprop="name headline">TCP与UDP区别</h1>
         
 
         <div class="post-meta">
@@ -263,8 +269,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-09T13:28:58+08:00">
-                2017-09-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-10T20:21:43+08:00">
+                2017-09-10
               </time>
             
 
@@ -301,27 +307,56 @@
       
 
       
-        <h3 id="进程是什么？"><a href="#进程是什么？" class="headerlink" title="进程是什么？"></a>进程是什么？</h3><p>是具有一定独立功能的程序、它是系统进行资源分配和调度的一个独立单位，重点在系统调度和单独的单位，也就是说进程是可以独 立运行的一段程序。</p>
-<h3 id="线程又是什么？"><a href="#线程又是什么？" class="headerlink" title="线程又是什么？"></a>线程又是什么？</h3><p>线程进程的一个实体，是CPU调度和分派的基本单位，他是比进程更小的能独立运行的基本单位，线程自己基本上不拥有系统资源。<br>在运行时，只是暂用一些计数器、寄存器和栈 。</p>
+        <p>很多文章都说TCP协议可靠，UDP协议不可靠！</p>
+<p>为什么前者可靠，后者不可靠呢？</p>
+<p>既然UDP协议不可靠，为什么还要使用它呢？</p>
+<p>所谓的TCP协议是面向连接的协议，面向连接是什么呢？   </p>
 <a id="more"></a>
-<h3 id="进程间通信有哪些？"><a href="#进程间通信有哪些？" class="headerlink" title="进程间通信有哪些？"></a>进程间通信有哪些？</h3><ol>
-<li>管道（Pipe）：管道可用于具有亲缘关系进程间的通信，允许一个进程和另一个与它有共同祖先的进程之间进行通信。</li>
-<li>命名管道（named pipe）：命名管道克服了管道没有名字的限制，因此，除具有管道所具有的功能外，它还允许无亲缘关系进程间的通信。命名管道在文件系统中有对应的文件名。命名管道通过命令mkfifo或系统调用mkfifo来创建。</li>
-<li>信号（Signal）：信号是比较复杂的通信方式，用于通知接受进程有某种事件发生，除了用于进程间通信外，进程还可以发送 信号给进程本身；linux除了支持Unix早期信号语义函数sigal外，还支持语义符合Posix.1标准的信号函数sigaction（实际上，该函数是基于BSD的，BSD为了实现可靠信号机制，又能够统一对外接口，用sigaction函数重新实现了signal函数）。</li>
-<li>消息（Message）队列：消息队列是消息的链接表，包括Posix消息队列system V消息队列。有足够权限的进程可以向队列中添加消息，被赋予读权限的进程则可以读走队列中的消息。消息队列克服了信号承载信息量少，管道只能承载无格式字节流以及缓冲区大小受限等缺</li>
-<li>共享内存：使得多个进程可以访问同一块内存空间，是最快的可用IPC形式。是针对其他通信机制运行效率较低而设计的。往往与其它通信机制，如信号量结合使用，来达到进程间的同步及互斥。</li>
-<li>内存映射（mapped memory）：内存映射允许任何多个进程间通信，每一个使用该机制的进程通过把一个共享的文件映射到自己的进程地址空间来实现它。</li>
-<li>信号量（semaphore）：主要作为进程间以及同一进程不同线程之间的同步手段。</li>
-<li>套接口（Socket）：更为一般的进程间通信机制，可用于不同机器之间的进程间通信。起初是由Unix系统的BSD分支开发出来的，但现在一般可以移植到其它类Unix系统上：Linux和System V的变种都支持套接字。</li>
+<p>TCP和UDP都是传输层的协议！</p>
+<p>从编程的角度看，就是两个模块</p>
+<p>先说TCP协议：   </p>
+<p>这个协议，是面向的连接！</p>
+<p>面向连接这个概念，我们要从物理层看起。</p>
+<p>大家都知道，因为“信道复用技术”的迅猛发展，才促使了计算机网络的发展！</p>
+<p>如果没有“信道复用技术”，那么单条线路上（这里的线路指物理传输介质，例如：双绞线、光纤、电话线）单位时间内只能供一台计算机使用！</p>
+<p>还是举例说明：就拿你自己的计算机来说，你跟同学“小明”聊天的时候，就不能跟另外一位同学“小强”聊天，如果你想同时跟两位同学聊天，那么你就得装两条线路！</p>
+<p>那么同时与第三位、第四位同学。。。第N位同学聊天的时候，你需要装几根线路？全世界人民聊天的时候，又需要装几根线路？<br>“信道复用技术”实现了，在同一条线路上，单位时间内可供X台计算机同时通信！</p>
+<p>  1、频分复用    2、时分复用    3、波分复用    4、码分复用    5、空分复用    6、统计复用    7、极化波复用   </p>
+<p>知道了这一点，我们就很容易明白“物理信道”上的“虚拟信道”概念了！</p>
+<p>不同的信道复用技术，使用不同的复用技术，目的就是创建“虚拟信道”。   </p>
+<p>一个TCP协议连接其实就是在物理线路上创建的一条“虚拟信道”。</p>
+<p>这条“虚拟信道”建立后，在TCP协议发出FIN包之前（两个终端都会向对方发送一个FIN包），是不会释放的。</p>
+<p>正因为这一点，TCP协议被称为面向连接的协议！   </p>
+<p>UDP协议，一样会在物理线路上创建一条“虚拟信道”，否则UDP协议无法传输数据！</p>
+<p>但是，当UDP协议传完数据后，这条“虚拟信道”就被立即注销了！</p>
+<p>因此，称UDP是不面向连接的协议！</p>
+<p><strong>TCP协议和UDP协议为什么会共存?</strong></p>
+<ol>
+<li>大家要知道，一种物理线路，单位时间内，能够创建的“虚拟信道”是有限的！</li>
+<li>使用TCP协议传输数据，当数据从A端传到B端后，B端会发送一个确认包（ACK包）给A端，告知A端数据我已收到！UDP协议就没有这种确认机制！这就是为什么说TCP协议可靠，UDP协议不可靠. </li>
 </ol>
-<h3 id="多线程间通信方式："><a href="#多线程间通信方式：" class="headerlink" title="多线程间通信方式："></a>多线程间通信方式：</h3><ol>
-<li>共享变量</li>
-<li>wait/notify机制</li>
-<li>Lock/Condition机制</li>
-<li>管道</li>
-</ol>
-<p><u>而在java中我们实现多线程间通信则主要采用”共享变量”和”管道流”这两种方法</u></p>
-
+<p><strong>QQ普通会员就是使用的UDP</strong>协议进行传输数据！</p>
+<p>既然UDP协议自身没有确认机制，这个工作可以交给应用层的进程来完成（QQ）！</p>
+<p>大家使用QQ的时候，感觉出错的几率还是非常小吧！</p>
+<p>当然，把这个确认工作完全交给QQ自身来做，就直接导致了，QQ软件体积增大！   </p>
+<p>有些应用，对数据传输可靠性要求非常高，例如大家浏览网页，通过网页注册帐号、转帐等服务，这是不容许出错的，使用TCP协议能把出错的可能性降到最低（当然，网络自身很糟糕，TCP协议也没办法）。</p>
+<p>但是，提供这种可靠服务，会加大网络带宽的开销，因为“虚拟信道”是持续存在的，同时网络中还会出现大量的ACK和FIN包！  </p>
+<p>因此，鱼和熊掌不可兼得，需根据实际情况选择传输协议.</p>
+<p>TCP协议提供了可靠的数据传输,但是其<u>拥塞控制、数据校验、重传机制的网络开销很大</u>,不适合实时通信,所以选择开销很小的UDP协议来传输数据。   </p>
+<p>UDP 协议是无连接的数据传输协议<u>并且无重传机制,会发生丢包、收到重复包、乱序等情况</u>。</p>
+<p>而对于数据精确性要求不高的状态数据以及视频数据,丢包的影响不大。</p>
+<p>因为会不断收到新的包,丢失的个别包会有新的包来覆盖,所以只需在远程控制系统的通信部分自行处理乱序及重复包的问题,而对于丢包的问题一般不作处理。    </p>
+<p>但对于命令包这种需要精确收发的数据, 可在程序的开发中加入丢包重发和超时丢弃的处理。</p>
+<p>当然,如果开发的是对于实时性要求不高的事件型控制命令的传输,不希望发生指令的丢失也可以直接采用TCP协议。</p>
+<p>TCP的重传机制正好适合这种情况。   </p>
+<p>非面向连接的传输协议在数据传输之前不建立连接，而是在每个中间节点对非面向连接的包和数据包进行路由。</p>
+<p>没有点到点的连接，非面向连接的协议，如UDP，是不可靠的连接。</p>
+<p>当一个UDP数据包在网络中移动时，发送过程并不知道它是否到达了目的地，除非应用层已经确认了它已到达的事实。</p>
+<p>非面向连接的协议也不能探测重复的和乱序的包。</p>
+<p>标准的专业术语用“不可靠”来描述UDP。</p>
+<p>在现代网络中，UDP并不易于导致传输失败，但是你也不能肯定地说它是可靠的</p>
+<p>TCP和UDP都是传输层的协议！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">应用层 （QQ）</div><div class="line">物理连接层</div><div class="line">各自协议使用的常用端口：如http, https, tcp, udp, ftp等等</div><div class="line"></div><div class="line">TCP:</div><div class="line">FTP:21, Telnet:23, SMTP:25</div><div class="line"></div><div class="line">UDP:</div><div class="line">DNS:53, TFTP:69, SNMP:161, RIP:520</div><div class="line"></div><div class="line">https:</div><div class="line">http:80</div></pre></td></tr></table></figure>
       
     </div>
     
@@ -336,6 +371,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/网络基础/" rel="tag"># 网络基础</a>
+          
+        </div>
+      
 
       
       
@@ -345,8 +386,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/02/三次握手-四次挥手/" rel="next" title="三次握手&&四次挥手">
-                <i class="fa fa-chevron-left"></i> 三次握手&&四次挥手
+              <a href="/2017/09/09/进程间通信/" rel="next" title="进程间通信">
+                <i class="fa fa-chevron-left"></i> 进程间通信
               </a>
             
           </div>
@@ -355,8 +396,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/09/10/TCP与UDP区别/" rel="prev" title="TCP与UDP区别">
-                TCP与UDP区别 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/09/28/Shell入门笔记整理/" rel="prev" title="Shell入门笔记整理">
+                Shell入门笔记整理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -409,17 +450,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           
             <p class="site-author-name" itemprop="name">Yz</p>
@@ -471,22 +503,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程是什么？"><span class="nav-number">1.</span> <span class="nav-text">进程是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程又是什么？"><span class="nav-number">2.</span> <span class="nav-text">线程又是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程间通信有哪些？"><span class="nav-number">3.</span> <span class="nav-text">进程间通信有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程间通信方式："><span class="nav-number">4.</span> <span class="nav-text">多线程间通信方式：</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
