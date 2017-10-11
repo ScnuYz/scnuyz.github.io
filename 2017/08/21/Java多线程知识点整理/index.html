@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="本文主要讲了java中多线程的使用方法、线程同步、线程数据传递、线程状态及相应的一些线程函数用法、概述等。
+
+进程：每个进程都有独立的代码和数据空间（进程上下文），进程间的切换会有较大的开销，一个进程包含1–n个线程。（进程是资源分配的最小单位）
+线程：同一类线程共享代码和数据空间，每个线程有独立的运行栈和程序计数器(PC)，线程切换开销小。（线程是cpu调度的最小单位）
+线程和进程一样分为五个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java多线程知识点整理">
+<meta property="og:url" content="https://scnuyz.github.io/2017/08/21/Java多线程知识点整理/index.html">
+<meta property="og:site_name" content="泳智的博客">
+<meta property="og:description" content="本文主要讲了java中多线程的使用方法、线程同步、线程数据传递、线程状态及相应的一些线程函数用法、概述等。
+
+进程：每个进程都有独立的代码和数据空间（进程上下文），进程间的切换会有较大的开销，一个进程包含1–n个线程。（进程是资源分配的最小单位）
+线程：同一类线程共享代码和数据空间，每个线程有独立的运行栈和程序计数器(PC)，线程切换开销小。（线程是cpu调度的最小单位）
+线程和进程一样分为五个">
+<meta property="og:image" content="http://uploadfiles.nowcoder.com/images/20151217/149974_1450349079825_4697A22AC611680A692472687DEC1CFD">
+<meta property="og:updated_time" content="2017-10-11T12:28:15.531Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java多线程知识点整理">
+<meta name="twitter:description" content="本文主要讲了java中多线程的使用方法、线程同步、线程数据传递、线程状态及相应的一些线程函数用法、概述等。
+
+进程：每个进程都有独立的代码和数据空间（进程上下文），进程间的切换会有较大的开销，一个进程包含1–n个线程。（进程是资源分配的最小单位）
+线程：同一类线程共享代码和数据空间，每个线程有独立的运行栈和程序计数器(PC)，线程切换开销小。（线程是cpu调度的最小单位）
+线程和进程一样分为五个">
+<meta name="twitter:image" content="http://uploadfiles.nowcoder.com/images/20151217/149974_1450349079825_4697A22AC611680A692472687DEC1CFD">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://scnuyz.github.io/2017/08/21/Java多线程知识点整理/"/>
+
+
+
+
+
+  <title>Java多线程知识点整理 | 泳智的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">泳智的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一天进步一点</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/08/21/Java多线程知识点整理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="泳智的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java多线程知识点整理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-21T18:59:00+08:00">
+                2017-08-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>本文主要讲了java中多线程的使用方法、线程同步、线程数据传递、线程状态及相应的一些线程函数用法、概述等。</p>
+</blockquote>
+<p>进程：每个进程都有独立的代码和数据空间（进程上下文），进程间的切换会有较大的开销，一个进程包含1–n个线程。（进程是资源分配的最小单位）</p>
+<p>线程：同一类线程共享代码和数据空间，每个线程有独立的运行栈和程序计数器(PC)，线程切换开销小。（线程是cpu调度的最小单位）</p>
+<p>线程和进程一样分为五个阶段：创建、就绪、运行、阻塞、终止。</p>
+<p>多进程是指操作系统能同时运行多个任务（程序）。</p>
+<p>多线程是指在同一程序中有多个顺序流在执行。</p>
+<p>在java中要想实现多线程，有两种手段，一种是继续Thread类，另外一种是实现Runable接口.</p>
+<p>(<strong>其实准确来讲，应该有三种，还有一种是实现Callable接口</strong>，并与Future、线程池结合使用)</p>
+<a id="more"></a>
+<p>注意：start()方法的调用后并不是立即执行多线程代码，而是使得该线程变为可运行态（Runnable），什么时候运行是由操作系统决定的。</p>
+<p>多线程程序是乱序执行,也只有乱序执行的代码才有必要设计为多线程。</p>
+<p>Thread.sleep()方法调用目的是不让当前线程独自霸占该进程所获取的CPU资源，以留出一定时间给其他线程执行的机会。</p>
+<p>实际上所有的多线程代码执行顺序都是不确定的，每次执行的结果都是随机的。 </p>
+<p>但是start方法重复调用的话，会出现java.lang.IllegalThreadStateException异常。</p>
+<p>实际上所有的多线程代码都是通过运行Thread的start()方法来运行的。</p>
+<p>因此，不管是扩展Thread类还是实现Runnable接口来实现多线程，最终还是通过Thread的对象的API来控制线程的，熟悉Thread类的API是进行多线程编程的基础。</p>
+<h3 id="Thread和Runnable的区别"><a href="#Thread和Runnable的区别" class="headerlink" title="Thread和Runnable的区别"></a>Thread和Runnable的区别</h3><p>如果一个类继承Thread，则不适合资源共享。但是如果实现了Runable接口的话，则很容易的实现资源共享。</p>
+<p><strong>总结：</strong></p>
+<p><strong>实现Runnable接口比继承Thread类所具有的优势：</strong></p>
+<ol>
+<li>适合多个相同的程序代码的线程去处理同一个资源</li>
+<li>可以避免java中的单继承的限制</li>
+<li>增加程序的健壮性，代码可以被多个线程共享，代码和数据独立</li>
+<li>线程池只能放入实现Runable或callable类线程，不能直接放入继承Thread的类</li>
+</ol>
+<p>main方法其实也是一个线程。</p>
+<p>在java中所以的线程都是同时启动的，至于什么时候，哪个先执行，完全看谁先得到CPU的资源。</p>
+<p><strong>在java中，每次程序运行至少启动2个线程。一个是main线程，一个是垃圾收集线程。</strong></p>
+<h3 id="线程状态转换"><a href="#线程状态转换" class="headerlink" title="线程状态转换"></a>线程状态转换</h3><p><strong>下图超级重要！下图超级重要！下图超级重要！</strong></p>
+<p><img src="http://uploadfiles.nowcoder.com/images/20151217/149974_1450349079825_4697A22AC611680A692472687DEC1CFD" alt=""></p>
+<ol>
+<li><p>新建( new )：新创建了一个线程对象。</p>
+</li>
+<li><p>可运行( runnable )：线程对象创建后，其他线程(比如 main 线程）调用了该对象 的 start ()方法。该状态的线程位于可运行线程池中，等待被线程调度选中，获 取 cpu 的使用权 。</p>
+</li>
+<li><p>运行( running )：可运行状态( runnable )的线程获得了 cpu 时间片（ timeslice ） ，执行程序代码。</p>
+</li>
+<li><p>阻塞( block )：阻塞状态是指线程因为某种原因放弃了 cpu 使用权，也即让出了 cpu timeslice ，暂时停止运行。直到线程进入可运行( runnable )状态，才有 机会再次获得 cpu timeslice 转到运行( running )状态。阻塞的情况分三种：</p>
+<p>4.1 等待阻塞：运行( running )的线程执行 o . wait ()方法， JVM 会把该线程放 入等待队列( waitting queue )中。</p>
+<p>4.2 同步阻塞：运行( running )的线程在获取对象的同步锁时，若该同步锁被别的线程占用，则 JVM会把该线程放入锁池( lock pool )中。</p>
+<p>4.3 其他阻塞: 运行( running )的线程执行 Thread . sleep ( long ms )或 t . join ()方法，或者发出了 I / O 请求时， JVM 会把该线程置为阻塞状态。            当 sleep ()状态超时、 join ()等待线程终止或者超时、或者 I / O 处理完毕时，线程重新转入可运行( runnable )状态。</p>
+</li>
+<li><p>死亡( dead )：线程 run ()、 main () 方法执行结束，或者因异常退出了 run ()方法，则该线程结束生命周期。死亡的线程不可再次复生。</p>
+</li>
+</ol>
+<h3 id="线程调度"><a href="#线程调度" class="headerlink" title="线程调度"></a>线程调度</h3><h4 id="调整线程优先级：Java线程有优先级，优先级高的线程会获得较多的运行机会。"><a href="#调整线程优先级：Java线程有优先级，优先级高的线程会获得较多的运行机会。" class="headerlink" title="调整线程优先级：Java线程有优先级，优先级高的线程会获得较多的运行机会。"></a>调整线程优先级：Java线程有优先级，优先级高的线程会获得较多的运行机会。</h4><p>Java线程的优先级用整数表示，取值范围是1~10，Thread类有以下三个静态常量：</p>
+<p><code>static int MAX_PRIORITY</code>          线程可以具有的最高优先级，取值为10。</p>
+<p><code>static int MIN_PRIORITY</code>          线程可以具有的最低优先级，取值为1。</p>
+<p><code>static int NORM_PRIORITY</code>        分配给线程的默认优先级，取值为5。</p>
+<p>Thread类的<code>setPriority()</code>和<code>getPriority()</code>方法分别用来<u>设置和获取线程的优先级</u>。</p>
+<p>每个线程都有默认的优先级。主线程的默认优先级为<code>Thread.NORM_PRIORITY</code>。</p>
+<p>线程的优先级有继承关系，比如A线程中创建了B线程，那么B将和A具有相同的优先级。</p>
+<p>JVM提供了10个线程优先级，但与常见的操作系统都不能很好的映射。如果希望程序能移植到各个操作系统中，应该仅仅使用Thread类有以下三个静态常量作为优先级，这样能保证同样的优先级采用了同样的调度方式。</p>
+<h4 id="线程睡眠"><a href="#线程睡眠" class="headerlink" title="线程睡眠"></a>线程睡眠</h4><p>Thread.sleep(long millis)方法，使线程转到阻塞状态。</p>
+<p>millis参数设定睡眠的时间，以毫秒为单位。</p>
+<p>当睡眠结束后，就转为就绪（Runnable）状态。</p>
+<p>sleep()平台移植性好。</p>
+<h4 id="线程等待"><a href="#线程等待" class="headerlink" title="线程等待"></a>线程等待</h4><p>Object类中的wait()方法，导致当前的线程等待，直到其他线程调用此对象的 notify() 方法或 notifyAll() 唤醒方法。这个两个唤醒方法也是Object类中的方法，行为等价于调用 wait(0) 一样。</p>
+<h4 id="线程让步"><a href="#线程让步" class="headerlink" title="线程让步"></a>线程让步</h4><p>Thread.yield() 方法，暂停当前正在执行的线程对象，<u>把执行机会让给相同或者更高优先级的线程。</u></p>
+<h4 id="线程加入"><a href="#线程加入" class="headerlink" title="线程加入"></a>线程加入</h4><p>join()方法，等待其他线程终止。</p>
+<p>在当前线程中调用另一个线程的join()方法，则当前线程转入阻塞状态，直到另一个进程运行结束，当前线程再由阻塞转为就绪状态。</p>
+<h4 id="线程唤醒"><a href="#线程唤醒" class="headerlink" title="线程唤醒"></a>线程唤醒</h4><p>Object类中的notify()方法，唤醒在此对象监视器上等待的单个线程。</p>
+<p>如果所有线程都在此对象上等待，则会选择唤醒其中一个线程。</p>
+<p>选择是任意性的，并在对实现做出决定时发生。</p>
+<p>线程通过调用其中一个 wait 方法，在对象的监视器上等待。</p>
+<p>直到当前的线程放弃此对象上的锁定，才能继续执行被唤醒的线程。</p>
+<p>被唤醒的线程将以常规方式与在该对象上主动同步的其他所有线程进行竞争；</p>
+<p>例如，唤醒的线程在作为锁定此对象的下一个线程方面没有可靠的特权或劣势。</p>
+<p>类似的方法还有一个notifyAll()，唤醒在此对象监视器上等待的所有线程。</p>
+<p><strong>注意：Thread中suspend()和resume()两个方法在JDK1.5中已经废除，不再介绍。因为有死锁倾向。</strong></p>
+<h3 id="常用函数说明"><a href="#常用函数说明" class="headerlink" title="常用函数说明"></a>常用函数说明</h3><ol>
+<li><p>sleep(long millis): 在指定的毫秒数内让当前正在执行的线程休眠（暂停执行）</p>
+</li>
+<li><p>join():指等待t线程终止。</p>
+<p>使用方式:join是Thread类的一个方法，启动线程后直接调用，即join()的作用是：“等待该线程终止”，这里需要理解的就是该线程是指的主线程等待子线程的终止。也就是在子线程调用了join()方法后面的代码，只有等到子线程结束了才能执行。</p>
+<p><strong>为什么要用join()方法</strong></p>
+<p>在很多情况下，主线程生成并起动了子线程，如果子线程里要进行大量的耗时的运算，主线程往往将于子线程之前结束，但是如果主线程处理完其他的事务后，需要用到子线程的处理结果，也就是主线程需要等待子线程执行完成之后再结束，这个时候就要用到join()方法了。</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">	不加join</div><div class="line">*/</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Thread1</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;  </div><div class="line">    <span class="keyword">private</span> String name;  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Thread1</span><span class="params">(String name)</span> </span>&#123;  </div><div class="line">        <span class="keyword">super</span>(name);  </div><div class="line">       <span class="keyword">this</span>.name=name;  </div><div class="line">    &#125;  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;  </div><div class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">" 线程运行开始!"</span>);  </div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;  </div><div class="line">            System.out.println(<span class="string">"子线程"</span>+name + <span class="string">"运行 : "</span> + i);  </div><div class="line">            <span class="keyword">try</span> &#123;  </div><div class="line">                sleep((<span class="keyword">int</span>) Math.random() * <span class="number">10</span>);  </div><div class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;  </div><div class="line">                e.printStackTrace();  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">" 线程运行结束!"</span>);  </div><div class="line">    &#125;  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </div><div class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">"主线程运行开始!"</span>);  </div><div class="line">        Thread1 mTh1=<span class="keyword">new</span> Thread1(<span class="string">"A"</span>);  </div><div class="line">        Thread1 mTh2=<span class="keyword">new</span> Thread1(<span class="string">"B"</span>);  </div><div class="line">        mTh1.start();  </div><div class="line">        mTh2.start();  </div><div class="line">        System.out.println(Thread.currentThread().getName()+ <span class="string">"主线程运行结束!"</span>);  </div><div class="line">  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">输出结果：</div><div class="line">main主线程运行开始!</div><div class="line">main主线程运行结束!</div><div class="line">B 线程运行开始!</div><div class="line">子线程B运行 : 0</div><div class="line">A 线程运行开始!</div><div class="line">子线程A运行 : 0</div><div class="line">子线程B运行 : 1</div><div class="line">子线程A运行 : 1</div><div class="line">子线程A运行 : 2</div><div class="line">子线程A运行 : 3</div><div class="line">子线程A运行 : 4</div><div class="line">A 线程运行结束!</div><div class="line">子线程B运行 : 2</div><div class="line">子线程B运行 : 3</div><div class="line">子线程B运行 : 4</div><div class="line">B 线程运行结束!</div><div class="line">发现主线程比子线程早结束</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">	加join</div><div class="line">*/</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </div><div class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">"主线程运行开始!"</span>);  </div><div class="line">        Thread1 mTh1=<span class="keyword">new</span> Thread1(<span class="string">"A"</span>);  </div><div class="line">        Thread1 mTh2=<span class="keyword">new</span> Thread1(<span class="string">"B"</span>);  </div><div class="line">        mTh1.start();  </div><div class="line">        mTh2.start();  </div><div class="line">        <span class="keyword">try</span> &#123;  </div><div class="line">            mTh1.join();  </div><div class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;  </div><div class="line">            e.printStackTrace();  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">try</span> &#123;  </div><div class="line">            mTh2.join();  </div><div class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;  </div><div class="line">            e.printStackTrace();  </div><div class="line">        &#125;  </div><div class="line">        System.out.println(Thread.currentThread().getName()+ <span class="string">"主线程运行结束!"</span>);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">运行结果：</div><div class="line">main主线程运行开始!</div><div class="line">A 线程运行开始!</div><div class="line">子线程A运行 : 0</div><div class="line">B 线程运行开始!</div><div class="line">子线程B运行 : 0</div><div class="line">子线程A运行 : 1</div><div class="line">子线程B运行 : 1</div><div class="line">子线程A运行 : 2</div><div class="line">子线程B运行 : 2</div><div class="line">子线程A运行 : 3</div><div class="line">子线程B运行 : 3</div><div class="line">子线程A运行 : 4</div><div class="line">子线程B运行 : 4</div><div class="line">A 线程运行结束!</div><div class="line">主线程一定会等子线程都结束了才结束</div></pre></td></tr></table></figure>
+<ol>
+<li><p>yield(): 暂停当前正在执行的线程对象，并执行其他线程。</p>
+<p>yield()应该做的是让当前运行线程回到可运行状态，以允许具有相同优先级的其他线程获得运行机会。因此，使用yield()的目的是让相同优先级的线程之间能适当的轮转执行。</p>
+</li>
+</ol>
+<p>但是，实际中无法保证yield()达到让步目的，因为让步的线程还有可能被线程调度程序再次选中。</p>
+<p>结论：yield()从未导致线程转到等待/睡眠/阻塞状态。在大多数情况下，yield()将导致线程从运行状态转到可运行状态，但有可能没有效果。</p>
+<ol>
+<li>setPriority(): 更改线程的优先级。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">MIN_PRIORITY = <span class="number">1</span></div><div class="line">NORM_PRIORITY = <span class="number">5</span></div><div class="line">MAX_PRIORITY = <span class="number">10</span></div><div class="line">用法：</div><div class="line">Thread4 t1 = <span class="keyword">new</span> Thread4(<span class="string">"t1"</span>);</div><div class="line">Thread4 t2 = <span class="keyword">new</span> Thread4(<span class="string">"t2"</span>);</div><div class="line">t1.setPriority(Thread.MAX_PRIORITY);</div><div class="line">t2.setPriority(Thread.MIN_PRIORITY);</div></pre></td></tr></table></figure>
+<ol>
+<li><p>interrupt()</p>
+<p>不要以为它是中断某个线程！它只是线程发送一个中断信号，让线程在无限等待时（如死锁时）能抛出，从而结束线程，但是如果你吃掉了这个异常，那么这个线程还是不会中断的！</p>
+</li>
+<li><p>wait()</p>
+<p><u>Obj.wait()与Obj.notify()必须要与synchronized(Obj)一起使用</u>，也就是wait,与notify是针对已经获取了Obj锁进行操作，从语法角度来说就是Obj.wait(),Obj.notify必须在synchronized(Obj){…}语句块内。</p>
+<p>从功能上来说wait就是说线程在获取对象锁后，主动释放对象锁，同时本线程休眠。</p>
+<p>直到有其它线程调用对象的notify()唤醒该线程，才能继续获取对象锁，并继续执行。</p>
+<p>相应的notify()就是对对象锁的唤醒操作。</p>
+<p>但有一点需要注意的是notify()调用后，并不是马上就释放对象锁的，而是在相应的synchronized(){}语句块执行结束，自动释放锁后，JVM会在wait()对象锁的线程中随机选取一线程，赋予其对象锁，唤醒线程，继续执行。</p>
+<p>这样就提供了在线程间同步、唤醒的操作。</p>
+<p>Thread.sleep()与Object.wait()二者都可以暂停当前线程，释放CPU控制权，主要的区别在于Object.wait()在释放CPU同时，释放了对象锁的控制。</p>
+</li>
+</ol>
+<h3 id="常见线程名词解释"><a href="#常见线程名词解释" class="headerlink" title="常见线程名词解释"></a>常见线程名词解释</h3><p><strong>主线程：</strong>JVM调用程序main()所产生的线程。</p>
+<p><strong>当前线程：</strong>这个是容易混淆的概念。一般指通过Thread.currentThread()来获取的进程。</p>
+<p><strong>后台线程：</strong>指为其他线程提供服务的线程，也称为守护线程。JVM的垃圾回收线程就是一个后台线程。<u>用户线程和守护线程的区别在于，是否等待主线程依赖于主线程结束而结束</u></p>
+<p><strong>前台线程：</strong>是指接受后台线程服务的线程，其实前台后台线程是联系在一起，就像傀儡和幕后操纵者一样的关系。</p>
+<p>傀儡是前台线程、幕后操纵者是后台线程。</p>
+<p>由前台线程创建的线程默认也是前台线程。</p>
+<p>可以通过isDaemon()和setDaemon()方法来判断和设置一个线程是否为后台线程。</p>
+<p><strong>线程类的一些常用方法：</strong> 　　</p>
+<p>sleep(): 强迫一个线程睡眠Ｎ毫秒　　</p>
+<p>isAlive(): 判断一个线程是否存活</p>
+<p>join(): 等待线程终止　　</p>
+<p>activeCount(): 程序中活跃的线程数</p>
+<p>enumerate(): 枚举程序中的线程 </p>
+<p>currentThread(): 得到当前线程　</p>
+<p>isDaemon(): 一个线程是否为守护线程　</p>
+<p>setDaemon(): 设置一个线程为守护线程。(用户线程和守护线程的区别在于，是否等待主线程依赖于主线程结束而结束) 　　</p>
+<p>setName(): 为线程设置一个名称　</p>
+<p>wait(): 强迫一个线程等待</p>
+<p>notify(): 通知一个线程继续运行　</p>
+<p>setPriority(): 设置一个线程的优先级</p>
+<h3 id="线程同步"><a href="#线程同步" class="headerlink" title="线程同步"></a>线程同步</h3><ol>
+<li>线程同步的目的是为了保护多个线程访问一个资源时对资源的破坏。</li>
+<li>线程同步方法是通过锁来实现，每个对象都有切仅有一个锁，这个锁与一个特定的对象关联，线程一旦获取了对象锁，其他访问该对象的线程就无法再访问该对象的其他非同步方法。</li>
+<li>对于静态同步方法，锁是针对这个类的，锁对象是该类的Class对象。静态和非静态方法的锁互不干预。一个线程获得锁，当在一个同步方法中访问另外对象上的同步方法时，会获取这两个对象锁。</li>
+<li>对于同步，要时刻清醒在哪个对象上同步，这是关键。</li>
+<li>编写线程安全的类，需要时刻注意对多个线程竞争访问资源的逻辑和安全做出正确的判断，对“原子”操作做出分析，并保证原子操作期间别的线程无法访问竞争资源。</li>
+<li>当多个线程等待一个对象锁时，没有获取到锁的线程将发生阻塞。</li>
+<li>死锁是线程间相互等待锁锁造成的，在实际中发生的概率非常的小。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/11/抽象类与接口的区别/" rel="next" title="抽象类与接口的区别">
+                <i class="fa fa-chevron-left"></i> 抽象类与接口的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/02/三次握手-四次挥手/" rel="prev" title="三次握手&&四次挥手">
+                三次握手&&四次挥手 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <p class="site-author-name" itemprop="name">Yz</p>
+            <p class="site-description motion-element" itemprop="description">人从爱欲生忧，从忧生畏。无爱即无忧，不忧即无畏</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Thread和Runnable的区别"><span class="nav-number">1.</span> <span class="nav-text">Thread和Runnable的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程状态转换"><span class="nav-number">2.</span> <span class="nav-text">线程状态转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程调度"><span class="nav-number">3.</span> <span class="nav-text">线程调度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#调整线程优先级：Java线程有优先级，优先级高的线程会获得较多的运行机会。"><span class="nav-number">3.1.</span> <span class="nav-text">调整线程优先级：Java线程有优先级，优先级高的线程会获得较多的运行机会。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程睡眠"><span class="nav-number">3.2.</span> <span class="nav-text">线程睡眠</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程等待"><span class="nav-number">3.3.</span> <span class="nav-text">线程等待</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程让步"><span class="nav-number">3.4.</span> <span class="nav-text">线程让步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程加入"><span class="nav-number">3.5.</span> <span class="nav-text">线程加入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程唤醒"><span class="nav-number">3.6.</span> <span class="nav-text">线程唤醒</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用函数说明"><span class="nav-number">4.</span> <span class="nav-text">常用函数说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见线程名词解释"><span class="nav-number">5.</span> <span class="nav-text">常见线程名词解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程同步"><span class="nav-number">6.</span> <span class="nav-text">线程同步</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yz</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.2</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
