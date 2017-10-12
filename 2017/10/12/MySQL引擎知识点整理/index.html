@@ -53,7 +53,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="网络基础," />
+  <meta name="keywords" content="MySQL," />
 
 
 
@@ -69,46 +69,28 @@
 
 
 
-<meta name="description" content="语义不同 
-get用于请求信息，post用于提交信息。 
-
-在HTTP请求中的位置不同 
-get参数位于http请求header中的path中，post参数位于http请求body中。 
-
-参数的大小限制不同 
-get参数的大小限制与浏览器有关，一般限制为2k；post可以提交信息的大小与服务器配置有关，可以配置较大，用于文件传输。 
-
-编码方式上的区别 
-get参数统一使用url编码，而pos">
+<meta name="description" content="MySQL数据库引擎取决于MySQL在安装的时候是如何被编译的。
+要添加一个新的引擎，就必须重新编译MYSQL。
+在缺省情况下，MYSQL支持三个引擎：ISAM、MYISAM和HEAP。
+另外两种类型INNODB和BERKLEY（BDB），也常常可以使用。
+如果技术高超，还可以使用MySQL++ API自己做一个引擎。下面介绍几种数据库引擎：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="get post 区别">
-<meta property="og:url" content="https://scnuyz.github.io/2017/08/10/get-post-区别/index.html">
+<meta property="og:title" content="MySQL引擎知识点整理">
+<meta property="og:url" content="https://scnuyz.github.io/2017/10/12/MySQL引擎知识点整理/index.html">
 <meta property="og:site_name" content="泳智的博客">
-<meta property="og:description" content="语义不同 
-get用于请求信息，post用于提交信息。 
-
-在HTTP请求中的位置不同 
-get参数位于http请求header中的path中，post参数位于http请求body中。 
-
-参数的大小限制不同 
-get参数的大小限制与浏览器有关，一般限制为2k；post可以提交信息的大小与服务器配置有关，可以配置较大，用于文件传输。 
-
-编码方式上的区别 
-get参数统一使用url编码，而pos">
-<meta property="og:updated_time" content="2017-10-10T12:50:49.125Z">
+<meta property="og:description" content="MySQL数据库引擎取决于MySQL在安装的时候是如何被编译的。
+要添加一个新的引擎，就必须重新编译MYSQL。
+在缺省情况下，MYSQL支持三个引擎：ISAM、MYISAM和HEAP。
+另外两种类型INNODB和BERKLEY（BDB），也常常可以使用。
+如果技术高超，还可以使用MySQL++ API自己做一个引擎。下面介绍几种数据库引擎：">
+<meta property="og:updated_time" content="2017-10-12T03:27:40.334Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="get post 区别">
-<meta name="twitter:description" content="语义不同 
-get用于请求信息，post用于提交信息。 
-
-在HTTP请求中的位置不同 
-get参数位于http请求header中的path中，post参数位于http请求body中。 
-
-参数的大小限制不同 
-get参数的大小限制与浏览器有关，一般限制为2k；post可以提交信息的大小与服务器配置有关，可以配置较大，用于文件传输。 
-
-编码方式上的区别 
-get参数统一使用url编码，而pos">
+<meta name="twitter:title" content="MySQL引擎知识点整理">
+<meta name="twitter:description" content="MySQL数据库引擎取决于MySQL在安装的时候是如何被编译的。
+要添加一个新的引擎，就必须重新编译MYSQL。
+在缺省情况下，MYSQL支持三个引擎：ISAM、MYISAM和HEAP。
+另外两种类型INNODB和BERKLEY（BDB），也常常可以使用。
+如果技术高超，还可以使用MySQL++ API自己做一个引擎。下面介绍几种数据库引擎：">
 
 
 
@@ -138,13 +120,13 @@ get参数统一使用url编码，而pos">
 
 
 
-  <link rel="canonical" href="https://scnuyz.github.io/2017/08/10/get-post-区别/"/>
+  <link rel="canonical" href="https://scnuyz.github.io/2017/10/12/MySQL引擎知识点整理/"/>
 
 
 
 
 
-  <title>get post 区别 | 泳智的博客</title>
+  <title>MySQL引擎知识点整理 | 泳智的博客</title>
   
 
 
@@ -261,7 +243,7 @@ get参数统一使用url编码，而pos">
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/08/10/get-post-区别/">
+    <link itemprop="mainEntityOfPage" href="https://scnuyz.github.io/2017/10/12/MySQL引擎知识点整理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Yz">
@@ -278,7 +260,7 @@ get参数统一使用url编码，而pos">
 
         
         
-          <h1 class="post-title" itemprop="name headline">get post 区别</h1>
+          <h1 class="post-title" itemprop="name headline">MySQL引擎知识点整理</h1>
         
 
         <div class="post-meta">
@@ -290,8 +272,8 @@ get参数统一使用url编码，而pos">
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-10T20:47:43+08:00">
-                2017-08-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T11:27:10+08:00">
+                2017-10-12
               </time>
             
 
@@ -328,22 +310,73 @@ get参数统一使用url编码，而pos">
       
 
       
-        <ol>
-<li><p>语义不同 </p>
-<p>get用于请求信息，post用于提交信息。 </p>
-</li>
-<li><p>在HTTP请求中的位置不同 </p>
-<p>get参数位于http请求header中的path中，post参数位于http请求body中。 </p>
-</li>
-<li><p>参数的大小限制不同 </p>
-<p>get参数的大小限制与浏览器有关，一般限制为2k；post可以提交信息的大小与服务器配置有关，可以配置较大，用于文件传输。 </p>
-</li>
-<li><p>编码方式上的区别 </p>
-<p>get参数统一使用url编码，而post请求的参数可以使用 application/x-www-form-urlencoded、multipart/form-data、application/json、text/xml 多种方式 </p>
-</li>
-<li><p>安全性上的区别 </p>
-<p>get参数可以通过url之间看到，post参数作为http请求的body，相对更加安全一些，尤其是在使用https时的安全性差别更大。</p>
-</li>
+        <p>MySQL数据库引擎取决于MySQL在安装的时候是如何被编译的。</p>
+<p>要添加一个新的引擎，就必须重新编译MYSQL。</p>
+<p>在缺省情况下，MYSQL支持三个引擎：ISAM、MYISAM和HEAP。</p>
+<p>另外两种类型INNODB和BERKLEY（BDB），也常常可以使用。</p>
+<p>如果技术高超，还可以使用MySQL++ API自己做一个引擎。下面介绍几种数据库引擎：</p>
+<a id="more"></a>
+<h3 id="ISAM"><a href="#ISAM" class="headerlink" title="ISAM"></a>ISAM</h3><p>ISAM是一个定义明确且历经时间考验的数据表格管理方法</p>
+<p>它在设计之时就考虑到数据库被查询的次数要远大于更新的次数</p>
+<p>因此，ISAM执行读取操作的速度很快，而且不占用大量的内存和存储资源</p>
+<p>ISAM的<u>两个主要不足之处在于，它不 支持事务处理，也不能够容错</u></p>
+<p>如果你的硬盘崩溃了，那么数据文件就无法恢复了</p>
+<p>如果你正在把ISAM用在关键任务应用程序里，那就必须经常备份你所有的实时数据</p>
+<p>通过其复制特性，MYSQL能够支持这样的备份应用程序</p>
+<h3 id="MyISAM"><a href="#MyISAM" class="headerlink" title="MyISAM"></a>MyISAM</h3><p>MyISAM是MySQL的ISAM扩展格式和缺省的数据库引擎。</p>
+<p>除了提供ISAM里所没有的<u>索引和字段管理</u>的大量功能，MyISAM<u>还使用一种表格锁定的机制</u></p>
+<p>来优化多个并发的读写操作，其代价是你需要经常运行OPTIMIZE TABLE命令，来恢复被更新机制所浪费的空间。</p>
+<p>MyISAM还有一些有用的扩展，例如用来修复数据库文件的MyISAMCHK工具和用来恢复浪费空间的 MyISAMPACK工具。</p>
+<p>MYISAM<u>强调了快速读取操作</u>，这可能就是为什么MySQL受到了WEB开发如此青睐的主要原因</p>
+<p>在WEB开发中你所进行的大量数据操作都是读取操作</p>
+<p>所以，大多数虚拟主机提供商和INTERNET平台提供商只允许使用MYISAM格式</p>
+<p>MyISAM格式的<u>一个重要缺陷就是不能在表损坏后恢复数据。</u></p>
+<h3 id="HEAP"><a href="#HEAP" class="headerlink" title="HEAP"></a>HEAP</h3><p>HEAP允许<u>只驻留在内存里的临时表格</u></p>
+<p>驻留在内存里让HEAP要比ISAM和MYISAM都快</p>
+<p>但是它所管理的数据是不稳定的，而且如果在关机之前没有进行保存，那么所有的数据都会丢失</p>
+<p>在数据行被删除的时候，HEAP也不会浪费大量的空间</p>
+<p>HEAP表格在你需要使用SELECT表达式来选择和操控数据的时候非常有用</p>
+<p><u>要记住，在用完表格之后就删除表格</u></p>
+<h3 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h3><p>InnoDB数据库引擎都是造就MySQL灵活性的技术的直接产品，这项技术就是MYSQL++ API</p>
+<p>在使用MYSQL的时候，你所面对的每一个挑战几乎都源于ISAM和MyISAM数据库引擎不支持事务处理（transaction process）也不支持外来键。</p>
+<p>尽管要比ISAM和 MyISAM引擎慢很多，但是InnoDB<u>包括了对事务处理和外来键的支持</u>，这两点都是前两个引擎所没有的。</p>
+<p>如前所述，如果你的设计需要这些特性中的一者 或者两者，那你就要被迫使用后两个引擎中的一个了。 </p>
+<blockquote>
+<p>MySQL 官方对InnoDB是这样解释的：</p>
+<p>InnoDB给MySQL提供了具有提交、回滚和崩溃恢复能力的事务安全（ACID兼容）存储引擎。</p>
+<p>InnoDB锁定在行级并且也在SELECT语句提供一个Oracle风格一致的非锁定读，这些特色增加了多用户部署和性能。</p>
+<p>没有在InnoDB中扩大锁定的需要，因为在InnoDB中行级锁定适合非常小的空间。</p>
+<p>InnoDB也支持FOREIGN KEY强制。</p>
+<p>在SQL查询中，你可以自由地将InnoDB类型的表与其它MySQL的表的类型混合起来，甚至在同一个查询中也可以混合。</p>
+</blockquote>
+<p>InnoDB是<u>为处理巨大数据量时的最大性能设计</u>，它的CPU效率可能是任何其它基于磁盘的关系数据库引擎所不能匹敌的。</p>
+<p>InnoDB存储引擎被完全与MySQL服务器整合，InnoDB存储引擎为<u>在主内存中缓存数据和索引而维持它自己的缓冲池。</u></p>
+<p>InnoDB存储它的表＆索引在一个表空间中，表空间可以包含数个文件（或原始磁盘分区）</p>
+<p>这与MyISAM表不同，比如在MyISAM表中每个表被存在分离的文件中</p>
+<p>InnoDB 表可以是任何尺寸，即使在文件尺寸被限制为2GB的操作系统上</p>
+<p>InnoDB默认地被包含在MySQL二进制分发中</p>
+<p>Windows Essentials installer使InnoDB成为Windows上MySQL的默认表</p>
+<p>InnoDB被用来在众多需要高性能的大型数据库站点上产生</p>
+<p>著名的Internet新闻站点Slashdot.org运行在InnoDB上</p>
+<p>Mytrix, Inc.在InnoDB上存储超过1TB的数据，还有一些其它站点在InnoDB上处理平均每秒800次插入/更新的</p>
+<p>一般来说…</p>
+<p>MyISAM适合：</p>
+<ol>
+<li>做很多count 的计算</li>
+<li>插入不频繁，查询非常频繁</li>
+<li>没有事务</li>
+</ol>
+<p>InnoDB适合：</p>
+<ol>
+<li>可靠性要求比较高，或者要求事务</li>
+<li>表更新和查询都相当的频繁，并且表锁定的机会比较大的情况。</li>
+</ol>
+<p>​    </p>
+<p>一般情况下，MySQL会默认提供多种存储引擎，可以通过下面的查看:</p>
+<ol>
+<li>看你的MySQL现在已提供什么存储引擎: <code>mysql&gt; show engines</code></li>
+<li>看你的MySQL当前默认的存储引擎: <code>mysql&gt; show variables like &#39;%storage_engine%&#39;</code></li>
+<li>你要看某个表用了什么引擎(在显示结果里参数engine后面的就表示该表当前用的存储引擎): <code>mysql&gt; show create table 表名</code></li>
 </ol>
 
       
@@ -362,7 +395,7 @@ get参数统一使用url编码，而pos">
       
         <div class="post-tags">
           
-            <a href="/tags/网络基础/" rel="tag"># 网络基础</a>
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
           
         </div>
       
@@ -375,8 +408,8 @@ get参数统一使用url编码，而pos">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/17/编译加载机制/" rel="next" title="编译加载机制">
-                <i class="fa fa-chevron-left"></i> 编译加载机制
+              <a href="/2017/10/11/Java集合类知识点整理/" rel="next" title="Java集合类知识点整理">
+                <i class="fa fa-chevron-left"></i> Java集合类知识点整理
               </a>
             
           </div>
@@ -384,10 +417,6 @@ get参数统一使用url编码，而pos">
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/08/11/抽象类与接口的区别/" rel="prev" title="抽象类与接口的区别">
-                抽象类与接口的区别 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -439,8 +468,17 @@ get参数统一使用url编码，而pos">
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           
             <p class="site-author-name" itemprop="name">Yz</p>
@@ -492,6 +530,22 @@ get参数统一使用url编码，而pos">
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ISAM"><span class="nav-number">1.</span> <span class="nav-text">ISAM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MyISAM"><span class="nav-number">2.</span> <span class="nav-text">MyISAM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HEAP"><span class="nav-number">3.</span> <span class="nav-text">HEAP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#InnoDB"><span class="nav-number">4.</span> <span class="nav-text">InnoDB</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
